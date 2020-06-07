@@ -20,3 +20,8 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+$(document).on 'turbolinks:load', ->
+  $('[data-provider="summernote"]').each ->
+    $(this).summernote
+      height: 300
