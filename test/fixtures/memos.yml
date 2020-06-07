@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  body: MyString
+  open_range: 1
+  user_id: 1
+  house_id: 1
+  room_id: 1
+
+two:
+  title: MyString
+  body: MyString
+  open_range: 1
+  user_id: 1
+  house_id: 1
+  room_id: 1
