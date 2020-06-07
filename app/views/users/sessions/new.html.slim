@@ -1,6 +1,6 @@
 .row.justify-content-center
-  .col-md-6
-    h2.devise__title
+  .col-md-6.general
+    h2.general__title
       | ログイン
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       = render "users/shared/error_messages", resource: resource
