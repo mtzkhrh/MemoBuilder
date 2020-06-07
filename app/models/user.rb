@@ -18,7 +18,7 @@ class User < ApplicationRecord
 	has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
 	has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
 	#自分にとっての相手の立場
-	has_many :followings, through: :follower, source: :followed, dependent: :destroy, dependent: :destroy
+	has_many :followings, through: :follower, source: :followed, dependent: :destroy
 	has_many :followers,  through: :followed, source: :follower, dependent: :destroy
 	has_many :likes
 
