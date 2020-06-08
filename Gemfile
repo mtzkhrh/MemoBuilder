@@ -51,6 +51,7 @@ group :development do
   gem 'rubocop-airbnb'
   gem 'rubocop',require: false
   gem 'rubocop-rails'
+  gem 'html2slim'
 end
 
 group :test do

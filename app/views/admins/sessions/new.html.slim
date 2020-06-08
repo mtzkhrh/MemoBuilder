@@ -1,0 +1,20 @@
+.row.justify-content-center
+  .col-md-6.general
+    h2.general__admin-title
+      | 管理者ログイン
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = render "users/shared/error_messages", resource: resource
+      .devise.form-group
+        .devise__field
+          = f.label :email,"メールアドレス"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+          br
+        .devise__field
+          = f.label :password,"パスワード"
+          = f.password_field :password, autocomplete: "new-password",class: "form-control","aria-describedby"=> "passwordHelpBlock"
+          small.form-text.text-muted
+            i.fas.fa-info
+            |  パスワードの長さは最低6文字です。
+          br
+        .devise__actions
+          = f.submit "ログイン",class: "btn btn-primary btn-block"
