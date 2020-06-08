@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'home#top'
   get '/about' => 'home#about'
+  get '/tags/all', to: 'tags#all'
+  get '/memos/all', to: 'memos#all'
 
   devise_for :users,controllers: {
     registrations: 'users/registrations',
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
   }
 
   resources :users, only:[:index, :show, :edit, :update, :destroy] do
+    get :relationships, on: :member
     resources :memos, shallow: true
     resource :relationships, only: [:create, :destroy], shallow: true
     resources :tags, only: [:index,:show]
@@ -20,8 +23,6 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy], shallow: true
     resources :likes, only: [:create, :destroy], shallow: true
   end
-  get '/tags/all', to: 'tags#all'
-  get '/memos/all', to: 'memos#all'
 
   devise_for :admin, skip: :all
   devise_scope :admin do
