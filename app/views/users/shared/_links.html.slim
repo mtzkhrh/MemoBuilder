@@ -1,7 +1,6 @@
 - if controller_name != 'sessions'
   p
-    |
-      既にアカウントをお持ちですか？
+    | 既にアカウントをお持ちですか？
     = link_to "ログイン", new_session_path(resource_name), class: "devise__login-link"
   br
 - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
