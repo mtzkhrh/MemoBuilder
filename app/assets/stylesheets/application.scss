@@ -18,3 +18,11 @@
 @import "summernote-bs4";
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
+
+body{
+	min-height: 100vh;
+}
+
+.body{
+	margin-top: 50px;
+}
