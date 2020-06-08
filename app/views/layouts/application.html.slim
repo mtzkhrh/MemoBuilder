@@ -8,4 +8,34 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
   	.container
-	    = yield
+			nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+				= link_to "Memobuilder", root_path, class: "navbar-brand"
+				button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替"]
+					span.navbar-toggler-icon
+				.collapse.navbar-collapse id="navbar"
+					ul.navbar-nav.mr-auto
+						li.nav-item.active
+							a.nav-link[href="#"]
+								| ホーム
+								span.sr-only
+								| (現位置)
+						li.nav-item
+							a.nav-link[href="#"]
+								| リンク
+						li.nav-item
+							a.nav-link.disabled[href="#" tabindex="-1" aria-disabled="true"]
+								| 無効
+						li.nav-item.dropdown
+							a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+								| ドロップダウン
+							.dropdown-menu[aria-labelledby="dropdown"]
+								a.dropdown-item[href="#"]
+									| リンク1
+								a.dropdown-item[href="#"]
+									| リンク2
+								a.dropdown-item[href="#"]
+									| リンク3
+					form.form-inline.my-2.my-md-0
+						input.form-control[type="search" placeholder="検索..." aria-label="検索..."]
+			.body
+		    = yield
