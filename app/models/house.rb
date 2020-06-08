@@ -1,6 +1,9 @@
 class House < ApplicationRecord
 	has_many :rooms, dependent: :destroy
-	has_many :memos, dependent: :destroy
+	# ルーム内のメモ
+	has_many :memos, through: :rooms, dependent: :destroy
+	# ハウス内のメモ
+	has_many :house_memos, class_name: "Memo", dependent: :destroy
 
 	belongs_to :user
 
