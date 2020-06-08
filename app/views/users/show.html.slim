@@ -25,7 +25,8 @@
 									= link_to house.name, house_path(house)
 								p 部屋数 (#{house.rooms.size})
 								p 総メモ数 (#{house.memos.size + house.house_memos.size})
-								p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新 #{house.created_at.strftime('%Y/%m/%d')} 作成"
+								p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
+								p = "#{house.created_at.strftime('%Y/%m/%d')} 作成"
 				- else
 					.houses__nothing
 						h5 家が建っていません
