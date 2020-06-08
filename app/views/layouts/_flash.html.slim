@@ -1,0 +1,24 @@
+- if flash[:notice]
+  div class="alert alert-primary alert-dismissible fade show"
+    = flash[:notice]
+    button.close [type="button" data-dismiss="alert" aria-label="閉じる"]
+      span [aria-hidden="true"]
+        | &times;
+- elsif flash[:success]
+  div class="alert alert-success alert-dismissible fade show"
+    = flash[:success]
+    button.close [type="button" data-dismiss="alert" aria-label="閉じる"]
+      span [aria-hidden="true"]
+        | &times;
+- elsif flash[:alert]
+  div class="alert alert-danger alert-dismissible fade show"
+    = flash[:alert]
+    button.close [type="button" data-dismiss="alert" aria-label="閉じる"]
+      span [aria-hidden="true"]
+        | &times;
+
+/ div class="alert alert-dismissible fade show"
+/   このアラートはあなたの注意が必要です。
+/   button.close [type="button" data-dismiss="alert" aria-label="閉じる"]
+/     span [aria-hidden="true"]
+/       | &times;

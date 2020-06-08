@@ -1,2 +1,33 @@
-h1 Users#show
-p Find me in app/views/users/show.html.slim
+.row.user-page
+	.col-sm-3
+		.sidebar
+			= render 'users/profile', user: @user
+		.form-group
+			= form_with model: [current_user, House.new], local: true do |f|
+				= f.label :name, "家を建てる"
+				= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
+				= f.submit "作成", class: "btn btn-primary float-right"
+	.col-sm-9
+		.row.
+			.col-md-12.col-lg-6.houses
+				h3 ハウスリスト
+				- if @houses.present?
+					= @houses.each do |house|
+						.house__list.media.w-100
+							= link_to house_path(house)
+								house.name
+				- else
+					.houses__nothing
+						h5 まだ家を建てていません
+			.col-md-12.col-lg-6.memos
+				h3 最近の投稿リスト
+				- if @resent_memos.present?
+					= @resent_memos.each do |memo|
+						.memos__list.media.w-100
+							= link_to memo_path(memo)
+								memo.title
+							p memo.updated_at.strftime('%Y/%m/%d')
+							p memo.created_at.strftime('%Y/%m/%d')
+				- else
+					.memos__nothing
+						h5 投稿したメモはまだありません

@@ -1,2 +1,24 @@
-h1 Users#index
-p Find me in app/views/users/index.html.slim
+.row.user-page
+	.col-sm-3
+		.sidebar
+			= render 'users/profile', user: @user
+		.sidebar__memo-btn
+			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+		.user-page__seach-box.form-group
+			= search_form_for @q do |f|
+				= f.label :name_cont
+					ユーザ検索
+				= f.search_field :name_cont, class: "form-control"
+	.col-sm-9.user
+		| 全ユーザ一覧
+		- @users.each do |user|
+			.user__user-list.media.w-100
+				= link_to user_path(user) do
+					= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
+				.media__body
+					p
+						= link_to user.name, user_path(user)
+					p
+						= user.introduction
+
+

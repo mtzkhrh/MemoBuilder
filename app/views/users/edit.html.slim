@@ -1,2 +1,23 @@
-h1 Users#edit
-p Find me in app/views/users/edit.html.slim
+.row.justify-content-center
+  .col-md-6.general.user
+		h2.general__title
+			| 公開用プロフィール
+		= form_with model: @user, local: true do |f|
+			.form-group
+				.user__field
+					= f.label :name, "名前"
+					= f.text_field :name, class: "form-control"
+				.user__field
+					= f.label :introduction, "自己紹介"
+					= f.text_area :introduction, class: "form-control"
+					small.form-text.text-muted
+						i.fas.fa-info
+						|  200文字以内
+				.user__field
+					= f.label :profile_image, "プロフ画像"
+					br
+					= f.attachment_field :profile_image
+				.user__actions
+					= f.submit "更新する", class: "btn btn-success btn-block"
+		.user__destroy-btn.clearfix
+			= link_to "退会する", user_path(current_user), method: :delete, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger btn-sm float-right"
