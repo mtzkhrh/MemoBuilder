@@ -2,32 +2,45 @@
 	.col-sm-3
 		.sidebar
 			= render 'users/profile', user: @user
-		.form-group
+		.sidebar__memo-btn
+			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+
+		.sidebar__field.form-group.clearfix
 			= form_with model: [current_user, House.new], local: true do |f|
 				= f.label :name, "家を建てる"
 				= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
 				= f.submit "作成", class: "btn btn-primary float-right"
+
+
 	.col-sm-9
-		.row.
-			.col-md-12.col-lg-6.houses
-				h3 ハウスリスト
+		.row
+			.col-md-12.col-lg-6.houses.clearfix
+				= link_to "持ち家一覧>>", user_houses_path(@user), class: "float-right"
+				h4 持ち家ピックアップ
 				- if @houses.present?
-					= @houses.each do |house|
-						.house__list.media.w-100
-							= link_to house_path(house)
-								house.name
+					- @houses.each do |house|
+						.houses__house-list.media.w-100
+							.media__body
+								h5
+									= link_to house.name, house_path(house)
+								p 部屋数 (#{house.rooms.size})
+								p 総メモ数 (#{house.memos.size + house.house_memos.size})
+								p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新 #{house.created_at.strftime('%Y/%m/%d')} 作成"
 				- else
 					.houses__nothing
-						h5 まだ家を建てていません
-			.col-md-12.col-lg-6.memos
-				h3 最近の投稿リスト
+						h5 家が建っていません
+
+			/ メモを更新日でリストアップ
+			.col-md-12.col-lg-6.memos.clearfix
+				= link_to "投稿一覧>>", user_memos_path(@user), class: "float-right"
+				h4 最近の投稿リスト
 				- if @resent_memos.present?
 					= @resent_memos.each do |memo|
 						.memos__list.media.w-100
-							= link_to memo_path(memo)
-								memo.title
+							h5
+								= link_to memo.title, memo_path(memo)
 							p memo.updated_at.strftime('%Y/%m/%d')
 							p memo.created_at.strftime('%Y/%m/%d')
 				- else
 					.memos__nothing
-						h5 投稿したメモはまだありません
+						h5 投稿したメモがありません
