@@ -1,2 +1,15 @@
-h1 Rooms#edit
-p Find me in app/views/rooms/edit.html.slim
+.row.justify-content-center
+  .col-md-6.general.rooms
+		h2.general__title
+			| 部屋の改修
+		.rooms__field.form-group
+			= form_with model: @room, local: true do |f|
+				= f.label :name, "名前"
+				= f.text_field :name, class: "form-control",autofocus: true
+				/ 家を移動するためのselect_box
+				= f.label :house_id, "部屋の場所（家）"
+				= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
+				br
+				= f.submit "更新", class: "btn btn-primary btn-block"
+		.houses__destroy-btn
+			= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"
