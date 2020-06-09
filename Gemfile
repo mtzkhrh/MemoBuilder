@@ -83,6 +83,7 @@ gem 'acts-as-taggable-on', '~> 6.0'
 #検索用gem
 gem 'ransack'
 #リッチテキストのためのWYSIWYGエディタ
+gem 'ckeditor'
 gem 'summernote-rails'
 #slimで記述する
 gem 'slim-rails'
