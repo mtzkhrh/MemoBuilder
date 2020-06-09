@@ -19,12 +19,14 @@ class RoomsController < ApplicationController
 
   def show
   	@room = Room.find(params[:id])
+  	@user = @room.user
   	@q = @room.memos.ransack(params[:q])
   	@memos = @q.result(distinct: :ture)
   end
 
   def edit
   	@room = Room.find(params[:id])
+  	@user = @room.user
   	@memos = @room.memos.all
   end
 
@@ -32,7 +34,7 @@ class RoomsController < ApplicationController
   	@room = Room.find(params[:id])
   	@room.house.touch	#家の更新日を変更する
   	if @room.update(room_params)
-  		flash[:success]="部屋を作り替えました"
+  		flash[:success]="部屋を移設しました"
   		redirect_to house_path(@room.house)
   	else
   		render :edit
