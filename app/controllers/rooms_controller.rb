@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
 	def create
 		@room = current_user.rooms.new(room_params)
 		if @room.save
+			@room.house.touch
 			flash[:success]="部屋を作成しました"
 			redirect_back(fallback_location: root_path)
 		else
@@ -32,8 +33,8 @@ class RoomsController < ApplicationController
 
   def update
   	@room = Room.find(params[:id])
-  	@room.house.touch	#家の更新日を変更する
   	if @room.update(room_params)
+  		House.find_by(id: room_params[:house_id]).touch	#移動先の家の更新日を変更する
   		flash[:success]="部屋を移設しました"
   		redirect_to house_path(@room.house)
   	else
@@ -42,7 +43,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-  	@room = room.find(params[:id])
+  	@room = Room.find(params[:id])
   	@room.destroy
   	flash[:alert]="部屋を取り壊しました"
   	redirect_to house_path(@room.house)
