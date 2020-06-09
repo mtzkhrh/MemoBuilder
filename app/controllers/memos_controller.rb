@@ -14,16 +14,22 @@ class MemosController < ApplicationController
   	@user = current_user
   	@houses = @user.houses.all.order(updated_at: :desc)
   	@rooms = @user.rooms.all.order(updated_at: :desc)
+  	@memo = Memo.new
   end
 
   def create
   	@memo = current_user.memos.new(memo_params)
-  	if @memo.house_id || @memo.room_id
-  		@memo.save
+  	@user = current_user
+  	@houses = @user.houses.all.order(updated_at: :desc)
+		@rooms = @user.rooms.all.order(updated_at: :desc)
+  	unless @memo.house_id || @memo.room_id
+  		flash[:alert]="投稿は必ず家か部屋に入れてください"
+  		render :new
+  	end
+  	if @memo.save
   		flash[:success]="投稿が完了しました"
   		back_in_place(@memo)
   	else
-  		flash[:alert]="投稿は必ず家か部屋に入れてください"
   		render :new
   	end
   end

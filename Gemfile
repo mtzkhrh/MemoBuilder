@@ -73,6 +73,7 @@ gem 'pry-byebug'
 gem 'pry-rails'
 gem 'kaminari','~> 1.2.1'
 gem 'font-awesome-sass'
+gem 'rails-i18n'
 #Bootstrap4
 gem 'bootstrap'
 #環境変数化

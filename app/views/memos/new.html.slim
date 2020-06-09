@@ -3,7 +3,7 @@
 		h2.general__title
 			| メモの投稿
 		.memos__field
-			= form_with model: [@user,Memo.new], local: true do |f|
+			= form_with model: [@user,@memo], local: true do |f|
 				.form-row
 					.col-md-3
 						= f.label :house_id, "家"
