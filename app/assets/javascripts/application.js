@@ -20,3 +20,10 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+$(function(){
+  $(document).on('turbolinks:load', () => {
+		$('#summernote').summernote({
+			disableDragAndDrop: true
+		});
+	});
+});
