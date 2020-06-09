@@ -12,7 +12,8 @@ class MemosController < ApplicationController
 
   def new
   	@user = current_user
-  	@houses = @user.houses.includes(:room).all
+  	@houses = @user.houses.all.order(updated_at: :desc)
+  	@rooms = @user.rooms.all.order(updated_at: :desc)
   end
 
   def create
@@ -22,6 +23,7 @@ class MemosController < ApplicationController
   		flash[:success]="投稿が完了しました"
   		back_in_place(@memo)
   	else
+  		flash[:alert]="投稿は必ず家か部屋に入れてください"
   		render :new
   	end
   end

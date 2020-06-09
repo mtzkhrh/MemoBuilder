@@ -1,2 +1,34 @@
-h1 Memos#new
-p Find me in app/views/memos/new.html.slim
+.row
+  .general.memos.col-md-10
+		h2.general__title
+			| メモの投稿
+		.memos__field
+			= form_with model: [@user,Memo.new], local: true do |f|
+				.form-row
+					.col-md-3
+						= f.label :house_id, "家"
+						br
+						= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control"}
+					.col-md-3
+						=f.label :room_id, "部屋"
+						br
+						= f.collection_select :room_id, @rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control", }
+				br
+				.form-group
+					= f.label :title, "タイトル"
+					= f.text_field :title, class: "form-control",autofocus: true
+				br
+				.form-group
+					= f.label :body, "本文"
+					= f.text_area :body, 'data-provider': :summernote, class: "form-control"
+				br
+				.form-group
+					= f.label :image, "画像"
+					= f.attachment_field :image
+				br
+				.form-group
+					= f.label :tag_list, "タグ付け"
+					= f.text_field :tag_list, placeholder: "「,」区切りで追加してください", class: "form-control"
+				br
+				.actions
+					= f.submit "投稿", class: "btn btn-primary btn-block"
