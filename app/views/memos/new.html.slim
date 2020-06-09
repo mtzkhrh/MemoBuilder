@@ -20,7 +20,7 @@
 				br
 				.form-group
 					= f.label :body, "本文"
-					= f.text_area :body, 'data-provider': :summernote, class: "form-control"
+					= f.cktext_area :body, class: "form-control"
 				br
 				.form-group
 					= f.label :image, "画像"
