@@ -19,7 +19,7 @@
 					- @memos.each do |memo|
 						.media__body
 							h5
-								= link_to memo.name, memo_path(memo)
+								= link_to memo.title, memo_path(memo)
 							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
 							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 							=link_to "編集", edit_memo_path(memo), class: "btn btn-info"
