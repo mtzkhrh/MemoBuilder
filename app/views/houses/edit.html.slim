@@ -5,7 +5,7 @@
 		.houses__field.form-group
 			= form_with model: @house, local: true do |f|
 				= f.label :name, "名前"
-				= f.text_field :name, class: "form-control"
+				= f.text_field :name, class: "form-control",autofocus: true
 				br
 				= f.submit "更新", class: "btn btn-primary btn-block"
 		.houses__destroy-btn
