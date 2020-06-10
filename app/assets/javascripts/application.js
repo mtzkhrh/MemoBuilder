@@ -16,11 +16,14 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require summernote/summernote-bs4.min
+//= require summernote-init
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-
-$(document).on 'turbolinks:load', ->
-  $('[data-provider="summernote"]').each ->
-    $(this).summernote
-      height: 300
+$(function(){
+  $(document).on('turbolinks:load', () => {
+		$('#summernote').summernote({
+			disableDragAndDrop: true
+		});
+	});
+});

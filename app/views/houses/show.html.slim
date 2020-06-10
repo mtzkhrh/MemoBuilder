@@ -29,8 +29,8 @@
 		.rooms
 			h4 全ルーム一覧
 			- if @rooms.present?
-				.rooms__room-list.media.w-100
-					- @rooms.each do |room|
+				- @rooms.each do |room|
+					.rooms__room-list.media.w-100
 						.media__body
 							h5
 								= link_to room.name, room_path(room)
@@ -44,10 +44,10 @@
 		.memos
 			h4 ハウス内メモ一覧
 			- if @memos.present?
-				.memos__memo-list.media.w-100
-					- @memos.each do |memo|
+				- @memos.each do |memo|
+					.memos__memo-list.media.w-100
 						.media__body
-							= link_to memo_path(memo)
+							= link_to memo.title, memo_path(memo)
 							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
 							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 							= link_to "編集", edit_memo_path(memo), class: "btn btn-info"

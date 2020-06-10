@@ -36,12 +36,13 @@
 				= link_to "投稿一覧>>", user_memos_path(@user), class: "float-right"
 				h4 最近の投稿リスト
 				- if @resent_memos.present?
-					= @resent_memos.each do |memo|
+					- @resent_memos.each do |memo|
 						.memos__list.media.w-100
-							h5
-								= link_to memo.title, memo_path(memo)
-							p memo.updated_at.strftime('%Y/%m/%d')
-							p memo.created_at.strftime('%Y/%m/%d')
+							.media__body
+								h5
+									= link_to memo.title, memo_path(memo)
+								p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
+								p = "#{memo.created_at.strftime('%Y/%m/%d')}作成"
 				- else
 					.memos__nothing
 						h5 投稿したメモがありません

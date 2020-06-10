@@ -20,9 +20,9 @@ class Memo < ApplicationRecord
 	validates :body, 		presence: true
 
 	#house_idかroom_idが無ければエラー
-	# validates :associate_valid?
-	# def associate_valid?
-	# 	error_msg= "メモは必ずハウスかルームに入れてください"
-	# 	errors.add(:house, error_msg) unless house_id || room_id
-	# end
+	validate :associate_valid?
+	def associate_valid?
+		error_msg= "メモは必ずハウスかルームに入れてください"
+		errors.add(:house, error_msg) unless house_id || room_id
+	end
 end
