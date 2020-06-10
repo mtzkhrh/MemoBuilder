@@ -5,6 +5,9 @@
 
 		h2.general__title
 			| メモの編集
+			= link_to memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger btn-sm float-right" do
+				small 削除する
+
 		.memos__field
 			= form_with model: [@memo], local: true do |f|
 				.form-row
