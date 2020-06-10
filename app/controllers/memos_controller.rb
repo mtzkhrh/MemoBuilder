@@ -33,15 +33,21 @@ class MemosController < ApplicationController
 
   def show
   	@memo = Memo.find(params[:id])
+  	# .includes(:user, :house, :room)
   end
 
   def edit
   	@memo = Memo.find(params[:id])
+  	@user = current_user
+  	@houses = @user.houses.all.order(updated_at: :desc)
+  	@rooms = @user.rooms.all.order(updated_at: :desc)
   end
 
   def update
   	@memo = Memo.find(params[:id])
-  	if @memo.update(memo_params)
+  	@memo.assign_attributes(memo_params)
+  	decide_parent(@memo)
+  	if @memo.save
   		flash[:success]="投稿を更新しました"
   		back_in_place(@memo)
   	else
@@ -59,7 +65,7 @@ class MemosController < ApplicationController
 
   private
   def memo_params
-  	params.require(:memo).permit(:title,:body,:tags_list,:range,:image,:house_id,:room_id)
+  	params.require(:memo).permit(:title,:body,:tag_list,:range,:image,:house_id,:room_id)
   end
 
   def back_in_place(memo)
