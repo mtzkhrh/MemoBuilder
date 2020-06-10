@@ -1,34 +1,52 @@
 .row
-  .general.memos.col-md-10
+	.col-sm-9.general.memos
 		h2.general__title
 			| メモの投稿
 		.memos__field
 			= form_with model: [@user,@memo], local: true do |f|
 				.form-row
-					.col-md-3
+					.col-md-5
 						= f.label :house_id, "家"
 						br
 						= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control"}
-					.col-md-3
+					.col-md-5
 						=f.label :room_id, "部屋"
 						br
 						= f.collection_select :room_id, @rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control", }
 				br
+				.form-row
+					.col-sm-2
+						= f.label :range, "公開範囲"
+					.col-sm-3
+						= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
+				br
 				.form-group
 					= f.label :title, "タイトル"
 					= f.text_field :title, class: "form-control",autofocus: true
-				br
 				.form-group
 					= f.label :body, "本文"
 					= f.cktext_area :body, class: "form-control"
-				br
 				.form-group
 					= f.label :image, "画像"
+					br
 					= f.attachment_field :image
-				br
 				.form-group
 					= f.label :tag_list, "タグ付け"
 					= f.text_field :tag_list, placeholder: "「,」区切りで追加してください", class: "form-control"
 				br
 				.actions
 					= f.submit "投稿", class: "btn btn-primary btn-block"
+	.col-sm-3
+		.sidebar
+			.sidebar__field.form-group.clearfix
+				= form_with model: [current_user, House.new], local: true do |f|
+					= f.label :name, "家を建てる"
+					= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
+					= f.submit "作成", class: "btn btn-primary float-right"
+
+		.sidebar__field.form-group.clearfix
+			= form_with model: [current_user, Room.new], local: true do |f|
+				= f.label :name, "部屋を作る"
+				= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control"}
+				= f.text_field :name, placeholder: "部屋の名前を記入してください", class: "form-control"
+				= f.submit "作成", class: "btn btn-primary float-right"
