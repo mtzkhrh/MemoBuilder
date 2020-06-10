@@ -14,7 +14,7 @@
 		li.breadcrumb-item
 			= link_to model.user.name, user_path(model.user)
 		li class="breadcrumb-item"
-			= link_to model.room.house.name, house_path(model.room.house)
+			= link_to model.house.name, house_path(model.house)
 		li.breadcrumb-item.active [aria-current="page"]
 			= model.title
 - elsif model.user_id.present?
