@@ -1,3 +1,15 @@
 // Place all the styles related to the memos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.memos{
+	&__title{
+		margin:10px 5px;
+		span.badge{
+			font-size: 1rem;
+		}
+	}
+	&__body{
+		margin-top: 20px;
+	}
+}
