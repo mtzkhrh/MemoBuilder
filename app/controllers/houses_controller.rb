@@ -22,7 +22,7 @@ class HousesController < ApplicationController
   def show
   	@house = House.find(params[:id])
   	@user = @house.user
-  	@r = @house.rooms.ransack(params[:r])
+  	@r = @house.rooms.ransack(params[:q])
   	@rooms = @r.result(distinct: true)
   	@q = @house.house_memos.ransack(params[:q])
   	@memos = @q.result(distinct: true)
