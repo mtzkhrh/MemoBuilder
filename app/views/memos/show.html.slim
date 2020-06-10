@@ -1,2 +1,15 @@
-h1 Memos#show
-p Find me in app/views/memos/show.html.slim
+.row.justify-content-center
+	.col-sm-10
+		nav [aria-label="パンくずリスト"]
+			== render 'layouts/breadcrumbs', model: @memo
+		.memos.border.px-2
+			h2.memos__title.border-bottom
+				= @memo.title
+				span.badge.badge-secondary.ml-3
+					= @memo.range
+			- @memo.tag_list.each do |tag|
+				span.tags.badge.badge-success.p-1.mx-1
+					= link_to tag,'#',class: ""
+
+			.memos__body
+				= @memo.body.html_safe
