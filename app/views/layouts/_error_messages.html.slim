@@ -1,0 +1,6 @@
+- if model.errors.present?
+	#error_explanation
+		h3  = "#{model.errors.count}error occurrence"
+		ul
+			- model.errors.full_messages.each do |message|
+			li = message
