@@ -13,10 +13,11 @@
 	.memos.col-sm-9
 			h4 #{@user.name} の投稿一覧
 			- if @memos.present?
-				.memos__memo-list.media.w-100
-					- @memos.each do |memo|
+				- @memos.each do |memo|
+					.memos__memo-list.media.w-100
 						.media__body
-							= link_to memo_path(memo)
+							h5
+								= link_to "#{memo.title}",memo_path(memo)
 							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
 							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 			- else

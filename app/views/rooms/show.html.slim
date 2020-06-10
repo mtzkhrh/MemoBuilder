@@ -15,8 +15,8 @@
 		.memos
 			h4 部屋内の投稿一覧
 			- if @memos.present?
-				.memos__memo-list.media.w-100
-					- @memos.each do |memo|
+				- @memos.each do |memo|
+					.memos__memo-list.media.w-100
 						.media__body
 							h5
 								= link_to memo.title, memo_path(memo)
