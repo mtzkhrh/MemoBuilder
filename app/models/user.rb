@@ -15,8 +15,10 @@ class User < ApplicationRecord
 	has_many :stocks, dependent: :destroy
 	has_many :comments, dependent: :destroy
 	#自分の立ち位置
-	has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-	has_many :followed, class_name: "Relationship", foreign_key: "following_id", dependent: :destroy
+	has_many :follower, class_name: "Relationship",
+											foreign_key: "follower_id", dependent: :destroy
+	has_many :followed, class_name: "Relationship",
+											foreign_key: "following_id", dependent: :destroy
 	#自分にとっての相手の立場
 	has_many :followings, through: :follower, source: :following
 	has_many :followers,  through: :followed, source: :follower
@@ -35,7 +37,7 @@ class User < ApplicationRecord
   end
 	# お互いにフォローしている人を配列でピックアップ
 	def friends
-		followings && followers
+		followings & followers
 	end
 
 	def friends?(user)
