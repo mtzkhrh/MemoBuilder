@@ -25,4 +25,15 @@ class Memo < ApplicationRecord
 		error_msg= "メモは必ずハウスかルームに入れてください"
 		errors.add(:house, error_msg) unless house_id || room_id
 	end
+
+	def stocked_by?(user)
+		stocks.where(user_id: user.id).exists?
+	end
+
+	# 指定のユーザにいいねされているか？
+	def liked_by?(user)
+		likes.where(user_id: user.id).exists?
+	end
+
+
 end
