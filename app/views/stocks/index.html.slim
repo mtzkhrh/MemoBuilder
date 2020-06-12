@@ -1,2 +1,25 @@
-h1 Stocks#index
-p Find me in app/views/stocks/index.html.slim
+.row
+	.sidebar.col-sm-3
+		= render 'users/profile', user: @user
+		.sidebar__memo-btn
+			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+
+		/ 投稿をransackで検索する
+		.sidebar__seach-box.form-group
+			= search_form_for @q, url: stocks_path do |f|
+				= f.label :title_cont, "投稿を探す"
+				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
+
+	.memos.col-sm-9
+			h4 ストック一覧
+			- if @stocks.present?
+				- @stocks.each do |memo|
+					.memos__memo-list.media.w-100
+						.media__body
+							h5
+								= link_to "#{memo.title}",memo_path(memo)
+							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
+							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
+			- else
+				.memos__nothing
+					h5 ストックした投稿はありません
