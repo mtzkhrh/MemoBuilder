@@ -8,28 +8,35 @@
 					= @memo.title
 					span.tags.badge.badge-secondary.ml-3
 						= @memo.range
-			- @memo.tags.each do |tag|
+			- @tags.each do |tag|
 				span.tags.badge.badge-success.p-1.mx-1
 					= link_to tag.name, user_tag_path(@memo.user_id,tag)
 			.memos__body
 				= @memo.body.html_safe
 		.row.my-3
-			.col
+			.likes.col
 				- if @memo.liked_by?(current_user)
-					= link_to memo_likes_path(@memo),method: :delete, class: "btn btn-success btn-block"
-						i.fas.fa-check
-						| Like
+					= link_to memo_likes_path(@memo),method: :delete, class: "likes__btn btn btn-success btn-block"
+						i.fas.fa-thumbs-up
+						|  Like
+						span.badge.badge-light.ml-1
+							="#{@memo.likes.size}"
 
 				- else
-					= link_to "Like", memo_likes_path(@memo),method: :POST, class: "btn btn-outline-success btn-block"
-			.col
+					= link_to memo_likes_path(@memo),method: :POST, class: "likes__btn btn btn-outline-success btn-block"
+						i.far.fa-thumbs-up
+						|  Like
+						span.badge.badge-light.ml-1
+							="#{@memo.likes.size}"
+
+			stocks.col
 				- if @memo.stocked_by?(current_user)
-					= link_to memo_stocks_path(@memo),method: :delete, class: "btn btn-secondary btn-block"
+					= link_to memo_stocks_path(@memo),method: :delete, class: "stocks__btn btn btn-secondary btn-block"
 						i.fas.fa-check
 							| ストック中
 
 				- else
-					= link_to "ストックする", memo_stocks_path(@memo),method: :POST, class: "btn btn-outline-secondary btn-block"
+					= link_to "ストックする", memo_stocks_path(@memo),method: :POST, class: "stocks__btn btn btn-outline-secondary btn-block"
 
 			- if @memo.user_id == current_user.id
 				.col
