@@ -1,4 +1,4 @@
-.row.users
+.row
 	.col-sm-3
 		.sidebar
 			= render 'users/profile', user: @user
@@ -9,8 +9,8 @@
 					= f.label :name_cont
 						ユーザ検索
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
-	.col-sm-9.
-		| 全ユーザ一覧
+	.users.general.col-sm-9
+		h4.general__title 全ユーザ一覧
 		- @users.each do |user|
 			.users__user-list.media.w-100
 				= link_to user_path(user) do
@@ -20,5 +20,7 @@
 						= link_to user.name, user_path(user)
 					p
 						= user.introduction
-
+				- if user != current_user
+					.relationships
+						== render 'users/follow_btn', user: user
 
