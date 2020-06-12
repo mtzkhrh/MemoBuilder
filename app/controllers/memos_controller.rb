@@ -33,6 +33,7 @@ class MemosController < ApplicationController
 
   def show
   	@memo = Memo.find(params[:id])
+    @tags = @memo.tags
     @comments = @memo.comments.all.includes(:user)
     @comment = Comment.new
   end

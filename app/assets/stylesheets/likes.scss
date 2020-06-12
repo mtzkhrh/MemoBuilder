@@ -1,3 +1,14 @@
 // Place all the styles related to the likes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.likes{
+	&__btn{
+		&.btn-outline-success{
+			&:hover{
+				background-color: inherit;
+				color: rgb(40, 167, 69);
+			}
+		}
+	}
+}
