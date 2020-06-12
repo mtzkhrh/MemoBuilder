@@ -4,6 +4,10 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 		span.navbar-toggler-icon
 	- if user_signed_in?
 		.collapse.navbar-collapse id="navbar"
+			- q = Memo.ransack(params[:q])
+			.form-inline.my-2.my-md-0
+				= search_form_for q, url: memos_all_path do |f|
+					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 			ul.navbar-nav.ml-auto
 				li.nav-item.active
 					= link_to "マイページ", user_path(current_user), class: "nav-link"
@@ -18,10 +22,6 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
 						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
 
-			- q = Memo.ransack(params[:q])
-			.form-inline.my-2.my-md-0
-				= search_form_for q, url: memos_all_path do |f|
-					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 	- else
 		.collapse.navbar-collapse id="navbar"
 			ul.navbar-nav.mr-auto
