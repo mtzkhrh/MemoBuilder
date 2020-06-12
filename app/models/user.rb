@@ -23,18 +23,22 @@ class User < ApplicationRecord
 	has_many :likes
 
 	def follow(user_id)
-    follower.create(followed_id: user_id)
+    follower.create(following_id: user_id)
   end
 
   def unfollow(user_id)
-    follower.find_by(followed_id: user_id).destroy
+    follower.find_by(following_id: user_id).destroy
   end
 
   def following?(user)
-    following_user.include?(user)
+    followings.include?(user)
   end
 	# お互いにフォローしている人を配列でピックアップ
 	def friends
 		followings && followers
+	end
+
+	def friends?(user)
+		friends.include?(user)
 	end
 end
