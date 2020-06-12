@@ -1,5 +1,5 @@
 class Stock < ApplicationRecord
-	belongs_to :memos
+	belongs_to :memo
 	belongs_to :user
 
 	validates :memo_id, presence: true, uniqueness: {scope: :user_id}
