@@ -30,6 +30,18 @@
 				- else
 					.houses__nothing
 						h5 家が建っていません
+				.tags.clearfix
+					= link_to "使用タグ一覧>>", user_tags_path(@user), class: "float-right"
+					h4 最近の使用タグ一覧
+					- if @tags.present?
+						- @tags.each do |tag|
+							.tags__tag-list.my-1
+								= link_to user_tag_path(@user,tag), class: "btn btn-success"
+									| #{tag.name}
+					- else
+						.tags__nothing
+							h5 使用したタグはありません
+
 
 			/ メモを更新日でリストアップ
 			.col-md-12.col-lg-6.memos.clearfix
