@@ -1,24 +1,23 @@
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 	= link_to "Memobuilder", root_path, class: "navbar-brand"
 	button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替"]
 		span.navbar-toggler-icon
 	- if user_signed_in?
 		.collapse.navbar-collapse id="navbar"
-			ul.navbar-nav.mr-auto
-				li.nav-item
-					= link_to "ストック一覧", user_stocks_path(current_user), class: "nav-link"
-				li.nav-item
-					= link_to "フレンド一覧", relationships_user_path(current_user), class: "nav-link"
+			ul.navbar-nav.ml-auto
 				li.nav-item.active
 					= link_to "マイページ", user_path(current_user), class: "nav-link"
 				li.nav-item
 					= link_to "ログアウト", destroy_user_session_path,method: :delete, class: "nav-link"
 				li.nav-item.dropdown
 					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
-						| 全体一覧
+						| 一覧リスト
 					.dropdown-menu[aria-labelledby="dropdown"]
+						= link_to "ストック一覧", user_stocks_path(current_user), class: "dropdown-item"
+						= link_to "フレンド一覧", relationships_user_path(current_user), class: "dropdown-item"
 						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
 						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
+
 			- q = Memo.ransack(params[:q])
 			.form-inline.my-2.my-md-0
 				= search_form_for q, url: memos_all_path do |f|
