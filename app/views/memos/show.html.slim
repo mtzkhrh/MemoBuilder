@@ -3,14 +3,15 @@
 		nav [aria-label="パンくずリスト"]
 			== render 'layouts/breadcrumbs', model: @memo
 		.memos.border.px-2
-			h2.memos__title.border-bottom
-				= @memo.title
-				span.badge.badge-secondary.ml-3
-					= @memo.range
-			- @memo.tag_list.each do |tag|
+			.memos__title.border-bottom
+				h2
+					= @memo.title
+					span.tags.badge.badge-secondary.ml-3
+						= @memo.range
+					=link_to "編集", edit_memo_path(@memo), class: "btn btn-info float-right"
+			- @memo.tags.each do |tag|
 				span.tags.badge.badge-success.p-1.mx-1
-					= link_to tag,'#',class: ""
-
+					= link_to tag.name, user_tag_path(@memo.user_id,tag)
 			.memos__body
 				= @memo.body.html_safe
 		.row

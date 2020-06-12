@@ -1,7 +1,9 @@
 .row.justify-content-center
   .col-md-6.general.rooms
-		h2.general__title
-			| 部屋の改修
+		.general__title.clearfix
+			h2 部屋の改修
+			=link_to "編集", edit_room_path(room), class: "btn btn-info float-right"
+			= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"
 		.rooms__field.form-group
 			= form_with model: @room, local: true do |f|
 				.form-group
@@ -14,5 +16,3 @@
 					= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
 				br
 				= f.submit "更新", class: "btn btn-primary btn-block"
-		.houses__destroy-btn.clearfix
-			= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"

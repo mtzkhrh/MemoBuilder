@@ -6,10 +6,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 		.collapse.navbar-collapse id="navbar"
 			ul.navbar-nav.mr-auto
 				li.nav-item
-					= link_to "ユーザ一覧", users_path, class: "nav-link"
-				li.nav-item
-					= link_to "全投稿一覧", memos_all_path, class: "nav-link"
-				li.nav-item
 					= link_to "ストック一覧", user_stocks_path(current_user), class: "nav-link"
 				li.nav-item
 					= link_to "フレンド一覧", relationships_user_path(current_user), class: "nav-link"
@@ -19,16 +15,14 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 					= link_to "ログアウト", destroy_user_session_path,method: :delete, class: "nav-link"
 				li.nav-item.dropdown
 					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
-						| ドロップダウン
+						| 全体一覧
 					.dropdown-menu[aria-labelledby="dropdown"]
-						a.dropdown-item[href="#"]
-							| リンク1
-						a.dropdown-item[href="#"]
-							| リンク2
-						a.dropdown-item[href="#"]
-							| リンク3
-			form.form-inline.my-2.my-md-0
-				input.form-control[type="search" placeholder="検索..." aria-label="検索..."]
+						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
+						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
+			- q = Memo.ransack(params[:q])
+			.form-inline.my-2.my-md-0
+				= search_form_for q, url: memos_all_path do |f|
+					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 	- else
 		.collapse.navbar-collapse id="navbar"
 			ul.navbar-nav.mr-auto
@@ -39,15 +33,3 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 					= link_to "サインイン", new_user_registration_path, class: "nav-link"
 				li.nav-item
 					= link_to "ログイン", new_user_session_path, class: "nav-link"
-				li.nav-item.dropdown
-					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
-						| ドロップダウン
-					.dropdown-menu[aria-labelledby="dropdown"]
-						a.dropdown-item[href="#"]
-							| リンク1
-						a.dropdown-item[href="#"]
-							| リンク2
-						a.dropdown-item[href="#"]
-							| リンク3
-			form.form-inline.my-2.my-md-0
-				input.form-control[type="search" placeholder="検索..." aria-label="検索..."]

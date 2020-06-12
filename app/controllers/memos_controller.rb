@@ -7,7 +7,7 @@ class MemosController < ApplicationController
   def index
 		@user = User.find(params[:user_id])
 		@q = @user.memos.ransack(params[:q])
-  	@memos = @q.result(distinct: true)
+    @memos = @q.result(distinct: true)
   end
 
   def new
@@ -46,6 +46,7 @@ class MemosController < ApplicationController
 
   def update
   	@memo = Memo.find(params[:id])
+    @memo.tag_list.remove(@memo.tag_list)
   	@memo.assign_attributes(memo_params)
   	decide_parent(@memo)
   	if @memo.save
