@@ -13,6 +13,7 @@ class User < ApplicationRecord
 	has_many :houses, dependent: :destroy
 	has_many :rooms, 	dependent: :destroy
 	has_many :stocks, dependent: :destroy
+	has_many :stock_memos, through: :stocks, source: :memo
 	has_many :comments, dependent: :destroy
 	#自分の立ち位置
 	has_many :follower, class_name: "Relationship",
