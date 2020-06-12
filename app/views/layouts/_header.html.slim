@@ -15,7 +15,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
 						| 一覧リスト
 					.dropdown-menu[aria-labelledby="dropdown"]
-						= link_to "ストック一覧", user_stocks_path(current_user), class: "dropdown-item"
+						= link_to "ストック一覧", stocks_path, class: "dropdown-item"
 						= link_to "フレンド一覧", relationships_user_path(current_user), class: "dropdown-item"
 						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
 						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
