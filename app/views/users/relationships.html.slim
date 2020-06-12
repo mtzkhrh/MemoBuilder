@@ -5,7 +5,7 @@
 			.sidebar__memo-btn
 				= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 			.sidebar__seach-box.form-group
-				= search_form_for @q do |f|
+				= search_form_for @q, url: relationships_user_path do |f|
 					= f.label  :name_cont, "友達検索"
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 	.col-sm-9
@@ -48,7 +48,7 @@
 							p
 								= user.introduction
 						.relationships
-							== render 'users/follow_btn', user: user	.col-sm-9
+							== render 'users/follow_btn', user: user
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
 				- unless @followers.present?
