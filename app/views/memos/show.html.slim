@@ -14,3 +14,33 @@
 					= link_to tag.name, user_tag_path(@memo.user_id,tag)
 			.memos__body
 				= @memo.body.html_safe
+		.row
+			.comments.col-sm-12
+				h4 Comments
+				table.table
+					- if @comments.present?
+						tbody
+							- @comments.each do |comment|
+								tr.comments__list.border-top.border-bottom
+									td
+										= link_to user_path(comment.user)
+											= attachment_image_tag comment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50"
+											br
+											= comment.user.name
+									td
+										= comment.comment
+									td
+										- if current_user == comment.user
+										= link_to "削除",comment_path(comment), method: :delete, remote: true,class: "btn-sm btn-danger destroy_comment"
+					- else
+						tr
+							td コメントはまだありません
+
+
+				.comment__form.form-group.border.clearfix.p-2
+					= form_with model:[@memo,@comment], local: true do |f|
+						== render "layouts/error_messages", model: @comment
+						= f.hidden_field :memo_id, value: @memo.id
+						= f.text_area :comment,class: "form-control"
+						= f.submit '送信',class: "btn btn-primary float-right"
+
