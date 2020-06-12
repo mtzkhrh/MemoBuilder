@@ -20,6 +20,12 @@ class UsersController < ApplicationController
     @followers = @user.followers.where.not(id: @friends.pluck(:id))
   end
 
+  def stocks
+    @user = current_user
+    @q = current_user.stock_memos.ransack(params[:q])
+    @stocks = @q.result(distinct: true)
+  end
+
   def edit
   	@user = User.find(params[:id])
   end

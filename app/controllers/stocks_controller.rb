@@ -1,9 +1,4 @@
 class StocksController < ApplicationController
-  def index
-  	@user = current_user
-  	@q = current_user.stock_memos.ransack(params[:q])
-  	@stocks = @q.result(distinct: true)
-  end
 
   def create
   	# urlで(memo_id: @memo.id)を記述してparamsを渡す

@@ -6,7 +6,7 @@
 
 		/ 投稿をransackで検索する
 		.sidebar__seach-box.form-group
-			= search_form_for @q, url: stocks_path do |f|
+			= search_form_for @q, url: stocks_user_path(@user) do |f|
 				= f.label :title_cont, "投稿を探す"
 				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
 
