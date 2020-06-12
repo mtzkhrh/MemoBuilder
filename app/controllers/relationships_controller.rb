@@ -5,7 +5,10 @@ class RelationshipsController < ApplicationController
   end
 
   def destroy
-  	current_user.unfollow(params[:user_id])
+  	user = User.find(params[:user_id])
+  	current_user.unfollow(user.id)
+  	# もし相手が自分をフォローしてたらそれも削除する＝関係のリセット
+  	user.unfollow(current_user.id) if user.following?(current_user)
 		redirect_back(fallback_location: root_path)
   end
 end
