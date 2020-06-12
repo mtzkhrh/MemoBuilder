@@ -7,8 +7,9 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
-  	@houses = House.includes(:user).where(user_id: @user.id)
-  	@resent_memos = Memo.includes(:user).where(user_id: @user.id).order(updated_at: :desc)
+    @tags = @user.memos.tag_counts.order(updated_at: :desc).first(5)
+  	@houses = House.includes(:user).where(user_id: @user.id).order(updated_at: :desc).first(5)
+  	@resent_memos = Memo.includes(:user).where(user_id: @user.id).order(updated_at: :desc).first(6)
   end
 
   def edit
