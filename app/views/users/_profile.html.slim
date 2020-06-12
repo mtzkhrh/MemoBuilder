@@ -10,5 +10,5 @@
 		.sidebar__edit-btn
 			= link_to "登録情報の編集", edit_user_path(current_user), class: "btn btn-secondary btn-block"
 	- else
-		.sidebar__follow-btn
-			= link_to "友達申請する", user_relationships_path(user), class: "btn btn-info rounded-pill　"
+		.relationships
+			== render 'users/follow_btn', user: user
