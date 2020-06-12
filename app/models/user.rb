@@ -36,8 +36,10 @@ class User < ApplicationRecord
     followings.include?(user)
   end
 	# お互いにフォローしている人を配列でピックアップ
+	#自分のフォロワーを探して自分のフォローしているひとを探している
 	def friends
-		followings & followers
+		User.where(id: followed.select(:follower_id))
+				.where(id: follower.select(:following_id))
 	end
 
 	def friends?(user)
