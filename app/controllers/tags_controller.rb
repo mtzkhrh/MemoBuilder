@@ -1,11 +1,7 @@
 class TagsController < ApplicationController
   def index
   	@user = User.find(params[:user_id])
-  	@tags = []
-  	@memos = @user.memos.all
-  	@memos.each do |memo|
-  		@tags += memo.tags
-  	end
+    @tags = @user.memos.tag_counts
   end
 
   def show
