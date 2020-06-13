@@ -9,8 +9,8 @@ html
     = javascript_include_tag Ckeditor.cdn_url
 
   body
-    = render 'layouts/header'
-    = render 'layouts/flash'
+    == render 'layouts/header'
+    == render 'layouts/flash'
     .container
       .body
-        = yield
+        == yield
