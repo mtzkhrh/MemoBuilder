@@ -16,3 +16,17 @@
 
 @import "bootstrap";
 @import "summernote-bs4";
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+
+body{
+	min-height: 100vh;
+}
+
+.body{
+	margin: 50px auto;
+}
+
+#cke_10{
+  display: none !important;
+}

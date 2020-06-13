@@ -1,2 +1,77 @@
-h1 Memos#show
-p Find me in app/views/memos/show.html.slim
+.row.justify-content-center
+	.col-sm-10
+		nav [aria-label="パンくずリスト"]
+			== render 'layouts/breadcrumbs', model: @memo
+		.memos.border.px-2
+			.memos__title.border-bottom
+				h2
+					= @memo.title
+					span.tags.badge.badge-secondary.ml-3
+						= @memo.range
+			- @tags.each do |tag|
+				span.tags.badge.badge-success.p-1.mx-1
+					= link_to tag.name, user_tag_path(@memo.user_id,tag)
+			.memos__body
+				= @memo.body.html_safe
+		.row.my-3
+			.likes.col
+				- if @memo.liked_by?(current_user)
+					= link_to memo_likes_path(@memo),method: :delete, class: "likes__btn btn btn-success btn-block"
+						i.fas.fa-thumbs-up
+						|  Like
+						span.badge.badge-light.ml-1
+							="#{@memo.likes.size}"
+
+				- else
+					= link_to memo_likes_path(@memo),method: :POST, class: "likes__btn btn btn-outline-success btn-block"
+						i.far.fa-thumbs-up
+						|  Like
+						span.badge.badge-light.ml-1
+							="#{@memo.likes.size}"
+
+			stocks.col
+				- if @memo.stocked_by?(current_user)
+					= link_to memo_stocks_path(@memo),method: :delete, class: "stocks__btn btn btn-secondary btn-block"
+						i.fas.fa-check
+							| ストック中
+
+				- else
+					= link_to "ストックする", memo_stocks_path(@memo),method: :POST, class: "stocks__btn btn btn-outline-secondary btn-block"
+
+			- if @memo.user_id == current_user.id
+				.col
+					=link_to "編集", edit_memo_path(@memo), class: "btn btn-info btn-block"
+
+		.row
+			.comments.col-sm-12
+				h4 Comments
+				table.table
+					- if @comments.present?
+						tbody
+							- @comments.each do |comment|
+								tr.comments__list.border-top.border-bottom
+									td
+										= link_to user_path(comment.user)
+											= attachment_image_tag comment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50"
+											br
+											= comment.user.name
+									td
+										= comment.comment
+									td
+										- if current_user == comment.user
+										= link_to "削除",comment_path(comment), method: :delete, remote: true,class: "btn-sm btn-danger destroy_comment"
+					- else
+						tr
+							td コメントはまだありません
+
+
+				.comment__form.form-group.border.clearfix.p-2
+					= form_with model:[@memo,@comment], local: true do |f|
+						== render "layouts/error_messages", model: @comment
+						= f.hidden_field :memo_id, value: @memo.id
+						= f.text_area :comment,class: "form-control mb-1"
+						= attachment_image_tag current_user, :profile_image,:fill, 40, 40, format: 'jpg', fallback: "no_image.jpg", size: "40x40", class: "float-left"
+						p.float-left #{current_user.name}
+
+						= f.submit 'コメント送信',class: "btn btn-primary float-right"
+

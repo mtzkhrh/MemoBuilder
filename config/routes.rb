@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'home#top'
   get '/about' => 'home#about'
+  get '/tags/all', to: 'tags#all'
+  get '/memos/all', to: 'memos#all'
 
   devise_for :users,controllers: {
     registrations: 'users/registrations',
@@ -9,19 +11,20 @@ Rails.application.routes.draw do
   }
 
   resources :users, only:[:index, :show, :edit, :update, :destroy] do
+    get :relationships, on: :member
+    get :stocks, on: :member
     resources :memos, shallow: true
     resource :relationships, only: [:create, :destroy], shallow: true
     resources :tags, only: [:index,:show]
     resources :houses, only: [:index, :show, :create, :edit, :update, :destroy], shallow: true
-    resources :rooms, only:[:show, :create, :edit, :update, :destroy], shallow: true, shallow: true
-    resources :stocks, only: [:index, :create, :destroy], shallow: true
+    resources :rooms, only:[:show, :create, :edit, :update, :destroy], shallow: true
   end
+  # URLでmemo_idを渡すためにmemosのルートなしでネスト
   resources :memos, only: [] do
     resources :comments, only: [:create, :destroy], shallow: true
-    resources :likes, only: [:create, :destroy], shallow: true
+    resource :likes, only: [:create, :destroy], shallow: true
+    resource :stocks, only: [:create, :destroy]
   end
-  get '/tags/all', to: 'tags#all'
-  get '/memos/all', to: 'memos#all'
 
   devise_for :admin, skip: :all
   devise_scope :admin do

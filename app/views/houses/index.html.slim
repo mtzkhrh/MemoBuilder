@@ -1,2 +1,36 @@
-h1 Houses#index
-p Find me in app/views/houses/index.html.slim
+.row
+	.col-sm-3
+		.sidebar
+			= render 'users/profile', user: @user
+			.sidebar__memo-btn
+				= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+
+			.sidebar__field.form-group.clearfix
+				= form_with model: [current_user, House.new], local: true do |f|
+					= f.label :name, "家を建てる"
+					= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
+					= f.submit "作成", class: "btn btn-primary float-right"
+
+			/ 家をransackで検索する
+			.sidebar__seach-box.form-group
+				= search_form_for @q, url: user_houses_path do |f|
+					= f.label :name_cont
+						家を探す
+					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
+
+	.col-sm-9
+		h4 持ち家一覧
+		- if @houses.present?
+			- @houses.each do |house|
+				.houses__house-list.media
+					.media__body.w-100
+						h5
+							= link_to house.name, house_path(house)
+						p 部屋数 (#{house.rooms.size})
+						p 総メモ数 (#{house.memos.size + house.house_memos.size})
+						p = "#{house.updated_at.strftime('%Y/%m/%d')}更新"
+						p = "#{house.created_at.strftime('%Y/%m/%d')} 作成"
+						= link_to "編集", edit_house_path(house), class: "btn btn-info"
+		- else
+			.houses__nothing
+				h5 家が建っていません

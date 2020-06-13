@@ -1,0 +1,14 @@
+/ model: user, q(
+.users__info
+	.sideber__icon
+		= attachment_image_tag user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
+	.sidebar__name
+		= user.name
+	.sidebar__introduction
+		= user.introduction
+	- if user.id == current_user.id
+		.sidebar__edit-btn
+			= link_to "登録情報の編集", edit_user_path(current_user), class: "btn btn-secondary btn-block"
+	- else
+		.relationships
+			== render 'users/follow_btn', user: user

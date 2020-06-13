@@ -51,6 +51,7 @@ group :development do
   gem 'rubocop-airbnb'
   gem 'rubocop',require: false
   gem 'rubocop-rails'
+  gem 'html2slim'
 end
 
 group :test do
@@ -61,6 +62,11 @@ group :test do
   gem 'chromedriver-helper'
 end
 
+group :production do
+  gem 'mysql2'
+end
+
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
@@ -70,8 +76,9 @@ gem 'refile', require: 'refile/rails', github: 'manfe/refile'
 gem 'refile-mini_magick'
 gem 'pry-byebug'
 gem 'pry-rails'
-gem 'kaminari','~> 1.1.1'
+gem 'kaminari','~> 1.2.1'
 gem 'font-awesome-sass'
+gem 'rails-i18n'
 #Bootstrap4
 gem 'bootstrap'
 #環境変数化
@@ -81,6 +88,7 @@ gem 'acts-as-taggable-on', '~> 6.0'
 #検索用gem
 gem 'ransack'
 #リッチテキストのためのWYSIWYGエディタ
+gem 'ckeditor'
 gem 'summernote-rails'
 #slimで記述する
 gem 'slim-rails'

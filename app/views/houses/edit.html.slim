@@ -1,2 +1,12 @@
-h1 Houses#edit
-p Find me in app/views/houses/edit.html.slim
+.row.justify-content-center.houses
+  .col-md-6.general
+		h2.general__title
+			| 家の改修
+		.houses__field.form-group
+			= form_with model: @house, local: true do |f|
+				= f.label :name, "名前"
+				= f.text_field :name, class: "form-control",autofocus: true
+				br
+				= f.submit "更新", class: "btn btn-primary btn-block"
+		.houses__destroy-btn
+			= link_to "削除する", house_path(@house), method: :delete, data: {confirm: "家の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"

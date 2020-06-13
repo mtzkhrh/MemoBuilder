@@ -1,2 +1,15 @@
-h1 Tags#index
-p Find me in app/views/tags/index.html.slim
+.row
+	.sidebar.col-sm-3
+		= render 'users/profile', user: @user
+		.sidebar__memo-btn
+			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+	.tags.col-sm-9
+		h4 使用タグ一覧
+		- if @tags.present?
+			- @tags.each do |tag|
+				.tags__tag-list.my-1
+					= link_to user_tag_path(@user,tag), class: "btn btn-success"
+						| #{tag.name}
+		- else
+			.tags__nothing
+				h5 使用したタグはありません
