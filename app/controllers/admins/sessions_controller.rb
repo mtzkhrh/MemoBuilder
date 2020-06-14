@@ -18,10 +18,9 @@ class Admins::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  protected
-
+  private
   def after_sign_in_path_for(resource)
-    admins_top_path(resource)
+    admin_path(resource)
   end
 
   def after_sign_out_path_for(resource)

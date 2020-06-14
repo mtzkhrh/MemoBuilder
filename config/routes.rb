@@ -38,5 +38,5 @@ Rails.application.routes.draw do
     resources :users, only: [:index,:show,:edit,:update,:destroy]
     resources :memos, only: [:index,:show,:edit,:update,:destroy]
   end
-  get '/admins/top', to: 'admins/home#top'
+  get '/admins', to: 'admins/home#top', as: :admin
 end
