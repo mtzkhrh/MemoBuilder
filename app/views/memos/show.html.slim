@@ -2,7 +2,7 @@
 	.col-sm-10
 		nav [aria-label="パンくずリスト"]
 			== render 'layouts/breadcrumbs', model: @memo
-		.memos.border.px-2
+		.memos.border.p-2
 			.memos__title.border-bottom
 				h2
 					= @memo.title
@@ -13,6 +13,12 @@
 					= link_to tag.name, user_tag_path(@memo.user_id,tag)
 			.memos__body
 				= @memo.body.html_safe
+
+			- if @memo.image_id?
+				.memos__image
+					= attachment_image_tag @memo, :image,class: "img-fluid"
+
+
 		.row.my-3
 			.likes.col
 				- if @memo.liked_by?(current_user)
