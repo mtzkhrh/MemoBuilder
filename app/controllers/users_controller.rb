@@ -16,8 +16,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @q = @user.friends.ransack(params[:q])
     @friends = @q.result(distinct: true)
-    @followings = @user.followings.where.not(id: @friends.pluck(:id))
-    @followers = @user.followers.where.not(id: @friends.pluck(:id))
+    @followings = @user.followings.where.not(id: @user.friends.pluck(:id))
+    @followers = @user.followers.where.not(id: @user.friends.pluck(:id))
   end
 
   def stocks
