@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
   root 'home#top'
   get '/about' => 'home#about'
-  get '/tags/all', to: 'tags#all'
-  get '/memos/all', to: 'memos#all'
 
+  # 会員用URL
   devise_for :users,controllers: {
     registrations: 'users/registrations',
     sessions:      'users/sessions',
     passwords:     'users/passwords'
   }
-
   resources :users, only:[:index, :show, :edit, :update, :destroy] do
     get :relationships, on: :member
     get :stocks, on: :member
@@ -19,6 +17,9 @@ Rails.application.routes.draw do
     resources :houses, only: [:index, :show, :create, :edit, :update, :destroy], shallow: true
     resources :rooms, only:[:show, :create, :edit, :update, :destroy], shallow: true
   end
+  get '/tags/all', to: 'tags#all'
+  get '/memos/all', to: 'memos#all'
+
   # URLでmemo_idを渡すためにmemosのルートなしでネスト
   resources :memos, only: [] do
     resources :comments, only: [:create, :destroy], shallow: true
@@ -26,14 +27,16 @@ Rails.application.routes.draw do
     resource :stocks, only: [:create, :destroy]
   end
 
+  # 管理者用URL
   devise_for :admin, skip: :all
   devise_scope :admin do
-    get '/admin/sign_in', to: 'admins/sessions#new', as: :new_admin_session
-    post '/admin/sign_in', to: 'admins/sessions#create', as: :admin_session
-    delete '/admin/sign_out', to: 'admins/sessions#destroy', as: :destroy_admin_session
+    get '/admins/sign_in', to: 'admins/sessions#new', as: :new_admin_session
+    post '/admins/sign_in', to: 'admins/sessions#create', as: :admin_session
+    delete '/admins/sign_out', to: 'admins/sessions#destroy', as: :destroy_admin_session
   end
   namespace :admins do
-    resources :users, only: [:index,:show,:destroy,:update]
-    resources :memos, only: [:index,:show,:destroy]
+    resources :users, only: [:index,:show,:edit,:update,:destroy]
+    resources :memos, only: [:index,:show,:edit,:update,:destroy]
   end
+  get '/admins/top', to: 'admins/home#top'
 end
