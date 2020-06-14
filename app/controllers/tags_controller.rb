@@ -1,7 +1,8 @@
 class TagsController < ApplicationController
   def index
   	@user = User.find(params[:user_id])
-    @tags = @user.memos.tag_counts
+    @q = @user.memos.tag_counts.ransack(params[:q])
+    @tags = @q.result(distinct: true)
   end
 
   def show
