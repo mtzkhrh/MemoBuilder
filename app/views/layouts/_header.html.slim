@@ -4,9 +4,9 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 		span.navbar-toggler-icon
 	- if user_signed_in?
 		.collapse.navbar-collapse id="navbar"
-			- q = Memo.ransack(params[:q])
+			- a = Memo.ransack(params[:q])
 			.form-inline.my-2.my-md-0
-				= search_form_for q, url: memos_all_path do |f|
+				= search_form_for a, url: memos_all_path do |f|
 					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 			ul.navbar-nav.ml-auto
 				li.nav-item.active

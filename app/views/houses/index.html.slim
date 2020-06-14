@@ -14,8 +14,7 @@
 			/ 家をransackで検索する
 			.sidebar__seach-box.form-group
 				= search_form_for @q, url: user_houses_path do |f|
-					= f.label :name_cont
-						家を探す
+					= f.label :name_cont, "家を探す"
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 
 	.col-sm-9
@@ -32,5 +31,11 @@
 						p = "#{house.created_at.strftime('%Y/%m/%d')} 作成"
 						= link_to "編集", edit_house_path(house), class: "btn btn-info"
 		- else
-			.houses__nothing
-				h5 家が建っていません
+			- if params[:q].keys == ["name_cont"]
+				.houses__nothing
+					h4 見つかりませんでした
+					= link_to "戻る", :back
+
+			- else
+				.houses__nothing
+					h5 家が建っていません

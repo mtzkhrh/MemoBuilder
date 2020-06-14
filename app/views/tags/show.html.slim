@@ -4,6 +4,12 @@
 		.sidebar__memo-btn
 			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
+		/ 投稿をransackでメモを検索する
+		.sidebar__seach-box.form-group
+			= search_form_for @q, url: user_tag_path(@user,@tag) do |f|
+				= f.label :title_cont, "投稿を探す"
+				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
+
 	.tags.col-sm-9
 		h2
 			span.tags.badge.badge-success.p-1.mx-1
@@ -18,5 +24,10 @@
 						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
 						p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 		- else
-			.memos__nothing
-				h5 投稿はありません
+			- if params[:q].keys == ["title_cont"]
+				.memos__nothing
+					h4 見つかりませんでした
+					= link_to "戻る", :back
+			- else
+				.memos__nothing
+					h4 投稿はありません
