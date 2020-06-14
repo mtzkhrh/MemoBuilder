@@ -8,6 +8,7 @@ class TagsController < ApplicationController
   def show
   	@user = User.find(params[:user_id])
   	@tag = Memo.tag_counts.find(params[:id])
-  	@memos = Memo.tagged_with(@tag.name).where(user_id: @user.id)
+  	@q = Memo.tagged_with(@tag.name).where(user_id: @user.id).ransack(params[:q])
+    @memos = @q.result(distinct: true)
   end
 end
