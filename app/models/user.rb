@@ -46,4 +46,9 @@ class User < ApplicationRecord
 	def friends?(user)
 		friends.include?(user)
 	end
+
+	# フォロワーとフォロイーを足して重複(friends)を全て消して改めてfriendsを足す
+	# def all_relationships
+	# 	self.followers + self.followings - self.friends + self.friends
+	# end
 end
