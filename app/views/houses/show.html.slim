@@ -15,14 +15,12 @@
 		/ 部屋をransackで検索する
 		.sidebar__seach-box.form-group
 			= search_form_for @r, url: house_path(@house) do |f|
-				= f.label :name_cont
-					部屋検索
+				= f.label :name_cont, "部屋を探す"
 				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 		/ メモをransackで検索する
 		.sidebar__seach-box.form-group
 			= search_form_for @q, url: house_path(@house) do |f|
-				= f.label :title_cont
-					メモ検索
+				= f.label :title_cont, "メモを探す"
 				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
 
 	.col-sm-9
@@ -38,8 +36,12 @@
 							p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
 							p = "#{room.created_at.strftime('%Y/%m/%d')} 作成"
 			- else
-				.rooms__nothing
-					h4 部屋はありません
+				- if params[:q].keys == ["name_cont"]
+					.rooms__nothing
+						h4 見つかりませんでした
+				- else
+					.rooms__nothing
+						h4 部屋はありません
 		.memos
 			h4 ハウス内メモ一覧
 			- if @memos.present?
@@ -51,5 +53,9 @@
 							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 							= link_to "編集", edit_memo_path(memo), class: "btn btn-info"
 			- else
-				.memos__nothing
-					h5 メモはありません
+				- if params[:q].keys == ["title_cont"]
+					.memos__nothing
+						h5 見つかりませんでした
+				- else
+					.memos__nothing
+						h5 メモはありません
