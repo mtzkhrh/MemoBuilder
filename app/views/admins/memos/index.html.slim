@@ -1,2 +1,24 @@
-h1 Admins::Memos#index
-p Find me in app/views/admins/memos/index.html.slim
+.row.justify-content-center
+	.memos.col-sm-9
+		.form-group
+			= search_form_for @q, url: admins_memos_path do |f|
+				= f.label :title_cont, "投稿を探す"
+				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
+
+		h4 投稿一覧
+		- if @memos.present?
+			- @memos.each do |memo|
+				.memos__memo-list.media
+					.media__body
+						h5
+							= link_to "#{memo.title}",memo_path(memo)
+						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
+						p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
+		- else
+			- if params[:q].present?
+				.memos__nothing
+					h4 見つかりませんでした
+					= link_to "戻る", :back
+			- else
+				.memos__nothing
+					h4 投稿はありません
