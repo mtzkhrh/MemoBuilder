@@ -39,6 +39,8 @@
 				- if params[:q].keys == ["name_cont"]
 					.rooms__nothing
 						h4 見つかりませんでした
+						= link_to "戻る", :back
+
 				- else
 					.rooms__nothing
 						h4 部屋はありません
@@ -56,6 +58,7 @@
 				- if params[:q].keys == ["title_cont"]
 					.memos__nothing
 						h5 見つかりませんでした
+						= link_to "戻る", :back
 				- else
 					.memos__nothing
 						h5 メモはありません
