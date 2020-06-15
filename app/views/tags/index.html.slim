@@ -18,7 +18,7 @@
 					= link_to user_tag_path(@user,tag), class: "btn btn-success"
 						| #{tag.name}
 		- else
-			- if params[:q].keys == ["name_cont"]
+			- if params[:q].present?
 				.tags__nothing
 					h4 見つかりませんでした
 					= link_to "戻る", :back

@@ -1,25 +1,19 @@
-.row
-	.sidebar.col-sm-3
-		= render 'users/profile', user: current_user
-		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
-
-		/ 投稿をransackで検索する
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: memos_all_path do |f|
+.row.justify-content-center
+	.memos.col-sm-9
+		.form-group
+			= search_form_for @q, url: admins_memos_path do |f|
 				= f.label :title_cont, "投稿を探す"
 				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
 
-	.memos.col-sm-9
-		h4 全投稿一覧
+		h4 投稿一覧
 		- if @memos.present?
 			- @memos.each do |memo|
 				.memos__memo-list.media
 					.media__body
 						h5
-							= link_to "#{memo.title}",memo_path(memo)
+							= link_to "#{memo.title}",admins_memo_path(memo)
+						p = "by #{memo.user.name}"
 						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-						p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 		- else
 			- if params[:q].present?
 				.memos__nothing

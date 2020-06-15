@@ -25,6 +25,10 @@ class User < ApplicationRecord
 	has_many :followers,  through: :followed, source: :follower
 	has_many :likes
 
+	validates :name, presence: true
+	validates :introduction, length:{maximum: 200}
+
+
 	def follow(user_id)
     follower.create(following_id: user_id)
   end
@@ -46,4 +50,9 @@ class User < ApplicationRecord
 	def friends?(user)
 		friends.include?(user)
 	end
+
+	# フォロワーとフォロイーを足して重複(friends)を全て消して改めてfriendsを足す
+	# def all_relationships
+	# 	self.followers + self.followings - self.friends + self.friends
+	# end
 end

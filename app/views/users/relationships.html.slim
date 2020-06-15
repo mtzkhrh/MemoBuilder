@@ -1,14 +1,10 @@
-.row.users
-	.col-sm-3
-		.sidebar
-			= render 'users/profile', user: @user
-			.sidebar__memo-btn
-				= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
-			.sidebar__seach-box.form-group
-				= search_form_for @q, url: relationships_user_path do |f|
-					= f.label  :name_cont, "友達検索"
-					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
+.row.justify-content-center
 	.col-sm-9
+		.form-group
+			= search_form_for @q, url: relationships_user_path do |f|
+				= f.label  :name_cont, "ユーザを探す"
+				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
+
 		ul#myTab.nav.nav-tabs[role="tablist"]
 			li.nav-item[role="presentation"]
 				a#friends-tab.nav-link.active[href="#friends" role="tab" data-toggle="tab" aria-controls="friends" aria-selected="true"]
@@ -22,8 +18,14 @@
 
 		#myTabContent.tab-content.mt-3
 			#friends.tab-pane.active[role="tabpanel" aria-labelledby="friends-tab"]
-				- unless @friends.present?
-					h4 友達はいません
+				- if @friends.empty?
+					- if params[:q].present?
+						.users__nothing
+							h4 見つかりませんでした
+							= link_to "戻る", :back
+					- else
+						.users__nothing
+							h4 友達はいません
 				- @friends.each do |user|
 					.users__user-list.media.w-100
 						= link_to user_path(user) do
@@ -35,9 +37,17 @@
 								= user.introduction
 						.relationships
 							== render 'users/follow_btn', user: user
+
+
 			#followings.tab-pane[role="tabpanel" aria-labelledby="followings-tab"]
-				- unless @followings.present?
-					h4 承認待ちはありません
+				- if @followings.empty?
+					- if params[:q].present?
+						.users__nothing
+							h4 見つかりませんでした
+							= link_to "戻る", :back
+					- else
+						.users__nothing
+							h4 承認待ちの人はいません
 				- @followings.each do |user|
 					.users__user-list.media.w-100
 						= link_to user_path(user) do
@@ -51,8 +61,14 @@
 							== render 'users/follow_btn', user: user
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
-				- unless @followers.present?
-					h4 申請は届いていません
+				- if @followers.empty?
+					- if params[:q].present?
+						.users__nothing
+							h4 見つかりませんでした
+							= link_to "戻る", :back
+					- else
+						.users__nothing
+							h4 申請はありません
 				- @followers.each do |user|
 					.users__user-list.media.w-100
 						= link_to user_path(user) do

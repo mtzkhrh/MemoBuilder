@@ -11,16 +11,21 @@
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 	.users.general.col-sm-9
 		h4.general__title 全ユーザ一覧
-		- @users.each do |user|
-			.users__user-list.media.w-100
-				= link_to user_path(user) do
-					= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-				.media__body
-					p
-						= link_to user.name, user_path(user)
-					p
-						= user.introduction
-				- if user != current_user
-					.relationships
-						== render 'users/follow_btn', user: user
+		-if @users.empty?
+			.user__nothing
+				h4 見つかりませんでした
+				= link_to "戻る", :back
+		- else
+			- @users.each do |user|
+				.users__user-list.media.w-100
+					= link_to user_path(user) do
+						= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
+					.media__body
+						p
+							= link_to user.name, user_path(user)
+						p
+							= user.introduction
+					- if user != current_user
+						.relationships
+							== render 'users/follow_btn', user: user
 
