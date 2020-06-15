@@ -1,5 +1,5 @@
 .row.justify-content-center.users
-  .col-md-6.general.user
+  .col-md-6.general
 		h2.general__title
 			| #{@user.name}
 			br
@@ -22,14 +22,12 @@
 						p 画像は登録されていません
 					- else
 						= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
-						.form-row
-							.col
-								= f.label :profile_image, "そのまま"
-								= f.radio_button :profile_image, checked: true
-							.col
-								= f.label :profile_image, "削除"
-								= f.radio_button :profile_image, false
-
+						.form-check
+							= f.radio_button :profile_image_delete, false, checked: true, class: "form-check-input"
+							= f.label :profile_image_delete, "そのまま"
+						.form-check
+							= f.radio_button :profile_image_delete, true, class: "form-check-input"
+							= f.label :profile_image_delete, "削除"
 				.form-row
 					.col
 						= f.submit "更新する", class: "btn btn-success btn-block"
