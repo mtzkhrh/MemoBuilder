@@ -1,5 +1,7 @@
 .row
 	.users__info.col-sm-3
+		.sidebar__back
+			= link_to "<< ユーザ一覧に戻る", admins_users_path
 		.sideber__icon
 			= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
 		.sidebar__name
@@ -23,7 +25,14 @@
 		  li.list-group-item
 		  	= sort_link(@q, :created_at, "登録順")
 
-		-if @memos.empty?
+		- if @memos.present?
+			- @memos.each do |memo|
+				.memos__memo-list.media
+					.media__body
+						h5
+							= link_to "#{memo.title}",admins_memo_path(memo)
+						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
+		- else
 			- if params[:q].present?
 				.memos__nothing
 					h4 見つかりませんでした
@@ -31,9 +40,3 @@
 			- else
 				.memos__nothing
 					h4 投稿はありません
-		- else
-			- @memos.each do |memo|
-				.memos__memo-list.media
-					.media__body
-						= link_to "#{memo.title}", admins_memo_path(memo)
-						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
