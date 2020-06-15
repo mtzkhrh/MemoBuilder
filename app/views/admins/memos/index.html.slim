@@ -11,9 +11,9 @@
 				.memos__memo-list.media
 					.media__body
 						h5
-							= link_to "#{memo.title}",memo_path(memo)
+							= link_to "#{memo.title}",admins_memo_path(memo)
+						p = "by #{memo.user.name}"
 						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-						p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 		- else
 			- if params[:q].present?
 				.memos__nothing
