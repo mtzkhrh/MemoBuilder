@@ -25,6 +25,10 @@ class User < ApplicationRecord
 	has_many :followers,  through: :followed, source: :follower
 	has_many :likes
 
+	validates :name, presence: true
+	validates :introduction, length:{maximum: 200}
+
+
 	def follow(user_id)
     follower.create(following_id: user_id)
   end
