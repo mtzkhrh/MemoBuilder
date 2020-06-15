@@ -8,13 +8,14 @@
 					= @memo.title
 					span.tags.badge.badge-secondary.ml-3
 						= @memo.range
-			- @tags.each do |tag|
-				span.tags.badge.badge-success.p-1.mx-1
-					= link_to tag.name, user_tag_path(@memo.user_id,tag)
+			.memos__tags
+				- @tags.each do |tag|
+					span.tags.badge.badge-success.p-1.mx-1
+						= link_to tag.name, user_tag_path(@memo.user_id,tag)
 			.memos__body
 				= @memo.body.html_safe
 
-			- if @memo.image_id?
+			- if @memo.image_id.present?
 				.memos__image
 					= attachment_image_tag @memo, :image,class: "img-fluid"
 
