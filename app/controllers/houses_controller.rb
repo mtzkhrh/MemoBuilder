@@ -1,8 +1,12 @@
 class HousesController < ApplicationController
+  include MemosHelper
+  before_action :authenticate_user!
+  before_action :set_house, only: [:show,:edit,:update,:destroy]
+
   def index
-  	@q = House.ransack(params[:q])
-  	@houses = @q.result(distinct: true)
     @user = User.find(params[:user_id])
+  	@q = @user.houses.resent.ransack(params[:q])
+  	@houses = @q.result(distinct: true)
   end
 
   def create
@@ -11,31 +15,25 @@ class HousesController < ApplicationController
   		flash[:success]= "新しく家を建てました"
 			redirect_back(fallback_location: root_path)
 		else
-	  	@q = House.ransack(params[:q])
-	  	@houses = @q.result(distinct: true)
-  	  @user = current_user
-  	  flash[:alert]= "家を建てられませんでした"
-  	  render :index
+      redirect_back(fallback_location: root_path)
 		end
   end
 
   def show
-  	@house = House.find(params[:id])
   	@user = @house.user
-  	@r = @house.rooms.ransack(params[:q])
+  	@r = @house.rooms.resent.ransack(params[:q])
   	@rooms = @r.result(distinct: true)
-  	@q = @house.house_memos.ransack(params[:q])
-  	@memos = @q.result(distinct: true)
+    pickup_memos_within_range(@house,@user)
   end
 
   def edit
-  	@house = House.find(params[:id])
+    check_your_id(@house.user_id)
   	@rooms = @house.rooms.all
   	@memos = @house.house_memos.all
   end
 
   def update
-  	@house = House.find(params[:id])
+    check_your_id(@house.user_id)
   	if @house.update(house_params)
   		flash[:success]= "家の名前を変更しました"
   		redirect_to user_houses_path(current_user)
@@ -45,8 +43,8 @@ class HousesController < ApplicationController
   end
 
   def destroy
-  	house = House.find(params[:id])
-  	house.destroy
+    check_your_id(@house.user_id)
+  	@house.destroy
   	flash[:alert]="家を取り壊しました"
 		redirect_to user_houses_path(current_user)
 	end
@@ -56,5 +54,9 @@ class HousesController < ApplicationController
   private
   def house_params
 	  params.require(:house).permit(:name)
+  end
+
+  def set_house
+    @house = House.find(params[:id])
   end
 end

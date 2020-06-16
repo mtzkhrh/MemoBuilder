@@ -1,4 +1,5 @@
 class StocksController < ApplicationController
+  before_action :authenticate_user!
 
   def create
   	# urlで(memo_id: @memo.id)を記述してparamsを渡す
