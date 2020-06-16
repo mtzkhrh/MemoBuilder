@@ -10,7 +10,7 @@
 						.col-md-5
 							= f.label :house_id, "家"
 							br
-							= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control",autofocus: true}
+							= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control",autofocus: true}
 						.col-md-5
 							=f.label :room_id, "部屋"
 							br
