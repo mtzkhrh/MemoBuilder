@@ -8,4 +8,26 @@
 		justify-content: center;
 		align-items: center;
 	}
+	&__about{
+		.img{
+			height:140px;
+			width:140px;
+			border-radius: 50%;
+			overflow: hidden;
+			background-size: cover;
+			margin:5px auto;
+			&.img-1{
+				background-image: image-url("doors.jpg");
+			}
+			&.img-2{
+				background-image: image-url("study.jpg")
+			}
+			&.img-3{
+				background-image: image-url("group.jpg")
+			}
+		}
+		h2{
+			text-align: center;
+		}
+	}
 }
