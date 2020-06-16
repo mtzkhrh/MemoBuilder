@@ -25,7 +25,6 @@ class MemosController < ApplicationController
   	@user = current_user
   	@houses = @user.houses.all.resent
   	@rooms = @user.rooms.all.resent
-
   end
 
   def create
