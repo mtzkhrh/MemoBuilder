@@ -14,7 +14,6 @@ class MemosController < ApplicationController
   end
 
   def new
-    binding.pry
     @memo = Memo.new
     if params[:house_id]
       @memo.house_id = params[:house_id]
