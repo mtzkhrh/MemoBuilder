@@ -26,6 +26,7 @@ class Memo < ApplicationRecord
 		errors.add(:house, error_msg) unless house_id || room_id
 	end
 
+	# 指定のユーザにストックされているか？
 	def stocked_by?(user)
 		stocks.where(user_id: user.id).exists?
 	end
@@ -35,5 +36,11 @@ class Memo < ApplicationRecord
 		likes.where(user_id: user.id).exists?
 	end
 
+	# 更新順
+	scope :resent,			 -> { order(updated_at: :desc)}
+	# 友達が見れるメモ（自分のみ以外のメモ）
+	scope :only_friends, -> { where.not(range: "自分のみ")}
+	# 公開されたメモのみ
+	scope :open,				 -> { where(range: "公開")}
 
 end
