@@ -23,13 +23,14 @@
 							.media__body
 								h5
 									= link_to house.name, house_path(house)
-								p 部屋数 (#{house.rooms.size})
-								p 総メモ数 (#{house.memos.size + house.house_memos.size})
-								p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
-								p = "#{house.created_at.strftime('%Y/%m/%d')} 作成"
+								meta
+									p 部屋数 (#{house.rooms.size})
+									p 総メモ数 (#{house.memos.size + house.house_memos.size})
+									p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
 				- else
 					.houses__nothing
 						h5 家が建っていません
+
 				.tags.clearfix
 					= link_to "使用タグ一覧>>", user_tags_path(@user), class: "float-right"
 					h4 最近の使用タグ一覧
@@ -54,7 +55,6 @@
 								h5
 									= link_to memo.title, memo_path(memo)
 								p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
-								p = "#{memo.created_at.strftime('%Y/%m/%d')}作成"
 				- else
 					.memos__nothing
 						h5 投稿したメモがありません
