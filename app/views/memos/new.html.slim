@@ -8,6 +8,7 @@
 				| メモの作成
 			.memos__field
 				= form_with model: [@user,@memo], local: true do |f|
+					== render 'layouts/error_messages', model: @memo
 					.form-row
 						.col-md-5
 							= f.label :house_id, "家"
