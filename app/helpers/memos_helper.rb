@@ -5,29 +5,38 @@ module MemosHelper
   	# userのmemosを得る時
 		if parent.name == "User"
 			if user.id == current_user.id #自分の場合
-				@memos = user.memos.all
+				@q = user.memos.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			elsif user.friends.pluck(:id).include?(current_user.id) #友達の場合
-				@memos = user.memos.only_friends.all
+				@q = user.memos.only_friends.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			else #他人の場合
-				@memos = user.memos.open.all
+				@q = user.memos.open.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			end
 		# 家のmemosを得る場合
 		elsif parent.name == "House"
 			if user.id == current_user.id #自分の場合
-				@memos = parent.house_memos.all
+				@q = parent.house_memos.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			elsif user.friends.pluck(:id).include?(current_user.id) #友達の場合
-				@memos = parent.house_memos.only_friends.all
+				@q = parent.house_memos.only_friends.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			else #他人の場合
-				@memos = parent.house_memos.open.all
+				@q = parent.house_memos.open.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			end
 		# 部屋のmemosを得る場合
 		elsif parent.name == "Room"
 			if user.id == current_user.id #自分の場合
-				@memos = parent.memos.all
+				@q = parent.memos.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			elsif user.friends.pluck(:id).include?(current_user.id) #友達の場合
-				@memos = parent.memos.only_friends.all
+				@q = parent.memos.only_friends.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			else #他人の場合
-				@memos = parent.memos.open.all
+				@q = parent.memos.open.ransack(params[:q])
+				@memos = @q.result(distinct: true)
 			end
 		end
 	end
