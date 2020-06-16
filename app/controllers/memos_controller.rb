@@ -25,12 +25,13 @@ class MemosController < ApplicationController
   	@memo = current_user.memos.new(memo_params)
   	decide_parent(@memo)
   	@user = current_user
-  	@houses = @user.houses.all.resent
-		@rooms = @user.rooms.all.resent
   	if @memo.save
+      touch_parent(@memo)
   		flash[:success]="投稿が完了しました"
   		back_in_place(@memo)
   	else
+      @houses = @user.houses.all.resent
+      @rooms = @user.rooms.all.resent
   		render :new
   	end
   end
@@ -44,6 +45,7 @@ class MemosController < ApplicationController
 
   def edit
     check_your_id(@memo.user_id)
+    @user = @memo.user
   	@houses = @user.houses.all.resent
   	@rooms = @user.rooms.all.resent
   end
@@ -54,6 +56,7 @@ class MemosController < ApplicationController
   	@memo.assign_attributes(memo_params)
   	decide_parent(@memo)
   	if @memo.save
+      touch_parent(@memo)
   		flash[:success]="投稿を更新しました"
   		back_in_place(@memo)
   	else
@@ -77,6 +80,7 @@ class MemosController < ApplicationController
     @memo = Memo.find(params[:id])
   end
 
+  # 公開範囲に合わせてアクセスを拒否
   def range_barrier(memo)
     if memo.range == "自分のみ" #自分以外back
       back(fallback_location: root_path) unless memo.user_id == current_user.id
@@ -85,10 +89,23 @@ class MemosController < ApplicationController
     end
   end
 
+  # メモのある家や部屋の更新日を変更する
+  def touch_parent(memo)
+    if memo.room_id.present?
+      room = Room.find_by(id: memo.room_id)
+      room.touch #部屋の更新日を変更する
+      House.find_by(id: room.house_id).touch #家の更新日を変更する
+    elsif memo.house_id.present?
+      House.find_by(id: memo.house_id).touch
+    end
+  end
+
+
+  # メモの場所によって家と部屋どちらかに遷移するか
   def back_in_place(memo)
-  	if memo.house_id.blank?
+  	if memo.room_id.present?
 			redirect_to room_path(memo.room)
-		else #@memo.house == true
+		else #memo.house == true
 			redirect_to house_path(memo.house)
 		end
 	end
