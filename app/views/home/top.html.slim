@@ -1,2 +1,42 @@
-h1 Home#top
-p Find me in app/views/home/top.html.slim
+- unless user_signed_in?
+	.row.home
+		.home__main-visual.col-md-6.col-lg-8
+			.px-md-3.px-lg-5
+				h4 Let's build memo's houses and rooms
+				p MemoBuilderは思い出すことに焦点を当てた記録ツールです。メモを思い出しやすいよう部屋を分けて保存しよう！友達機能を使ってシェアもできるよ！
+		.home__top-form.col-md-6.col-lg-4.d-none.d-md-block
+			= form_for(@user, url: user_registration_path(@user)) do |f|
+				= render "users/shared/error_messages", resource: @user
+				.devise
+					.devise__field.form-group
+					= f.label :name,"名前"
+					= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control"
+					.devise__field.form-group
+					= f.label :email,"メールアドレス"
+					= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+					.devise__field.form-group
+					= f.label :password,"パスワード"
+					= f.password_field :password, autocomplete: "new-password", class: "form-control","aria-describedby"=> "passwordHelpBlock"
+					small.form-text.text-muted
+						i.fas.fa-info
+						|  パスワードは最低6文字です。
+					.devise__field.form-group
+					= f.label :password_confirmation,"もう一度パスワードを入力してください"
+					= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control"
+					br
+					.devise__actions
+					= f.submit "アカウントを作成",class: "btn btn-primary btn-block"
+.row.mt-5
+	.memos.col-md-12
+		h4 最近の投稿リスト
+		- if @resent_memos.present?
+			- @resent_memos.each do |memo|
+				.memos__list.media
+					= attachment_image_tag memo.user,:profile_image,:fill,40,40,fallback: "no_image.jpg",size: "40x40"
+					.media__body
+						h5 = memo.title
+						p = "by #{memo.user.name}"
+						p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
+		- else
+			.memos__nothing
+				h5 投稿されたメモがありません
