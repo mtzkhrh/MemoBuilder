@@ -14,10 +14,18 @@ class MemosController < ApplicationController
   end
 
   def new
+    binding.pry
+    @memo = Memo.new
+    if params[:house_id]
+      @memo.house_id = params[:house_id]
+    elsif params[:room_id]
+      room = Room.find(params[:room_id])
+      @memo.room_id = params[:room_id]
+      @memo.house_id = room.house_id
+    end
   	@user = current_user
   	@houses = @user.houses.all.resent
   	@rooms = @user.rooms.all.resent
-  	@memo = Memo.new
 
   end
 
