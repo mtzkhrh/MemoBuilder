@@ -21,16 +21,18 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function(){
-	//最初から家が選択されている時のif文
+	// デフォルトのRoomsセレクトボックスHTML
+	let defaultRoomSelect = $(`#rooms-of-houses`).html()
+
+	//最初から家が選択されている時の処理
 	let houseVal = $('#memo_house_id').val();
 	if (houseVal !== "") {
 		let selectedTemplate = $(`#rooms-of-house${houseVal}`).html();
-		$('#memo_room_id').remove(); //デフォルトで入っていた子要素のセレクトボックスを削除
 		$('#memo_house_id').after(selectedTemplate);
+	}else{
+		$('#memo_house_id').after(defaultRoomSelect);
 	};
 
-	// デフォルトのRoomsセレクトボックスHTML
-	let defaultRoomSelect = $(`.default-rooms`).html();
 
 		//家が変更されてvalueに値が入った時の処理
 	$(document).on('change', '#memo_house_id', function() {
@@ -40,7 +42,7 @@ $(document).on('turbolinks:load', function(){
 			$('#memo_room_id').remove();
 			$('#memo_house_id').after(selectedTemplate);
 		}else {
-			$('#memo_room_id').remove(); //デフォルトで入っていた子要素のセレクトボックスを削除
+			$('#memo_room_id').remove();
 			$('#memo_house_id').after(defaultRoomSelect);
   	};
 	});
