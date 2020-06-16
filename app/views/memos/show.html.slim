@@ -1,7 +1,6 @@
 .row.justify-content-center
 	.col-sm-10
-		nav [aria-label="パンくずリスト"]
-			== render 'layouts/breadcrumbs', model: @memo
+		== render 'layouts/breadcrumbs', model: @memo
 		.memos.border.p-2
 			.memos__title.border-bottom
 				h2

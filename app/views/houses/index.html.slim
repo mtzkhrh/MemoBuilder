@@ -18,6 +18,7 @@
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 
 	.col-sm-9
+		== render 'layouts/breadcrumbs', model: @user
 		h4 持ち家一覧
 		- if @houses.present?
 			- @houses.each do |house|

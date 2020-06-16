@@ -1,5 +1,6 @@
 .row.justify-content-center
   .col-md-6.general.rooms
+  	== render 'layouts/breadcrumbs', model: @memo
 		.general__title.clearfix
 			h2 部屋の改修
 			=link_to "編集", edit_room_path(room), class: "btn btn-info float-right"

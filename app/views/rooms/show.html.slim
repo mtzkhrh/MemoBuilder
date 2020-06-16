@@ -3,7 +3,7 @@
 		.sidebar
 			= render 'users/profile', user: @user
 		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+			= link_to "投稿を作成する", new_user_memo_path(current_user,room_id: @room.id), class: "btn btn-primary btn-block"
 
 		/ メモをransackで検索する
 		.sidebar__seach-box.form-group
@@ -12,6 +12,7 @@
 				= f.search_field :title_cont, class: "form-control", placeholder: "入力後ENTER"
 
 	.col-sm-9
+		== render 'layouts/breadcrumbs', model: @room
 		.memos
 			h4 部屋内の投稿一覧
 			- if @memos.present?
