@@ -19,11 +19,19 @@ class Memo < ApplicationRecord
 	validates :title,		presence: true, length:{maximum: 50}
 	validates :body, 		presence: true
 
-	#house_idかroom_idが無ければエラー
+	# 独自バリデーション
 	validate :associate_valid?
+	validate :check_tag_list_size
+
+
+	#house_idかroom_idが無ければエラー
 	def associate_valid?
-		error_msg= "メモは必ずハウスかルームに入れてください"
-		errors.add(:house, error_msg) unless house_id || room_id
+		error_msg= "メモは必ず家か部屋に入れてください"
+		errors.add(:base,error_msg) unless house_id || room_id
+	end
+
+	def check_tag_list_size
+		errors.add(:base,"タグは5個までです")if tag_list.size > 6
 	end
 
 	# 指定のユーザにストックされているか？
@@ -35,6 +43,7 @@ class Memo < ApplicationRecord
 	def liked_by?(user)
 		likes.where(user_id: user.id).exists?
 	end
+
 
 	# 更新順
 	scope :resent,			 -> { order(updated_at: :desc)}
