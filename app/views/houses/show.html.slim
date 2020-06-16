@@ -23,7 +23,9 @@
 				= f.label :title_cont, "メモを探す"
 				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
 
-	.col-sm-9
+	.col-sm-9.clearfix
+		= link_to "家の改修", edit_house_path(@house), class: "btn btn-info float-right"
+
 		.rooms
 			h4 全ルーム一覧
 			- if @rooms.present?
@@ -34,7 +36,6 @@
 								= link_to room.name, room_path(room)
 							p メモ数 (#{room.memos.size})
 							p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
-							p = "#{room.created_at.strftime('%Y/%m/%d')} 作成"
 			- else
 				- if params[:q].present?
 					.rooms__nothing
@@ -52,7 +53,6 @@
 						.media__body
 							= link_to memo.title, memo_path(memo)
 							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
 							= link_to "編集", edit_memo_path(memo), class: "btn btn-info"
 			- else
 				- if params[:q].present?
