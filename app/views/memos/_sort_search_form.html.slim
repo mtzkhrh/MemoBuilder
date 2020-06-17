@@ -1,0 +1,13 @@
+/ model: ransack = @q
+.btn-toolbar.justify-content-between[role="toolbar"]
+  .btn-group[role="group"]
+    button.btn.btn-secondary[type="button"]
+      = sort_link(ransack, :title, "タイトル順")
+    button.btn.btn-secondary[type="button"]
+      = sort_link(ransack, :updated_at, "更新順")
+  = search_form_for ransack, url: request.referer do |f|
+    .input-group
+      = f.search_field :title_cont, class: "form-control", placeholder: "検索..."
+      .input-group-append
+        =f.button type: "submit", class: "btn btn-secondary" do
+          i.fas.fa-search

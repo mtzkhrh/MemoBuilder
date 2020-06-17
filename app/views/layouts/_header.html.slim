@@ -10,7 +10,9 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 				= search_form_for a, url: memos_all_path do |f|
 					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 			ul.navbar-nav.ml-auto
-				li.nav-item.active
+				li.nav-item
+					= link_to "投稿する", new_user_memo_path(current_user), class: "nav-link"
+				li.nav-item
 					= link_to "マイページ", user_path(current_user), class: "nav-link"
 				li.nav-item.dropdown
 					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
@@ -19,7 +21,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 						= link_to "ストック一覧", stocks_user_path(current_user), class: "dropdown-item"
 						= link_to "フレンド一覧", relationships_user_path(current_user), class: "dropdown-item"
 						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
-						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
+						= link_to "公開投稿一覧", memos_all_path, class: "dropdown-item"
 				li.nav-item
 					= link_to "ログアウト", destroy_user_session_path,method: :delete, class: "nav-link"
 
