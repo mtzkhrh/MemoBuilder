@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @tags = @user.memos.tag_counts.order(updated_at: :desc).first(5)
-  	@houses = @user.houses.first(5)
+  	@houses = @user.houses.eager_load(:house_memos,:memos,:rooms).first(5)
   	pickup_memos_within_range(@user,@user)
     @resent_memos = @memos.resent.first(10)
   end
@@ -41,8 +41,7 @@ class UsersController < ApplicationController
   end
 
   def relationships
-    @user = current_user
-    @relationships = @user.all_relationships
+    @user = User.eager_load(:followings).find(params[:id])
     @q = @user.friends.ransack(params[:q])
     @friends = @q.result(distinct: true)
     @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
