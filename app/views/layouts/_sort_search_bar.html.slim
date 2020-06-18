@@ -1,0 +1,27 @@
+/ model: base = Memo?Room?House?,ransack = @q
+- if base.name == "Memo"
+  .btn-toolbar.justify-content-between[role="toolbar"]
+    .btn-group[role="group"]
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :title, "タイトル順")
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :updated_at, "更新順")
+    = search_form_for ransack, url: request.path do |f|
+      .input-group
+        = f.search_field :title_cont, class: "form-control", placeholder: "検索..."
+        .input-group-append
+          =f.button type: "submit", class: "btn btn-secondary" do
+            i.fas.fa-search
+- else #RoomかHouse
+  .btn-toolbar.justify-content-between[role="toolbar"]
+    .btn-group[role="group"]
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :name, "名前順")
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :updated_at, "更新順")
+    = search_form_for ransack, url: request.path do |f|
+      .input-group
+        = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+        .input-group-append
+          =f.button type: "submit", class: "btn btn-secondary" do
+            i.fas.fa-search
