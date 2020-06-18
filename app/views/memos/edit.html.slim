@@ -1,8 +1,6 @@
 .row
 	.col-sm-9.general.memos
-		nav [aria-label="パンくずリスト"]
-			== render 'layouts/breadcrumbs', model: @memo
-
+		== render 'layouts/breadcrumbs', model: @memo
 		h2.general__title
 			| メモの編集
 			= link_to "削除する", memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger float-right"
