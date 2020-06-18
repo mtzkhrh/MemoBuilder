@@ -3,25 +3,15 @@
 		= render 'users/profile', user: @user
 		.sidebar__memo-btn
 			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: user_tags_path(@user) do |f|
-				= f.label :name_cont, "部屋を探す"
-				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 
-
-
-	.tags.col-sm-9
-		h4 使用タグ一覧
-		- if @tags.present?
-			- @tags.each do |tag|
-				.tags__tag-list.my-1
-					= link_to user_tag_path(@user,tag), class: "btn btn-success"
-						| #{tag.name}
-		- else
-			- if params[:q].present?
-				.tags__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-			-else
-				.tags__nothing
-					h4 使用したタグはありません
+	.tags.index.col-sm-9
+		= search_form_for @q, url: user_tags_path(@user) do |f|
+			.input-group.mb-2
+				= f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+				.input-group-append
+					=f.button type: "submit", class: "btn btn-secondary" do
+						i.fas.fa-search
+		.list_title
+			h4 使用タグ一覧
+		.tags_list
+			== render 'tags/tags_list', tags: @tags
