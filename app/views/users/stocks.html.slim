@@ -1,29 +1,13 @@
+- content_for(:html_title) {'ストック一覧 | MemoBuilder'}
 .row
 	.sidebar.col-sm-3
 		= render 'users/profile', user: @user
 		.sidebar__memo-btn
 			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
-		/ 投稿をransackで検索する
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: stocks_user_path(@user) do |f|
-				= f.label :title_cont, "投稿を探す"
-				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
-
 	.memos.col-sm-9
+		== render 'layouts/sort_search_bar', base:@stocks,ransack: @q
+		.list_title
 			h4 ストック一覧
-			- if @stocks.present?
-				- @stocks.each do |memo|
-					.memos__memo-list.media.w-100
-						.media__body
-							h5
-								= link_to "#{memo.title}",memo_path(memo)
-							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-			- else
-				- if params[:q].present?
-					.memos__nothing
-						h4 見つかりませんでした
-						= link_to "戻る", :back
-				- else
-					.memos__nothing
-						h4 投稿はありません
+		.memos_list
+			== render 'memos/memos_list', memos: @stocks
