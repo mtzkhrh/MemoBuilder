@@ -10,10 +10,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @tags = @user.memos.tag_counts.order(updated_at: :desc).first(5)
+    @tags = @user.memos.tag_counts.order(updated_at: :desc).first(10)
   	@houses = @user.houses.eager_load(:house_memos,:memos,:rooms).first(5)
   	pickup_memos_within_range(@user,@user)
-    @resent_memos = @memos.resent.first(10)
+    @resent_memos = @memos.first(10)
   end
 
   def edit
