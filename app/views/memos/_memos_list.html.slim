@@ -10,8 +10,11 @@
 							= link_to user_tag_path(memo.user_id,tag[0])
 								= tag[1]
 				= link_to memo.title, memo_path(memo),class: "media_body-title"
-				.meta
+				.info
+					span.badge.badge-secondary.mr-2 = memo.range
+
 					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
+
 - else
 	.nothing
 		- if params[:q].present?
