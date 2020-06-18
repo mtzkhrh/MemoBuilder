@@ -1,19 +1,15 @@
+- content_for(:html_title) {"家(#{@house.name})の中 | MemoBuilder"}
 .row.houses
 	.col-sm-3
 		.sidebar
 			= render 'users/profile', user: @user
-		.sidebar__field.form-group.clearfix
-			= form_with model: [current_user, Room.new], local: true do |f|
-				= f.label :name, "部屋を作る"
-				= f.text_field :name, placeholder: "部屋の名前を記入してください", class: "form-control"
-				= f.hidden_field :house_id, value: @house.id
-				= f.submit "作成", class: "btn btn-primary float-right"
 
 	.col-sm-9.
 		== render 'layouts/breadcrumbs', model: @house
-		.form-row
-			.col
-				= link_to "家の改修", edit_house_path(@house), class: "btn btn-info btn-block"
+		.form-row.my-2
+			.col = link_to edit_house_path(@house), class: "btn btn-info btn-block" do
+				i.fas.fa-hammer
+				|  家のリフォーム
 			.col
 				= form_with model: [current_user, Room.new], local: true do |f|
 					= f.hidden_field :house_id, value: @house.id
@@ -30,7 +26,7 @@
 				- if @rooms.present?
 					- @rooms.each do |room|
 						.media
-							.media__body
+							.media_body
 								= link_to room.name, room_path(room),class: "media_body-title"
 								.meta
 									p メモ数 (#{room.memos.size})

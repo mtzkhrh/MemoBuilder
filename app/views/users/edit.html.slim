@@ -1,7 +1,8 @@
+- content_for(:html_title) {'プロフィール編集 | MemoBuilder'}
 .row.justify-content-center.users
   .col-md-6.general.user
 		h2.general__title
-			| 公開用プロフィール
+			| 公開プロフィール
 		= form_with model: @user, local: true do |f|
 			.form-group
 				.users__field

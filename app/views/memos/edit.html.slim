@@ -1,3 +1,4 @@
+- content_for(:html_title) {"メモ(#{@memo.title})の編集 | MemoBuilder"}
 .row
 	.col-sm-9.general.memos
 		== render 'layouts/breadcrumbs', model: @memo

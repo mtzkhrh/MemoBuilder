@@ -1,12 +1,12 @@
+- content_for(:html_title) {"家(#{@house.name})のリフォーム | MemoBuilder"}
 .row.justify-content-center.houses
-  .col-md-6.general
-		h2.general__title
-			= "#{@house.name}の改修"
-		.houses__field.form-group
-			= form_with model: @house, local: true do |f|
+	.general.col-lg-5.col-md-8
+		.general_title
+			h2 = "#{@house.name}のリフォーム"
+		= form_with model: @house, local: true do |f|
+			.form-group
 				= f.label :name, "名前"
 				= f.text_field :name, class: "form-control",autofocus: true
-				br
-				= f.submit "更新", class: "btn btn-primary btn-block"
-		.houses__destroy-btn
-			= link_to "削除する", house_path(@house), method: :delete, data: {confirm: "家の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"
+			= f.submit "更新", class: "btn btn-primary btn-block"
+		.clearfix.mt-3
+			= link_to "削除する", house_path(@house), method: :delete, data: {confirm: "家の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger float-right"
