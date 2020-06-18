@@ -23,7 +23,7 @@ class MemosController < ApplicationController
       @memo.house_id = room.house_id
     end
   	@user = current_user
-  	@houses = @user.houses.all.resent
+    @houses = @user.houses.all.preload(:rooms).resent
   	@rooms = @user.rooms.all.resent
   end
 
@@ -36,7 +36,7 @@ class MemosController < ApplicationController
   		back_in_place(@memo)
   	else
       @user = current_user
-      @houses = @user.houses.all.resent
+      @houses = @user.houses.all.preload(:rooms).resent
       @rooms = @user.rooms.all.resent
   		render :new
   	end
