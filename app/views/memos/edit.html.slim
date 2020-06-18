@@ -5,44 +5,42 @@
 
 		h2.general__title
 			| メモの編集
-			= link_to memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger btn-sm float-right" do
-				small 削除する
+			= link_to "削除する", memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger float-right"
 		.memos__field
 			= form_with model: [@memo], local: true do |f|
 				== render 'layouts/error_messages', model: @memo
+				.d-none.d-sm-block
+					.form-row
+						.col-sm-6
+							= f.label :house_id, "家"
+						.col-sm-6
+							=f.label :room_id, "部屋"
 				.form-row
-					.col-5
-						= f.label :house_id, "家"
-					.col-5
-						=f.label :room_id, "部屋"
-				.form-row
-						= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-5",autofocus: true}
+						= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-sm-6"}
 						template id="rooms-of-houses"
-							= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]}),{prompt: "部屋を選んでください"}, {class: "form-control col-5 default-rooms",autofocus: true}
+							= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
 						- @houses.each do |house|
 							template id="rooms-of-house#{house.id}"
-								= f.collection_select :room_id, house.rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-5",autofocus: true}
-				br
-				.form-row
-					.col-sm-2
+								= f.collection_select :room_id, house.rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6"}
+				.form-row.mt-3
+					.col-md-2.col-sm-3
 						= f.label :range, "公開範囲"
-					.col-sm-3
-						= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control",autofocus: true}
-				br
+					.col-md-3.col-sm-4
+						= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
 				.form-group
 					= f.label :title, "タイトル"
 					= f.text_field :title, class: "form-control",autofocus: true
 				.form-group
 					= f.label :body, "本文"
 					= f.cktext_area :body, class: "form-control",autofocus: true
+				.form-row
+					.col
+						= f.label :image, "画像"
 				.form-group
-					= f.label :image, "画像"
-					br
 					= f.attachment_field :image
 				.form-group
 					= f.label :tag_list, "タグ付け"
 					= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
-				br
 				.actions
 					= f.submit "投稿", class: "btn btn-primary btn-block"
 	.col-sm-3
@@ -59,3 +57,36 @@
 				= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control"}
 				= f.text_field :name, placeholder: "部屋の名前を記入してください", class: "form-control"
 				= f.submit "作成", class: "btn btn-secondary float-right"
+
+javascript:
+	$(document).on('turbolinks:load', function(){
+		let defaultRoomSelect = $(`#rooms-of-houses`).html();
+		let roomVal = $('#memo_room_id').val();
+		$('#memo_room_id').remove();
+		$('#memo_house_id').after(defaultRoomSelect);
+		if (roomVal !== "") {
+			let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
+			$('#memo_house_id').val(houseId);
+		}
+		// 全部屋リストで変更した時の処理
+		$(document).on('change', '.default-rooms', function() {
+			let roomVal = $('#memo_room_id').val();
+			if (roomVal !== "") {
+				let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
+				$('#memo_house_id').val(houseId);
+			}
+		});
+			//家が変更された時の処理
+		$(document).on('change', '#memo_house_id', function() {
+			let houseVal = $('#memo_house_id').val();
+			if (houseVal !== "") {
+				let selectedTemplate = $(`#rooms-of-house${houseVal}`).html();
+				$('#memo_room_id').remove();
+				$('#memo_house_id').after(selectedTemplate);
+			}else {
+				$('#memo_room_id').remove();
+				$('#memo_house_id').after(defaultRoomSelect);
+	  	}
+		});
+	});
+
