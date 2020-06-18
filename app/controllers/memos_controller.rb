@@ -119,8 +119,8 @@ class MemosController < ApplicationController
 		end
 	end
 	def decide_parent(memo)
-  	if @memo.house_id && @memo.room_id
-  		@memo.house_id = nil
+  	if memo.house_id && memo.room_id
+  		memo.house_id = nil
   	end
 	end
 
