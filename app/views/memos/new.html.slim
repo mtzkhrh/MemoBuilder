@@ -19,7 +19,7 @@
 							- @houses.each do |house|
 								template id="rooms-of-house#{house.id}"
 									= f.collection_select :room_id, house.rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6"}
-					.form-row
+					.form-row.mt-3
 						.col-sm-2
 							= f.label :range, "公開範囲"
 						.col-sm-3
