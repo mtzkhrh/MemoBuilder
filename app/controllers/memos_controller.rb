@@ -51,8 +51,9 @@ class MemosController < ApplicationController
 
   def edit
     check_your_id(@memo.user_id)
+    @memo.house_id = House.where(id: Room.where(id: @memo.room_id).pluck(:id)).first.id if @memo.house_id.nil?
     @user = @memo.user
-  	@houses = @user.houses.all.resent
+  	@houses = @user.houses.all.preload(:rooms).resent
   	@rooms = @user.rooms.all.resent
   end
 
