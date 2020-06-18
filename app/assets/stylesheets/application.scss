@@ -21,12 +21,37 @@
 
 body{
 	min-height: 100vh;
-}
-
-.body{
-	margin: 50px auto;
-}
-
-#cke_10{
-  display: none !important;
+	a{
+		color:inherit;
+		&:hover{
+			color: inherit;
+		}
+	}
+	.body{
+		margin: 50px auto;
+	}
+	#cke_10{
+	  display: none !important;
+	}
+	#error_explanation {
+		border:1px solid crimson;
+		margin-bottom: 10px;
+		h4{
+			padding: 5px;
+			border-bottom: 1px solid crimson;
+			color: white;
+			font-weight: bold;
+			background-color: red;
+		}
+	  ul{
+	  	color: red;
+	  	padding-top:10px;
+	  	li{
+	  		margin-bottom:3px;
+	  		&:last-child{
+	  			margin-bottom:0;
+	  		}
+	  	}
+	  }
+	}
 }

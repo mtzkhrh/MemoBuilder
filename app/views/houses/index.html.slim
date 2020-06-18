@@ -18,6 +18,7 @@
 					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 
 	.col-sm-9
+		== render 'layouts/breadcrumbs', model: @user
 		h4 持ち家一覧
 		- if @houses.present?
 			- @houses.each do |house|
@@ -28,8 +29,6 @@
 						p 部屋数 (#{house.rooms.size})
 						p 総メモ数 (#{house.memos.size + house.house_memos.size})
 						p = "#{house.updated_at.strftime('%Y/%m/%d')}更新"
-						p = "#{house.created_at.strftime('%Y/%m/%d')} 作成"
-						= link_to "編集", edit_house_path(house), class: "btn btn-info"
 		- else
 			- if params[:q].present?
 				.houses__nothing

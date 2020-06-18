@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+  before_action :authenticate_user!
 
 def create
 	current_user.likes.create(memo_id: params[:memo_id])

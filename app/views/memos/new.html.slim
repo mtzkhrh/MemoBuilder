@@ -1,22 +1,24 @@
 .row
 	.col-sm-9
-		nav [aria-label="パンくずリスト"]
-			== render 'layouts/breadcrumbs', model: @memo
-
 		.general.memos
 			h2.general__title
 				| メモの作成
 			.memos__field
 				= form_with model: [@user,@memo], local: true do |f|
+					== render 'layouts/error_messages', model: @memo
 					.form-row
-						.col-md-5
+						.col-5
 							= f.label :house_id, "家"
-							br
-							= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control",autofocus: true}
-						.col-md-5
+						.col-5
 							=f.label :room_id, "部屋"
-							br
-							= f.collection_select :room_id, @rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control",autofocus: true}
+					.form-row
+							= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-5",autofocus: true}
+							template id="rooms-of-houses"
+								= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]}),{prompt: "部屋を選んでください"}, {class: "form-control col-5 default-rooms",autofocus: true}
+
+							- @houses.each do |house|
+								template id="rooms-of-house#{house.id}"
+									= f.collection_select :room_id, house.rooms.all, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-5",autofocus: true}
 					br
 					.form-row
 						.col-sm-2

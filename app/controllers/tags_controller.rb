@@ -1,4 +1,6 @@
 class TagsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
   	@user = User.find(params[:user_id])
     @q = @user.memos.tag_counts.ransack(params[:q])
