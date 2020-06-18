@@ -22,6 +22,7 @@ class Memo < ApplicationRecord
 	# 独自バリデーション
 	validate :associate_valid?
 	validate :check_tag_list_size
+	validate :check_tag_name_full_length
 	validate :check_tag_name_length
 
 	def associate_valid?
@@ -32,6 +33,15 @@ class Memo < ApplicationRecord
 		errors.add(:base,"タグは5個までです")if tag_list.size > 5
 	end
 	def check_tag_name_length
+		error_msg = "タグ名が長すぎます。（20文字以下）"
+		tag_list.each do |tag|
+			if tag.length > 20
+				errors.add(:base,error_msg)
+				break
+			end
+		end
+	end
+	def check_tag_name_full_length
 		error_msg = "タグが長すぎます。全体で30文字以下にしてください"
 		errors.add(:base,error_msg) if tag_list.join.length > 30
 	end
