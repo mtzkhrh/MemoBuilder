@@ -15,7 +15,7 @@
 					.form-row
 							= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-sm-6"}
 							template id="rooms-of-houses"
-								= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]}),{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
+								= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
 							- @houses.each do |house|
 								template id="rooms-of-house#{house.id}"
 									= f.collection_select :room_id, house.rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6"}
