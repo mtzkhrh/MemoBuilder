@@ -25,13 +25,19 @@ $(document).on('turbolinks:load', function(){
 	// デフォルトのRoomsセレクトボックスHTML
 	let defaultRoomSelect = $(`#rooms-of-houses`).html()
 
-	//最初から家が選択されている時の処理
+	//画面読み込み時の値でセレクトボックスを切り替える
 	let houseVal = $('#memo_house_id').val();
 	if (houseVal !== "") {
 		let selectedTemplate = $(`#rooms-of-house${houseVal}`).html();
 		$('#memo_house_id').after(selectedTemplate);
 	}else{
 		$('#memo_house_id').after(defaultRoomSelect);
+	};
+	// 最初から部屋が選択されている時の処理
+	let roomVal = $('#memo_room_id').val();
+	if (roomVal !== "") {
+		let houseId = $(`.default-rooms`).find('option:selected').data().houseId
+		$('#memo_house_id').val(houseId)
 	};
 
 	// 部屋を変えた時に家も自動で選択される
