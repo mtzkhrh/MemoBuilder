@@ -19,22 +19,10 @@
 
 	.col-sm-9
 		== render 'layouts/breadcrumbs', model: @user
-		h4 持ち家一覧
-		- if @houses.present?
-			- @houses.each do |house|
-				.houses__house-list.media
-					.media__body.w-100
-						h5
-							= link_to house.name, house_path(house)
-						p 部屋数 (#{house.rooms.size})
-						p 総メモ数 (#{house.memos.size + house.house_memos.size})
-						p = "#{house.updated_at.strftime('%Y/%m/%d')}更新"
-		- else
-			- if params[:q].present?
-				.houses__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
+		.houses
+			== render 'layouts/sort_search_bar', base:@houses,ransack: @q
 
-			- else
-				.houses__nothing
-					h5 家が建っていません
+			.list_title
+				h4 持ち家一覧
+			.houses_list
+				== render 'houses/houses_list', houses: @houses
