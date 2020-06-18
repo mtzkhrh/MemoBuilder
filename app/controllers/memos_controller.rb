@@ -29,13 +29,13 @@ class MemosController < ApplicationController
 
   def create
   	@memo = current_user.memos.new(memo_params)
-  	decide_parent(@memo)
-  	@user = current_user
+    decide_parent(@memo)
   	if @memo.save
       touch_parent(@memo)
   		flash[:success]="投稿が完了しました"
   		back_in_place(@memo)
   	else
+      @user = current_user
       @houses = @user.houses.all.resent
       @rooms = @user.rooms.all.resent
   		render :new
@@ -66,6 +66,9 @@ class MemosController < ApplicationController
   		flash[:success]="投稿を更新しました"
   		back_in_place(@memo)
   	else
+      @user = @memo.user
+      @houses = @user.houses.all.resent
+      @rooms = @user.rooms.all.resent
   		render :edit
   	end
   end
