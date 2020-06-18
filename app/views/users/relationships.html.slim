@@ -36,7 +36,7 @@
 							p
 								= user.introduction
 						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
+							== render 'users/follow_btn', user: user
 
 
 			#followings.tab-pane[role="tabpanel" aria-labelledby="followings-tab"]
@@ -58,7 +58,7 @@
 							p
 								= user.introduction
 						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
+							== render 'users/follow_btn', user: user
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
 				- if @followers.empty?
@@ -79,4 +79,4 @@
 							p
 								= user.introduction
 						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
+							== render 'users/follow_btn', user: user

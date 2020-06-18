@@ -38,7 +38,7 @@ class User < ApplicationRecord
   end
 
   def following?(user)
-    followings.include?(user)
+    followings.pluck(:id).include?(user.id)
   end
 	# お互いにフォローしている人を配列でピックアップ
 	#自分のフォロワーを探して自分のフォローしているひとを探している
