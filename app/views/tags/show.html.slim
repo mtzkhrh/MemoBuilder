@@ -5,7 +5,7 @@
 			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
 	.memos.col-sm-9
-		== render 'memos/sort_search_form', ransack: @q
+		== render 'layouts/sort_search_bar', base:@memos,ransack: @q
 		.list_title
 			span.badge.badge-success
 				= link_to @tag.name, user_tag_path(@user,@tag)
