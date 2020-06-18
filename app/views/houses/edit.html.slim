@@ -1,7 +1,7 @@
 .row.justify-content-center.houses
   .col-md-6.general
 		h2.general__title
-			| 家の改修
+			= "#{@house.name}の改修"
 		.houses__field.form-group
 			= form_with model: @house, local: true do |f|
 				= f.label :name, "名前"
