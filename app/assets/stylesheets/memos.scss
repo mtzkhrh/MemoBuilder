@@ -4,11 +4,14 @@
 
 
 .memos{
+	margin-bottom: 20px;
 	.btn-toolbar{
 		margin:10px 0;
 	}
 	&_list{
-		border-top: 1px solid #e8e8e8;
+		margin-bottom: 10px;
+		border:1px solid #e8e8e8;
+		border-top: 0;
 	}
 	// show
 	&__title{

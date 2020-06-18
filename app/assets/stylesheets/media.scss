@@ -1,3 +1,14 @@
+.list_title{
+	background-color: #e8e8e8;
+	padding: 10px;
+	h4{
+		display: inline-block;
+		margin-bottom: 0;
+	}
+	span.badge{
+		font-size: 1.1rem;
+	}
+}
 .media{
 	display:flex;
 	padding: 16px;
@@ -24,10 +35,33 @@
 	    word-wrap: break-word;
 	    word-break: break-all;
 		}
+		.tag{
+			color:#666;
+			font-size: 0.8rem;
+			i{
+				margin-right: 4px;
+				color: #aaa;
+			}
+			a:not(:last-child)::after{
+				content: ",";
+				margin-right: 4px;
+			}
+		}
 		.meta{
 			display: flex;
+			align-items: center;
 			p{
 				margin-right: 10px;
+				font-size: 0.9rem;
+				color:#666;
+			}
+		}
+		.info{
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			p{
 				font-size: 0.9rem;
 				color:#666;
 			}
