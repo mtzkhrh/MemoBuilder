@@ -1,0 +1,19 @@
+/ model: houses
+- if houses.present?
+	- houses.each do |house|
+		.media
+			.media_body
+				= link_to house.name, house_path(house),class: "media_body-title"
+				.meta
+					p 部屋数 (#{house.rooms.size})
+					p 総メモ数 (#{house.memos.size + house.house_memos.size})
+					p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
+- else
+	- if params[:q].present?
+		.nothing
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back, class: "links"
+
+	- else
+		.nothing
+			h5 家が建っていません

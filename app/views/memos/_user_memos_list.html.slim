@@ -15,7 +15,7 @@
 - else
 	.nothing
 		- if params[:q].present?
-			h4 見つかりませんでした
-			= link_to "<< 戻る", :back
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back, class: "links"
 		- else
-			h4 投稿はありません
+			h5 投稿はありません

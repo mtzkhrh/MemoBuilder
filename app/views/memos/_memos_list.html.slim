@@ -1,0 +1,21 @@
+/ model: memos
+- if memos.present?
+	- memos.each do |memo|
+		.media
+			.media_body
+				- if memo.tags.present?
+					.tag
+						i.fas.fa-tags
+						- memo.tags.pluck(:id,:name).each do |tag|
+							= link_to user_tag_path(memo.user_id,tag[0])
+								= tag[1]
+				= link_to memo.title, memo_path(memo),class: "media_body-title"
+				.meta
+					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
+- else
+	.nothing
+		- if params[:q].present?
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back, class: "links"
+		- else
+			h5 投稿はありません
