@@ -4,26 +4,9 @@
 		.sidebar__memo-btn
 			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
-		/ 投稿をransackで検索する
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: user_memos_path(@user) do |f|
-				= f.label :title_cont, "投稿を探す"
-				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
-
 	.memos.col-sm-9
-		h4 #{@user.name} の投稿一覧
-		- if @memos.present?
-			- @memos.each do |memo|
-				.memos__memo-list.media
-					.media__body
-						h5
-							= link_to "#{memo.title}",memo_path(memo)
-						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-		- else
-			- if params[:q].present?
-				.memos__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-			- else
-				.memos__nothing
-					h4 投稿はありません
+		== render 'memos/sort_search_form', ransack: @q
+		.list_title
+			h4 #{@user.name} の投稿一覧
+		.memos_list
+			== render 'memos/memos_list', memos: @memos

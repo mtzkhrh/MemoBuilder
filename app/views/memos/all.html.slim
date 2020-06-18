@@ -1,25 +1,7 @@
 .row.justify-content-center
 	.memos.col-sm-9
-		h4.list_title 公開された投稿一覧
 		== render 'memos/sort_search_form', ransack: @q
+		.list_title
+			h4 公開された投稿一覧
 		.memos_list
-			- if @memos.present?
-				- @memos.each do |memo|
-					.media
-						= link_to user_path(memo.user) do
-							= attachment_image_tag memo.user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-						.media_body
-							= link_to "#{memo.title}",memo_path(memo),class: "media_body-title"
-							.meta
-								p
-									' by
-									= link_to "#{memo.user.name}", user_path(memo.user)
-								p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
-								p = "Like #{memo.likes.size}"
-			- else
-				.nothing
-					- if params[:q].present?
-						h4 見つかりませんでした
-						= link_to "<< 戻る", :back
-					- else
-						h4 投稿はありません
+			== render 'memos/user_memos_list', memos: @memos
