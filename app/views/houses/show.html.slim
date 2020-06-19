@@ -21,18 +21,18 @@
 		.rooms
 			== render 'layouts/sort_search_bar', base:@rooms,ransack: @r
 			.list_title
-				h4 部屋一覧
-			.rooms_list
+				h4 #{@house.name}の部屋一覧
+			.list
 				- if @rooms.present?
 					- @rooms.each do |room|
-						.media
-							.media_body
-								= link_to room.name, room_path(room),class: "media_body-title"
-								.meta
+						.list_item
+							.item_body
+								= link_to room.name, room_path(room),class: "item_body-title"
+								.info
 									p メモ数 (#{room.memos.size})
 									p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
 				- else
-					nothing
+					.nothing
 						- if params[:q].present?
 							h5 見つかりませんでした
 							= link_to "<< 戻る", :back, class: "links"
@@ -41,7 +41,9 @@
 							h5 部屋はありません
 		.memos
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
-			.list_title
-				h4 #{@house.name} 内の投稿一覧
-			.memos_list
+			.list
+				.list_title
+					h4 #{@house.name} 内の投稿一覧
 				== render 'memos/memos_list', memos: @memos
+
+		= link_to "<< 家の一覧へ", user_houses_path(@user), class: "links"
