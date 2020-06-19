@@ -10,23 +10,22 @@
 				.houses
 					.list_title
 						h4 持ち家ピックアップ
-					.houses_list
+					.list.
 						== render 'houses/houses_list', houses: @houses
-					.clearfix
-						= link_to "持ち家一覧 >>", user_houses_path(@user), class: "float-right links"
+						.index_link.clearfix
+							= link_to "持ち家一覧 >>", user_houses_path(@user), class: "float-right links"
 
 				.tags
 					.list_title
 						h4 最近の使用タグ一覧
-					.tags_list
-						== render 'tags/tags_list', tags: @tags
-					.clearfix
+					== render 'tags/tags_list', tags: @tags
+					.index_link.clearfix
 						= link_to "使用タグ一覧 >>", user_tags_path(@user), class: "float-right links"
 
 			.memos.col-md-12.col-lg-6
 				.list_title
 					h4 最近の投稿リスト
-				.memos_list
+				.list
 					== render 'memos/memos_list', memos: @resent_memos
-				.clearfix
-					= link_to "投稿一覧 >>", user_memos_path(@user), class: "float-right links"
+					.index_link.clearfix
+						= link_to "投稿一覧 >>", user_memos_path(@user), class: "float-right links"

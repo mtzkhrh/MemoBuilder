@@ -16,7 +16,8 @@
 
 		.memos
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
-			.list_title
-				h4 #{@room.name} 内の投稿一覧
-			.memos_list
+			.list
+				.list_title
+					h4 #{@room.name} 内の投稿一覧
 				== render 'memos/memos_list', memos: @memos
+		= link_to "<< 部屋を出る", house_path(@room.house_id), class: "links"

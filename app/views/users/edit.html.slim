@@ -1,6 +1,7 @@
 - content_for(:html_title) {'プロフィール編集 | MemoBuilder'}
 .row.justify-content-center.users
-  .col-md-8.general.user
+  .col-md-8.col-lg-6.general
+		= link_to "<< 戻る", :back, class: "links"
 		h2.general__title
 			| 公開プロフィール
 		= form_with model: @user, local: true do |f|
