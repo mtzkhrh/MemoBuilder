@@ -8,19 +8,14 @@
 	.btn-toolbar{
 		margin:10px 0;
 	}
-	&_list{
-		margin-bottom: 10px;
-		border:1px solid #e8e8e8;
-		border-top: 0;
-	}
 	// show
-	&__title{
+	&_title{
 		margin:10px 5px;
 		span.badge{
 			font-size: 1rem;
 		}
 	}
-	&__body{
+	&_body{
 		margin-top: 20px;
 	}
 }

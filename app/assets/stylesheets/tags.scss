@@ -14,7 +14,6 @@
 		display: flex;
 		flex-wrap:wrap;
 		padding:15px;
-		margin-bottom: 10px;
 		border:1px solid #e8e8e8;
 		border-top: 0;
 		&-item{
@@ -26,5 +25,10 @@
 		.badge{
 			font-size: 1rem;
 		}
+	}
+	.index_link{
+		padding:10px;
+		border:1px solid #e8e8e8;
+		border-top: 0;
 	}
 }
