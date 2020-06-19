@@ -1,13 +1,14 @@
 / model: tags
-- if tags.present?
-	- tags.each do |tag|
-		.tags_list-item
-			= link_to user_tag_path(@user,tag), class: "badge badge-success p-2"
-				| #{tag.name}
-- else
-	.nothing
-		- if params[:q].present?
-			h5 見つかりませんでした
-			= link_to "<< 戻る", :back, class: "links"
-		- else
-			h5 使用したタグはありません
+.tags_list
+	- if tags.present?
+		- tags.each do |tag|
+			.tags_list-item.mr-2.mb-2
+				= link_to user_tag_path(@user,tag), class: "badge badge-success p-2" do
+					| #{tag.name}
+	- else
+		.nothing
+			- if params[:q].present?
+				h5 見つかりませんでした
+				= link_to "<< 戻る", :back, class: "links"
+			- else
+				h5 使用したタグはありません
