@@ -4,14 +4,31 @@
 
 
 .comments{
-	&__list{
-		td:first-child{
-			text-align: center;
-		}
-		td{
-			min-width: 70px;
-			word-wrap:break-word;
-	    overflow-wrap:anywhere;
+	&_list{
+		display: flex;
+		flex-wrap: wrap;
+		.comments_item{
+			width: 100%;
+			border-bottom: 1px solid #e8e8e8;
+			.comments_header{
+				padding:10px;
+				display: flex;
+				align-items: center;
+				&-user{
+					margin-right: 5px;
+				}
+				&-date{
+					flex-grow: 1;
+					text-align: right;
+				}
+			}
+			.comments_body{
+				padding:10px;
+			}
+			.comments_destroy-btn{
+				padding:10px;
+				text-align: right;
+			}
 		}
 	}
 }
