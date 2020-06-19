@@ -3,10 +3,10 @@
 	.col-sm-10
 		== render 'layouts/breadcrumbs', model: @memo
 		.memos.border.p-2
-			.memos__title.border-bottom
-				h2 = "#{@memo.title}"
-					span.tags.badge.badge-secondary.ml-3
-						= @memo.range
+			.memos_title.border-bottom
+				= "#{@memo.title}"
+				span.tags.badge.badge-secondary.ml-3
+					= @memo.range
 			.memos__tags
 				- @tags.each do |tag|
 					span.tags.badge.badge-success.p-1.mx-1
