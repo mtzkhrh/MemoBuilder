@@ -1,7 +1,6 @@
 - content_for(:html_title) {'プロフィール編集 | MemoBuilder'}
 .row.justify-content-center.users
   .col-md-8.col-lg-6.general
-		= link_to "<< 戻る", :back, class: "links"
 		h2.general__title
 			| 公開プロフィール
 		= form_with model: @user, local: true do |f|
@@ -26,5 +25,7 @@
 						= attachment_image_tag @user, :profile_image,:fill,80,80,format: 'jpg',size: "80x80",class: "ml-5"
 			.form-group
 				= f.submit "更新する", class: "btn btn-success btn-block"
-		.users__destroy-btn.clearfix
-			= link_to "退会する", user_path(current_user), method: :delete, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger btn-sm float-right"
+		.d-flex.justify-content-around.align-items-end.mt-3
+			= link_to "<< 戻る", :back, class: "links"
+
+			= link_to "退会する", user_path(current_user), method: :delete, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger btn-sm"
