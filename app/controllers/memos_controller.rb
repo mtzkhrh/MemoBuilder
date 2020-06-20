@@ -92,9 +92,15 @@ class MemosController < ApplicationController
   # 公開範囲に合わせてアクセスを拒否
   def range_barrier(memo)
     if memo.range == "自分のみ" #自分以外back
-      back(fallback_location: root_path) unless memo.user_id == current_user.id
+      unless memo.user_id == current_user.id
+        flash[:alert]="閲覧権限がありません"
+        redirect_back(fallback_location: root_path)
+      end
     elsif memo.range == "友達のみ" #自分と友達以外back
-      back(fallback_location: root_path) unless memo.user_id == current_user.id || current_user.friends.ids.include?(memo.user_id)
+      unless memo.user_id == current_user.id || current_user.friends.ids.include?(memo.user_id)
+        flash[:alert]="閲覧権限がありません"
+        redirect_back(fallback_location: root_path)
+      end
     end
   end
 
