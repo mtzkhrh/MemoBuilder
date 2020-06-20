@@ -9,3 +9,4 @@
 			.list_title
 				h4 使用タグ一覧
 			== render 'tags/tags_list', tags: @tags
+		= link_to "<< マイページへ", user_path(@user), class: "links"
