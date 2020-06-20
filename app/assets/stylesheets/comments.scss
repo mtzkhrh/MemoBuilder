@@ -7,6 +7,7 @@
 	&_list{
 		display: flex;
 		flex-wrap: wrap;
+		margin-bottom: 20px;
 		.comments_item{
 			width: 100%;
 			border-bottom: 1px solid #e8e8e8;
@@ -16,6 +17,9 @@
 				align-items: center;
 				&-user{
 					margin-right: 5px;
+					img{
+						border-radius: 5px;
+					}
 				}
 				&-date{
 					flex-grow: 1;
@@ -28,6 +32,31 @@
 			.comments_destroy-btn{
 				padding:10px;
 				text-align: right;
+			}
+		}
+		.nothing{
+			padding:10px;
+		}
+	}
+	&_form{
+		padding:10px;
+		margin-bottom: 20px;
+		border:1px solid #e8e8e8;
+		&-footer{
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			&-user{
+				display: flex;
+				align-items: center;
+				flex-grow: 1;
+				img{
+					border-radius: 5px;
+				}
+				p{
+					margin-bottom: 0;
+					margin-left: 5px;
+				}
 			}
 		}
 	}
