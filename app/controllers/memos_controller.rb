@@ -23,20 +23,20 @@ class MemosController < ApplicationController
       @memo.house_id = room.house_id
     end
   	@user = current_user
-  	@houses = @user.houses.all.resent
+    @houses = @user.houses.all.preload(:rooms).resent
   	@rooms = @user.rooms.all.resent
   end
 
   def create
   	@memo = current_user.memos.new(memo_params)
-  	decide_parent(@memo)
-  	@user = current_user
+    decide_parent(@memo)
   	if @memo.save
       touch_parent(@memo)
   		flash[:success]="投稿が完了しました"
   		back_in_place(@memo)
   	else
-      @houses = @user.houses.all.resent
+      @user = current_user
+      @houses = @user.houses.all.preload(:rooms).resent
       @rooms = @user.rooms.all.resent
   		render :new
   	end
@@ -52,7 +52,7 @@ class MemosController < ApplicationController
   def edit
     check_your_id(@memo.user_id)
     @user = @memo.user
-  	@houses = @user.houses.all.resent
+  	@houses = @user.houses.all.preload(:rooms).resent
   	@rooms = @user.rooms.all.resent
   end
 
@@ -66,6 +66,9 @@ class MemosController < ApplicationController
   		flash[:success]="投稿を更新しました"
   		back_in_place(@memo)
   	else
+      @user = @memo.user
+      @houses = @user.houses.all.resent
+      @rooms = @user.rooms.all.resent
   		render :edit
   	end
   end
@@ -89,9 +92,15 @@ class MemosController < ApplicationController
   # 公開範囲に合わせてアクセスを拒否
   def range_barrier(memo)
     if memo.range == "自分のみ" #自分以外back
-      back(fallback_location: root_path) unless memo.user_id == current_user.id
+      unless memo.user_id == current_user.id
+        flash[:alert]="閲覧権限がありません"
+        redirect_back(fallback_location: root_path)
+      end
     elsif memo.range == "友達のみ" #自分と友達以外back
-      back(fallback_location: root_path) unless memo.user_id == current_user.id || current_user.friends.id.include?(memo.user_id)
+      unless memo.user_id == current_user.id || current_user.friends.ids.include?(memo.user_id)
+        flash[:alert]="閲覧権限がありません"
+        redirect_back(fallback_location: root_path)
+      end
     end
   end
 
@@ -116,8 +125,8 @@ class MemosController < ApplicationController
 		end
 	end
 	def decide_parent(memo)
-  	if @memo.house_id && @memo.room_id
-  		@memo.house_id = nil
+  	if memo.house_id && memo.room_id
+  		memo.house_id = nil
   	end
 	end
 

@@ -54,4 +54,31 @@ body{
 	  	}
 	  }
 	}
+	.btn-toolbar{
+		margin: 10px 0;
+	}
+	.links{
+	  position: relative;
+	  display: inline-block;
+		color:#31aae2;
+	  transition: .3s;
+	  &:hover{
+			color:#115599;
+	  	text-decoration: none;
+	  }
+		&::after {
+		  position: absolute;
+		  bottom: 0;
+		  left: 50%;
+		  content: '';
+		  width: 0;
+		  height: 2px;
+		  background-color: #31aae2;
+		  transition: .3s;
+		  transform: translateX(-50%);
+		}
+		&:hover::after{
+		  width: 100%;
+		}
+	}
 }

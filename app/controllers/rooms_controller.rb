@@ -35,7 +35,7 @@ class RoomsController < ApplicationController
     check_your_id(@room.user_id)
   	if @room.update(room_params)
   		House.find_by(id: room_params[:house_id]).touch	#移動先の家の更新日を変更する
-  		flash[:success]="部屋を移設しました"
+  		flash[:success]="部屋を改装しました"
   		redirect_to house_path(@room.house)
   	else
   		render :edit

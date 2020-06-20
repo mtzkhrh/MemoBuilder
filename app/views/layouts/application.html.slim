@@ -1,7 +1,8 @@
 doctype html
 html
   head
-    title MemoBuilder
+    title
+      = content_for?(:html_title) ? yield(:html_title) : "MemoBuilder"
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'

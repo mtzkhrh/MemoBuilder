@@ -1,11 +1,11 @@
 / model: memos
 - if memos.present?
 	- memos.each do |memo|
-		.media
+		.list_item
 			= link_to user_path(memo.user) do
 				= attachment_image_tag memo.user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-			.media_body
-				= link_to "#{memo.title}",memo_path(memo),class: "media_body-title"
+			.item_body
+				= link_to "#{memo.title}",memo_path(memo),class: "item_body-title"
 				.meta
 					p
 						' by
@@ -15,7 +15,7 @@
 - else
 	.nothing
 		- if params[:q].present?
-			h4 見つかりませんでした
-			= link_to "<< 戻る", :back
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back, class: "links"
 		- else
-			h4 投稿はありません
+			h5 投稿はありません

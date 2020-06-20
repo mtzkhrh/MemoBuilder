@@ -1,60 +1,31 @@
-.row.user-page
+- content_for(:html_title) {'マイページ | MemoBuilder'}
+.row.
 	.col-sm-3
 		.sidebar
 			= render 'users/profile', user: @user
-		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
-
-		.sidebar__field.form-group.clearfix
-			= form_with model: [current_user, House.new], local: true do |f|
-				= f.label :name, "家を建てる"
-				= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
-				= f.submit "作成", class: "btn btn-primary float-right"
-
 
 	.col-sm-9
 		.row
-			.col-md-12.col-lg-6.houses.clearfix
-				= link_to "持ち家一覧>>", user_houses_path(@user), class: "float-right"
-				h4 持ち家ピックアップ
-				- if @houses.present?
-					- @houses.each do |house|
-						.houses__house-list.media.w-100
-							.media__body
-								h5
-									= link_to house.name, house_path(house)
-								meta
-									p 部屋数 (#{house.rooms.size})
-									p 総メモ数 (#{house.memos.size + house.house_memos.size})
-									p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
-				- else
-					.houses__nothing
-						h5 家が建っていません
+			.col-md-12.col-lg-6
+				.houses
+					.list_title
+						h4 持ち家ピックアップ
+					.list.
+						== render 'houses/houses_list', houses: @houses
+						.index_link.clearfix
+							= link_to "持ち家一覧 >>", user_houses_path(@user), class: "float-right links"
 
-				.tags.clearfix
-					= link_to "使用タグ一覧>>", user_tags_path(@user), class: "float-right"
-					h4 最近の使用タグ一覧
-					- if @tags.present?
-						- @tags.each do |tag|
-							.tags__tag-list.my-1
-								= link_to user_tag_path(@user,tag), class: "btn btn-success"
-									| #{tag.name}
-					- else
-						.tags__nothing
-							h5 使用したタグはありません
+				.tags
+					.list_title
+						h4 最近の使用タグ一覧
+					== render 'tags/tags_list', tags: @tags
+					.index_link.clearfix
+						= link_to "使用タグ一覧 >>", user_tags_path(@user), class: "float-right links"
 
-
-			/ メモを更新日でリストアップ
-			.col-md-12.col-lg-6.memos.clearfix
-				= link_to "投稿一覧>>", user_memos_path(@user), class: "float-right"
-				h4 最近の投稿リスト
-				- if @resent_memos.present?
-					- @resent_memos.each do |memo|
-						.memos__list.media.w-100
-							.media__body
-								h5
-									= link_to memo.title, memo_path(memo)
-								p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
-				- else
-					.memos__nothing
-						h5 投稿したメモがありません
+			.memos.col-md-12.col-lg-6
+				.list_title
+					h4 最近の投稿リスト
+				.list
+					== render 'memos/memos_list', memos: @resent_memos
+					.index_link.clearfix
+						= link_to "投稿一覧 >>", user_memos_path(@user), class: "float-right links"

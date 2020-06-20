@@ -1,9 +1,11 @@
-.row.justify-content-center
+- content_for(:html_title) {'友達一覧 | MemoBuilder'}
+.row
+	.col-sm-3
+		.sidebar
+			= render 'users/profile', user: @user
+
 	.col-sm-9
-		.form-group
-			= search_form_for @q, url: relationships_user_path do |f|
-				= f.label  :name_cont, "ユーザを探す"
-				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
+		== render 'layouts/sort_search_bar', base:@friends,ransack: @q
 
 		ul#myTab.nav.nav-tabs[role="tablist"]
 			li.nav-item[role="presentation"]
@@ -16,67 +18,15 @@
 				a#followers-tab.nav-link[href="#followers" role="tab" data-toggle="tab" aria-controls="followers" aria-selected="false"]
 					| 申請一覧
 
-		#myTabContent.tab-content.mt-3
+		#myTabContent.tab-content
 			#friends.tab-pane.active[role="tabpanel" aria-labelledby="friends-tab"]
-				- if @friends.empty?
-					- if params[:q].present?
-						.users__nothing
-							h4 見つかりませんでした
-							= link_to "戻る", :back
-					- else
-						.users__nothing
-							h4 友達はいません
-				- @friends.each do |user|
-					.users__user-list.media.w-100
-						= link_to user_path(user) do
-							= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-						.media__body
-							p
-								= link_to user.name, user_path(user)
-							p
-								= user.introduction
-						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
-
+				.list
+					== render 'users/user_list', users: @friends, msg: "友達はいません"
 
 			#followings.tab-pane[role="tabpanel" aria-labelledby="followings-tab"]
-				- if @followings.empty?
-					- if params[:q].present?
-						.users__nothing
-							h4 見つかりませんでした
-							= link_to "戻る", :back
-					- else
-						.users__nothing
-							h4 承認待ちの人はいません
-				- @followings.each do |user|
-					.users__user-list.media.w-100
-						= link_to user_path(user) do
-							= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-						.media__body
-							p
-								= link_to user.name, user_path(user)
-							p
-								= user.introduction
-						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
+				.list
+					== render 'users/user_list', users: @followings, msg: "申請中の相手はいません"
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
-				- if @followers.empty?
-					- if params[:q].present?
-						.users__nothing
-							h4 見つかりませんでした
-							= link_to "戻る", :back
-					- else
-						.users__nothing
-							h4 申請はありません
-				- @followers.each do |user|
-					.users__user-list.media.w-100
-						= link_to user_path(user) do
-							= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
-						.media__body
-							p
-								= link_to user.name, user_path(user)
-							p
-								= user.introduction
-						.relationships
-							== render 'users/follow_btn', user: user, myself: @user
+				.list
+					== render 'users/user_list', users: @followers, msg: "承認待ちの人はいません"

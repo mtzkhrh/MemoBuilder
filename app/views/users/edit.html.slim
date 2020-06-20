@@ -1,23 +1,31 @@
+- content_for(:html_title) {'プロフィール編集 | MemoBuilder'}
 .row.justify-content-center.users
-  .col-md-6.general.user
+  .col-md-8.col-lg-6.general
 		h2.general__title
-			| 公開用プロフィール
+			| 公開プロフィール
 		= form_with model: @user, local: true do |f|
 			.form-group
-				.users__field
-					= f.label :name, "名前"
-					= f.text_field :name, class: "form-control"
-				.users__field
-					= f.label :introduction, "自己紹介"
-					= f.text_area :introduction, class: "form-control"
-					small.form-text.text-muted
-						i.fas.fa-info
-						|  200文字以内
-				.users__field
-					= f.label :profile_image, "プロフ画像"
-					br
-					= f.attachment_field :profile_image
-				.users__actions
-					= f.submit "更新する", class: "btn btn-success btn-block"
-		.users__destroy-btn.clearfix
-			= link_to "退会する", user_path(current_user), method: :delete, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger btn-sm float-right"
+				= f.label :name, "名前"
+				= f.text_field :name, class: "form-control"
+			.form-group
+				= f.label :introduction, "自己紹介"
+				= f.text_area :introduction, class: "form-control"
+				small.form-text.text-muted
+					i.fas.fa-info
+					|  200文字以内
+			.form-group
+				= f.label :profile_image, "プロフ画像"
+				br
+				= f.attachment_field :profile_image
+				- if @user.profile_image_id.present?
+					.d-flex.mt-2
+						.form-check
+							= check_box_tag :image_is_delete,"true",false,class: "form-check-input"
+							= label_tag :image_is_delete, "プロフ画像を削除する",class: "form-check-label"
+						= attachment_image_tag @user, :profile_image,:fill,80,80,format: 'jpg',size: "80x80",class: "ml-5"
+			.form-group
+				= f.submit "更新する", class: "btn btn-success btn-block"
+		.d-flex.justify-content-around.align-items-end.mt-3
+			= link_to "<< 戻る", :back, class: "links"
+
+			= link_to "退会する", user_path(current_user), method: :delete, data: {confirm: "本当に退会しますか？"}, class: "btn btn-danger btn-sm"

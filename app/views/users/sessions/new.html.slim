@@ -1,5 +1,6 @@
+- content_for(:html_title) {'ログイン | MemoBuilder'}
 .row.justify-content-center
-  .col-md-6.general
+  .col-md-8.col-lg-6.general
     h2.general__title
       | ログイン
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|

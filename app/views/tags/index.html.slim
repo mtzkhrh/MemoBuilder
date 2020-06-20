@@ -1,27 +1,12 @@
+- content_for(:html_title) {'使用したタグ一覧 | MemoBuilder'}
 .row
 	.sidebar.col-sm-3
 		= render 'users/profile', user: @user
-		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: user_tags_path(@user) do |f|
-				= f.label :name_cont, "部屋を探す"
-				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
 
-
-
-	.tags.col-sm-9
-		h4 使用タグ一覧
-		- if @tags.present?
-			- @tags.each do |tag|
-				.tags__tag-list.my-1
-					= link_to user_tag_path(@user,tag), class: "btn btn-success"
-						| #{tag.name}
-		- else
-			- if params[:q].present?
-				.tags__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-			-else
-				.tags__nothing
-					h4 使用したタグはありません
+	.col-sm-9
+		.tags.index
+			== render 'layouts/sort_search_bar', base:@tags,ransack: @q
+			.list_title
+				h4 使用タグ一覧
+			== render 'tags/tags_list', tags: @tags
+		= link_to "<< マイページへ", user_path(@user), class: "links"

@@ -1,3 +1,4 @@
+- content_for(:html_title) {"#{@user.name}の家一覧 | MemoBuilder"}
 .row
 	.col-sm-3
 		.sidebar
@@ -11,30 +12,13 @@
 					= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
 					= f.submit "作成", class: "btn btn-primary float-right"
 
-			/ 家をransackで検索する
-			.sidebar__seach-box.form-group
-				= search_form_for @q, url: user_houses_path do |f|
-					= f.label :name_cont, "家を探す"
-					= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
-
 	.col-sm-9
 		== render 'layouts/breadcrumbs', model: @user
-		h4 持ち家一覧
-		- if @houses.present?
-			- @houses.each do |house|
-				.houses__house-list.media
-					.media__body.w-100
-						h5
-							= link_to house.name, house_path(house)
-						p 部屋数 (#{house.rooms.size})
-						p 総メモ数 (#{house.memos.size + house.house_memos.size})
-						p = "#{house.updated_at.strftime('%Y/%m/%d')}更新"
-		- else
-			- if params[:q].present?
-				.houses__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-
-			- else
-				.houses__nothing
-					h5 家が建っていません
+		.houses
+			== render 'layouts/sort_search_bar', base:@houses,ransack: @q
+			.list
+				.list_title
+					h4 持ち家一覧
+				.houses_list
+					== render 'houses/houses_list', houses: @houses
+		= link_to "<< マイページへ", user_path(@user), class: "links"
