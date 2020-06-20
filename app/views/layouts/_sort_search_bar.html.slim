@@ -12,13 +12,28 @@
         .input-group-append
           =f.button type: "submit", class: "btn btn-secondary" do
             i.fas.fa-search
-- else #RoomかHouse
+
+- elsif base.name == "Room" || base.name == "House"
   .btn-toolbar.justify-content-between[role="toolbar"]
     .btn-group[role="group"]
       button.btn.btn-secondary[type="button"]
         = sort_link(ransack, :name, "名前順")
       button.btn.btn-secondary[type="button"]
         = sort_link(ransack, :updated_at, "更新順")
+    = search_form_for ransack, url: request.path do |f|
+      .input-group
+        = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+        .input-group-append
+          =f.button type: "submit", class: "btn btn-secondary" do
+            i.fas.fa-search
+
+- else #User
+  .btn-toolbar.justify-content-between[role="toolbar"]
+    .btn-group[role="group"]
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :name, "名前順")
+      button.btn.btn-secondary[type="button"]
+        = sort_link(ransack, :created_at, "登録順")
     = search_form_for ransack, url: request.path do |f|
       .input-group
         = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
