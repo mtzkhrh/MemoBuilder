@@ -25,9 +25,7 @@
 					.item_body-header
 						= link_to user.name, user_path(user),class: "item_body-name"
 						== render 'users/follow_btn', user: user
-
 					p.text-secondary = user.introduction
-				- if user != current_user
 
 
 	- else
