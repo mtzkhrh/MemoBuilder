@@ -94,7 +94,7 @@ class MemosController < ApplicationController
     if memo.range == "自分のみ" #自分以外back
       back(fallback_location: root_path) unless memo.user_id == current_user.id
     elsif memo.range == "友達のみ" #自分と友達以外back
-      back(fallback_location: root_path) unless memo.user_id == current_user.id || current_user.friends.id.include?(memo.user_id)
+      back(fallback_location: root_path) unless memo.user_id == current_user.id || current_user.friends.ids.include?(memo.user_id)
     end
   end
 
