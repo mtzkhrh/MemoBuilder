@@ -1,14 +1,14 @@
 - if current_user.friends?(user) #お互いフォローしている場合
-	.sidebar__friends-status
+	.users-status
 		= link_to "友達", user_relationships_path(user),method: :delete, data: {confirm: "友達から削除しますか？"},class: "btn btn-info rounded-pill"
 - elsif current_user.following?(user) #自分だけフォローしている場合
-	.sidebar__friends-status
-		= link_to "友達申請中", user_relationships_path(user),method: :delete, data: {confirm: "友達から削除しますか？"}, class: "btn btn-info rounded-pill"
+	.users-status
+		= link_to "友達申請中", user_relationships_path(user),method: :delete, data: {confirm: "申請を取り消しますか？"}, class: "btn btn-info rounded-pill"
 - elsif user.following?(current_user) #相手だけ自分をフォローしている場合
-	.sidebar__friends-status
+	.users-status
 		= link_to "友達申請が来てます", user_relationships_path(user), method: :POST, class: "btn btn-info rounded-pill"
 - else #フォローしてない場合
-	.sidebar__follow-btn
+	.users-status
 		= link_to "友達申請する", user_relationships_path(user), method: :POST, class: "btn btn-primary rounded-pill"
 
 
