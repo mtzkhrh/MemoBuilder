@@ -2,14 +2,17 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 	= link_to "Memobuilder", root_path, class: "navbar-brand"
 	button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替"]
 		span.navbar-toggler-icon
+		/ 会員ログイン時
 	- if user_signed_in?
 		.collapse.navbar-collapse id="navbar"
-			- q = Memo.ransack(params[:q])
+			- a = Memo.ransack(params[:q])
 			.form-inline.my-2.my-md-0
-				= search_form_for q, url: memos_all_path do |f|
+				= search_form_for a, url: memos_all_path do |f|
 					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
 			ul.navbar-nav.ml-auto
-				li.nav-item.active
+				li.nav-item
+					= link_to "投稿する", new_user_memo_path(current_user), class: "nav-link"
+				li.nav-item
 					= link_to "マイページ", user_path(current_user), class: "nav-link"
 				li.nav-item.dropdown
 					a#dropdown.nav-link.dropdown-toggle[href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
@@ -18,13 +21,31 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 						= link_to "ストック一覧", stocks_user_path(current_user), class: "dropdown-item"
 						= link_to "フレンド一覧", relationships_user_path(current_user), class: "dropdown-item"
 						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
-						= link_to "全投稿一覧", memos_all_path, class: "dropdown-item"
+						= link_to "公開投稿一覧", memos_all_path, class: "dropdown-item"
 				li.nav-item
 					= link_to "ログアウト", destroy_user_session_path,method: :delete, class: "nav-link"
 
+		/ 管理者ログイン時
+	- elsif admin_signed_in?
+		.collapse.navbar-collapse id="navbar"
+			- a = Memo.ransack(params[:q])
+			.form-inline.my-2.my-md-0
+				= search_form_for a, url: admins_memos_path do |f|
+					= f.search_field :title_cont, class: "form-control", placeholder: "検索..."
+			ul.navbar-nav.ml-auto
+				li.nav-item.active
+					= link_to "管理者TOP", admin_path, class: "nav-link"
+				li.nav-item
+					= link_to "ユーザ一覧", admins_users_path, class: "nav-link"
+				li.nav-item
+					= link_to "投稿一覧", admins_memos_path, class: "nav-link"
+				li.nav-item
+					= link_to "ログアウト", destroy_admin_session_path,method: :delete, class: "nav-link"
+
+		/ 非ログイン時
 	- else
 		.collapse.navbar-collapse id="navbar"
-			ul.navbar-nav.mr-auto
+			ul.navbar-nav.ml-auto
 				li.nav-item.active
 				li.nav-item
 					= link_to "アバウト", about_path, class: "nav-link"

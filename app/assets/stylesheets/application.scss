@@ -21,12 +21,64 @@
 
 body{
 	min-height: 100vh;
-}
-
-.body{
-	margin: 50px auto;
-}
-
-#cke_10{
-  display: none !important;
+	a{
+		color:inherit;
+		&:hover{
+			color: inherit;
+		}
+	}
+	.body{
+		margin: 50px auto;
+	}
+	#cke_10{
+	  display: none !important;
+	}
+	#error_explanation {
+		border:1px solid crimson;
+		margin-bottom: 10px;
+		h4{
+			padding: 5px;
+			border-bottom: 1px solid crimson;
+			color: white;
+			font-weight: bold;
+			background-color: red;
+		}
+	  ul{
+	  	color: red;
+	  	padding-top:10px;
+	  	li{
+	  		margin-bottom:3px;
+	  		&:last-child{
+	  			margin-bottom:0;
+	  		}
+	  	}
+	  }
+	}
+	.btn-toolbar{
+		margin: 10px 0;
+	}
+	.links{
+	  position: relative;
+	  display: inline-block;
+		color:#31aae2;
+	  transition: .3s;
+	  &:hover{
+			color:#115599;
+	  	text-decoration: none;
+	  }
+		&::after {
+		  position: absolute;
+		  bottom: 0;
+		  left: 50%;
+		  content: '';
+		  width: 0;
+		  height: 2px;
+		  background-color: #31aae2;
+		  transition: .3s;
+		  transform: translateX(-50%);
+		}
+		&:hover::after{
+		  width: 100%;
+		}
+	}
 }

@@ -1,0 +1,34 @@
+- content_for(:html_title) {"Top | MemoBuilder管理者"}
+.row
+	.col
+		h2.general__title 管理者TOP
+.row
+	.users.col-md-6.clearfix
+		= link_to "ユーザ一覧 >>", admins_users_path, class: "float-right"
+		h4 新しいユーザー
+		- if @users.present?
+			- @users.each do |user|
+				.users__user-list.media.w-100
+					= link_to admins_user_path(user) do
+						= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
+					.media__body
+						p
+							= link_to user.name, admins_user_path(user)
+						p = user.introduction
+						p = "#{user.created_at.strftime('%Y年%m月%d日')} 登録"
+		- else
+			h5 ユーザはいません
+	.memos.col-md-6.clearfix
+		= link_to "投稿一覧 >>", admins_memos_path, class: "float-right"
+		h4 最近の投稿一覧
+		- if @memos.present?
+			- @memos.each do |memo|
+				.memos__memo-list.media
+					.media__body
+						h5
+							= link_to "#{memo.title}",admins_memo_path(memo)
+						p = "by #{memo.user.name}"
+						p = "#{memo.updated_at.strftime('%Y年%m月%d日')} 更新"
+		- else
+			.memos__nothing
+				h5 投稿はありません

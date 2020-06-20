@@ -1,2 +1,29 @@
-h1 Home#about
-p Find me in app/views/home/about.html.slim
+- content_for(:html_title) {"About | MemoBuilder"}
+.row.home
+	.home__main-visual.col-sm-12
+		.px-md-3.px-lg-5
+			h4 Let's build memo's houses and rooms
+			p MemoBuilderは思い出すことに焦点を当てた記録ツールです。
+	.home__about.col-sm-12
+		.row
+			.col-lg-4
+				.img.img-1
+				h2 記憶に部屋を与える
+				p
+					|
+						メモに対して『家』と『部屋』を作ることができるので、自分でわかりやすく記録を分類でき、家から部屋へと順を追って思い出すことができる。記録さえしておけば、たとえ忘れても小さな手掛かりで答えに辿り着ける。
+			.col-lg-4
+				.img.img-2
+				h2 チートシートに
+				p
+					|
+						『家』『部屋』『メモ』それぞれで検索でき、タグ付け機能もあるので、勉強していることのチートシートにもできる。手順ごとに保存するとこで検索しやすくして、作業に詰まった時にすぐに手順の確認ができる
+			.col-lg-4
+				.img.img-3
+				h2 友達とシェア
+				p
+					|
+						友達機能を活用することでグループや友達とシェアすることで知識や記録の共有もできる。アカウントを共有して共同研究の段階別の記録や家族で飼っているペットの記録をするなど、ひとりだけでなくグループでの運用も可能。
+
+	.col-sm-12.text-center.mt-5
+		= link_to "会員登録する", new_user_registration_path,class: "btn btn-success btn-lg"

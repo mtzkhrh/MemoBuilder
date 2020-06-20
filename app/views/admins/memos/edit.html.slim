@@ -1,0 +1,35 @@
+- content_for(:html_title) {"メモ(#{@memo.title})の編集 | MemoBuilder管理者"}
+.row.justify-content-center
+	.col-sm-9.general.memos
+		nav [aria-label="パンくずリスト"]
+			== render 'layouts/breadcrumbs', model: @memo
+
+		h2.general__title メモの編集
+		.memos__field
+			= form_with model: [@memo],url: admins_memo_path(@memo), local: true do |f|
+				.form-row
+					.col-sm-2
+						= f.label :range, "公開範囲"
+					.col-sm-3
+						= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control",autofocus: true}
+				br
+				.form-group
+					= f.label :title, "タイトル"
+					= f.text_field :title, class: "form-control",autofocus: true
+				.form-group
+					= f.label :body, "本文"
+					= f.cktext_area :body, class: "form-control",autofocus: true
+				.users__field
+					h5 画像
+					- if @memo.image_id.blank?
+						p 画像は登録されていません
+					- else
+						= attachment_image_tag @memo, :image, class: "img-fluid"
+						.form-check
+							= f.radio_button :image_delete?,false, checked: true, class: "form-check-input"
+							= f.label :image_delete?, "そのまま"
+						.form-check
+							= f.radio_button :image_delete?, true, class: "form-check-input"
+							= f.label :image_delete?, "削除"
+				.actions
+					= f.submit "更新する", class: "btn btn-primary btn-block"

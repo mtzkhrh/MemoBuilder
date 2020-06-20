@@ -1,0 +1,21 @@
+/ model: memos
+- if memos.present?
+	- memos.each do |memo|
+		.list_item
+			= link_to user_path(memo.user) do
+				= attachment_image_tag memo.user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
+			.item_body
+				= link_to "#{memo.title}",memo_path(memo),class: "item_body-title"
+				.meta
+					p
+						' by
+						= link_to "#{memo.user.name}", user_path(memo.user)
+					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
+					p = "Like #{memo.likes.size}"
+- else
+	.nothing
+		- if params[:q].present?
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back, class: "links"
+		- else
+			h5 投稿はありません

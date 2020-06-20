@@ -3,10 +3,32 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tags{
+	margin-bottom: 20px;
 	&.badge{
 		a{
 			color:white;
 			font-weight: normal;
 		}
+	}
+	&_list{
+		display: flex;
+		flex-wrap:wrap;
+		padding:15px;
+		border:1px solid #e8e8e8;
+		border-top: 0;
+		&-item{
+			margin-right:10px;
+			margin-bottom:10px;
+		}
+	}
+	&.index{
+		.badge{
+			font-size: 1rem;
+		}
+	}
+	.index_link{
+		padding:10px;
+		border:1px solid #e8e8e8;
+		border-top: 0;
 	}
 }

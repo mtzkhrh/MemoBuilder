@@ -1,55 +1,49 @@
+- content_for(:html_title) {"家(#{@house.name})の中 | MemoBuilder"}
 .row.houses
 	.col-sm-3
 		.sidebar
 			= render 'users/profile', user: @user
-		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
-		.sidebar__field.form-group.clearfix
-			= form_with model: [current_user, Room.new], local: true do |f|
-				= f.label :name, "部屋を作る"
-				= f.text_field :name, placeholder: "部屋の名前を記入してください", class: "form-control"
-				= f.hidden_field :house_id, value: @house.id
-				= f.submit "作成", class: "btn btn-primary float-right"
+	.col-sm-9.
+		== render 'layouts/breadcrumbs', model: @house
+		.form-row.my-2
+			.col = link_to edit_house_path(@house), class: "btn btn-info btn-block" do
+				i.fas.fa-hammer
+				|  家のリフォーム
+			.col
+				= form_with model: [current_user, Room.new], local: true do |f|
+					= f.hidden_field :house_id, value: @house.id
+					.input-group
+						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+						.input-group-append
+							=f.button "作成", type: "submit", class: "btn btn-primary"
 
-		/ 部屋をransackで検索する
-		.sidebar__seach-box.form-group
-			= search_form_for @r, url: house_path(@house) do |f|
-				= f.label :name_cont
-					部屋検索
-				= f.search_field :name_cont, class: "form-control", placeholder: "入力してENTER"
-		/ メモをransackで検索する
-		.sidebar__seach-box.form-group
-			= search_form_for @q, url: house_path(@house) do |f|
-				= f.label :title_cont
-					メモ検索
-				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
-
-	.col-sm-9
 		.rooms
-			h4 全ルーム一覧
-			- if @rooms.present?
-				- @rooms.each do |room|
-					.rooms__room-list.media.w-100
-						.media__body
-							h5
-								= link_to room.name, room_path(room)
-							p メモ数 (#{room.memos.size})
-							p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
-							p = "#{room.created_at.strftime('%Y/%m/%d')} 作成"
-			- else
-				.rooms__nothing
-					h4 部屋はありません
+			== render 'layouts/sort_search_bar', base:@rooms,ransack: @r
+			.list_title
+				h4 #{@house.name}の部屋一覧
+			.list
+				- if @rooms.present?
+					- @rooms.each do |room|
+						.list_item
+							.item_body
+								= link_to room.name, room_path(room),class: "item_body-title"
+								.info
+									p メモ数 (#{room.memos.size})
+									p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
+				- else
+					.nothing
+						- if params[:q].present?
+							h5 見つかりませんでした
+							= link_to "<< 戻る", :back, class: "links"
+
+						- else
+							h5 部屋はありません
 		.memos
-			h4 ハウス内メモ一覧
-			- if @memos.present?
-				- @memos.each do |memo|
-					.memos__memo-list.media.w-100
-						.media__body
-							= link_to memo.title, memo_path(memo)
-							p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-							p = "#{memo.created_at.strftime('%Y/%m/%d')} 作成"
-							= link_to "編集", edit_memo_path(memo), class: "btn btn-info"
-			- else
-				.memos__nothing
-					h5 メモはありません
+			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.list
+				.list_title
+					h4 #{@house.name} 内の投稿一覧
+				== render 'memos/memos_list', memos: @memos
+
+		= link_to "<< 家の一覧へ", user_houses_path(@user), class: "links"

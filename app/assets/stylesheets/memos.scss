@@ -2,14 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
 .memos{
-	&__title{
+	margin-bottom: 20px;
+	.btn-toolbar{
+		margin:10px 0;
+	}
+	// show
+	&_title{
 		margin:10px 5px;
 		span.badge{
 			font-size: 1rem;
 		}
 	}
-	&__body{
+	&_body{
 		margin-top: 20px;
 	}
 }

@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  include MemosHelper
+  before_action :authenticate_user!
+  before_action :set_user, only: [:show,:edit,:update,:destroy]
+
   def index
   	@q = User.ransack(params[:q])
   	@users = @q.result(distinct: true)
@@ -6,33 +10,19 @@ class UsersController < ApplicationController
   end
 
   def show
-  	@user = User.find(params[:id])
-    @tags = @user.memos.tag_counts.order(updated_at: :desc).first(5)
-  	@houses = House.includes(:user).where(user_id: @user.id).order(updated_at: :desc).first(5)
-  	@resent_memos = Memo.includes(:user).where(user_id: @user.id).order(updated_at: :desc).first(6)
-  end
-
-  def relationships
-    @user = User.find(params[:id])
-    @q = @user.friends.ransack(params[:q])
-    @friends = @q.result(distinct: true)
-    @followings = @user.followings.where.not(id: @friends.pluck(:id))
-    @followers = @user.followers.where.not(id: @friends.pluck(:id))
-  end
-
-  def stocks
-    @user = current_user
-    @q = current_user.stock_memos.ransack(params[:q])
-    @stocks = @q.result(distinct: true)
+    @tags = @user.memos.tag_counts.order(updated_at: :desc).first(10)
+  	@houses = @user.houses.eager_load(:house_memos,:memos,:rooms).first(8)
+  	pickup_memos_within_range(@user,@user)
+    @resent_memos = @memos.first(10)
   end
 
   def edit
-  	@user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
+    @user.assign_attributes(user_params)
+    @user.profile_image_id = nil if params[:image_is_delete] == "true"
+    if @user.save
       flash[:success]= "登録情報を更新しました"
       redirect_to user_path(@user)
     else
@@ -41,16 +31,36 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     flash[:alert]="登録情報を全て削除しました"
     redirect_to root_path
   end
 
+  def stocks
+    @user = current_user
+    @q = current_user.stock_memos.resent.ransack(params[:q])
+    @stocks = @q.result(distinct: true)
+  end
+
+  def relationships
+    @user = User.eager_load(:followings).find(params[:id])
+    @q = @user.friends.ransack(params[:q])
+    @friends = @q.result(distinct: true)
+    @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
+    @followings = @r.result(distinct: true)
+    @s = @user.followers.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
+    @followers = @s.result(distinct: true)
+  end
+
+
   private
 
   def user_params
-    params.require(:user).permit(:name, :introduction, :profile_image)
+    params.require(:user).permit(:name, :introduction, :profile_image, :image_is_delete)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
 

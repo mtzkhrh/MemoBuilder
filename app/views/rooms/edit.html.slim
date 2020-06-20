@@ -1,18 +1,17 @@
+- content_for(:html_title) {"部屋(#{@room.name})のリフォーム | MemoBuilder"}
 .row.justify-content-center
-  .col-md-6.general.rooms
-		.general__title.clearfix
-			h2 部屋の改修
-			=link_to "編集", edit_room_path(room), class: "btn btn-info float-right"
-			= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger btn-sm float-right"
-		.rooms__field.form-group
-			= form_with model: @room, local: true do |f|
-				.form-group
-					= f.label :name, "名前"
-					= f.text_field :name, class: "form-control",autofocus: true
-				br
-				.form-group
-					/ 家を移動するためのselect_box
-					= f.label :house_id, "部屋の場所（家）"
-					= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
-				br
-				= f.submit "更新", class: "btn btn-primary btn-block"
+	.general.col-lg-5.col-md-8
+		== render 'layouts/breadcrumbs', model: @room
+		.general_title
+			h2 = "#{@room.name}のリフォーム"
+		= form_with model: @room, local: true do |f|
+			.form-group
+				= f.label :name, "名前"
+				= f.text_field :name, class: "form-control",autofocus: true
+			.form-group
+				/ 家を移動するためのselect_box
+				= f.label :house_id, "部屋の場所（家）"
+				= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
+			= f.submit "更新", class: "btn btn-primary btn-block"
+			.clearfix.mt-3
+				= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger float-right"

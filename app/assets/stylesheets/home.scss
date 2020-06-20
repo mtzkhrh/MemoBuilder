@@ -1,3 +1,33 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.home{
+	&__main-visual{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&__about{
+		.img{
+			height:140px;
+			width:140px;
+			border-radius: 50%;
+			overflow: hidden;
+			background-size: cover;
+			margin:5px auto;
+			&.img-1{
+				background-image: image-url("doors.jpg");
+			}
+			&.img-2{
+				background-image: image-url("study.jpg")
+			}
+			&.img-3{
+				background-image: image-url("group.jpg")
+			}
+		}
+		h2{
+			text-align: center;
+		}
+	}
+}

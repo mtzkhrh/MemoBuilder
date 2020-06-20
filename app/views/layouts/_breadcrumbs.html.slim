@@ -1,23 +1,67 @@
-- if model.room_id.present?
-	ol.breadcrumb.mb-1
-		li.breadcrumb-item
-			= link_to model.user.name, user_path(model.user)
-		li class="breadcrumb-item"
-			= link_to model.room.house.name, house_path(model.room.house)
-		li class="breadcrumb-item"
-			= link_to model.room.name, room_path(model.room)
-		li.breadcrumb-item.active [aria-current="page"]
-			= model.title
+nav [aria-label="パンくずリスト"]
+	-if model.class.name == "Memo"
+		- if model.room_id.present?
+			ol.breadcrumb.mb-1
+				li.breadcrumb-item
+					= link_to user_houses_path(model.user) do
+						i.fas.fa-user
+						= " #{model.user.name}"
+				li class="breadcrumb-item"
+					= link_to house_path(model.room.house) do
+						i.fas.fa-home
+						= " #{model.room.house.name}"
+				li class="breadcrumb-item"
+					= link_to room_path(model.room) do
+						i.fas.fa-door-open
+						= " #{model.room.name}"
+				li.breadcrumb-item.active [aria-current="page"]
+					span
+						i.far.fa-file
+						= " #{model.title}"
+		- else
+			ol.breadcrumb.mb-1
+				li.breadcrumb-item
+					= link_to user_houses_path(model.user) do
+						i.fas.fa-user
+						=" #{model.user.name}"
+				li class="breadcrumb-item"
+					= link_to house_path(model.house) do
+						i.fas.fa-home
+						= " #{model.house.name}"
+				li.breadcrumb-item.active [aria-current="page"]
+					span
+						i.far.fa-file
+						= " #{model.title}"
 
-- elsif model.house_id.present?
-	ol.breadcrumb.mb-1
-		li.breadcrumb-item
-			= link_to model.user.name, user_path(model.user)
-		li class="breadcrumb-item"
-			= link_to model.house.name, house_path(model.house)
-		li.breadcrumb-item.active [aria-current="page"]
-			= model.title
-- elsif model.user_id.present?
-	ol.breadcrumb.mb-1
-		li.breadcrumb-item
-			= link_to model.user.name, user_path(model.user)
+	-elsif model.class.name == "Room"
+		ol.breadcrumb.mb-1
+			li.breadcrumb-item
+				= link_to user_houses_path(model.user) do
+					i.fas.fa-user
+					= " #{model.user.name}"
+			li class="breadcrumb-item"
+				= link_to house_path(model.house) do
+					i.fas.fa-home
+					= " #{model.house.name}"
+			li.breadcrumb-item.active [aria-current="page"]
+				span
+					i.fas.fa-door-open
+					= " #{model.name}"
+
+	- elsif model.class.name == "House"
+		ol.breadcrumb.mb-1
+			li.breadcrumb-item
+				= link_to user_houses_path(model.user) do
+					i.fas.fa-user
+					= " #{model.user.name}"
+			li.breadcrumb-item.active [aria-current="page"]
+				span
+					i.fas.fa-home
+					= " #{model.name}"
+
+	- elsif model.class.name == "User"
+		ol.breadcrumb.mb-1
+			li.breadcrumb-item.active [aria-current="page"]
+				span
+					i.fas.fa-user
+					= " #{model.name}"

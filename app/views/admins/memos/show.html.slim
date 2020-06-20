@@ -1,0 +1,46 @@
+- content_for(:html_title) {"メモ(#{@memo.title})の詳細 | MemoBuilder管理者"}
+.row.justify-content-center
+	.col-sm-10
+		nav [aria-label="パンくずリスト"]
+			== render 'layouts/breadcrumbs', model: @memo
+		.memos.border.p-2
+			.memos__title.border-bottom
+				h2
+					= @memo.title
+					span.tags.badge.badge-secondary.ml-3
+						= @memo.range
+			.memos__tags
+				- @memo.tag_list.each do |tag|
+					span.tags.badge.badge-success.p-1.mx-1
+						| #{tag}
+			.memos__body
+				= @memo.body.html_safe
+
+			- if @memo.image_id.present?
+				.memos__image
+					= attachment_image_tag @memo, :image,class: "img-fluid"
+
+		.row.my-2
+			.col
+				= link_to "編集", edit_admins_memo_path(@memo), class: "btn btn-info btn-block"
+			.col
+				= link_to "削除", admins_memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger btn-block"
+
+		.row
+			.comments.col-sm-12
+				h4 Comments
+				table.table
+					- if @comments.present?
+						tbody
+							- @comments.each do |comment|
+								tr.comments__list.border-top.border-bottom
+									td
+										= link_to user_path(comment.user)
+											= attachment_image_tag comment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50"
+											br
+											= comment.user.name
+									td
+										= comment.comment
+					- else
+						tr
+							td コメントはまだありません
