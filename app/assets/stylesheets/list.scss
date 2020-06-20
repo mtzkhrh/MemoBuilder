@@ -26,6 +26,17 @@
 			display: flex;
 			flex-wrap:wrap;
 			flex-grow:1;
+			margin-left: 2px;
+			&-header{
+				display: flex;
+				width: 100%;
+				margin-bottom: 4px;
+				justify-content: space-between;
+				align-items: center;
+				.item_body-name{
+					flex-grow:1;
+				}
+			}
 			&-title{
 				display: inline-block;
 				width:100%;
