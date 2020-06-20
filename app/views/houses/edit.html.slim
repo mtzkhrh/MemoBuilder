@@ -1,6 +1,7 @@
 - content_for(:html_title) {"家(#{@house.name})のリフォーム | MemoBuilder"}
 .row.justify-content-center.houses
 	.general.col-lg-5.col-md-8
+		== render 'layouts/breadcrumbs', model: @house
 		.general_title
 			h2 = "#{@house.name}のリフォーム"
 		= form_with model: @house, local: true do |f|
