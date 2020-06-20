@@ -1,10 +1,7 @@
 - content_for(:html_title) {'ユーザ一覧 | MemoBuilder'}
 .row
-	.col-sm-3
-		.sidebar
-			= render 'users/profile', user: @user
-			.sidebar__memo-btn
-				= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
+	.sidebar.col-sm-3
+		= render 'users/profile', user: @user
 
 	.users.general.col-sm-9
 		== render 'layouts/sort_search_bar', base:@users,ransack: @q

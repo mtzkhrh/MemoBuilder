@@ -2,7 +2,8 @@
 .row.justify-content-center
 	.memos.col-sm-9
 		== render 'layouts/sort_search_bar', base:@memos,ransack: @q
-		.list_title
-			h4 公開された投稿一覧
-		.memos_list
-			== render 'memos/user_memos_list', memos: @memos
+		.list
+			.list_title
+				h4 公開された投稿一覧
+			.memos_list
+				== render 'memos/user_memos_list', memos: @memos
