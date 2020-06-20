@@ -6,7 +6,7 @@
 		= link_to "友達申請中", user_relationships_path(user),method: :delete, data: {confirm: "申請を取り消しますか？"}, class: "btn btn-info rounded-pill"
 - elsif user.following?(current_user) #相手だけ自分をフォローしている場合
 	.users-status
-		= link_to "友達申請が来てます", user_relationships_path(user), method: :POST, class: "btn btn-info rounded-pill"
+		= link_to "友達申請が来ています", user_relationships_path(user), method: :POST, data: {confirm: "申請を許可しますか？"}, class: "btn btn-info rounded-pill"
 - else #フォローしてない場合
 	.users-status
 		= link_to "友達申請する", user_relationships_path(user), method: :POST, class: "btn btn-primary rounded-pill"
