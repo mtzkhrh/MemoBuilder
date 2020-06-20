@@ -1,11 +1,12 @@
 / model: user, q(
 .sidebar_info
 	.sideber_info-icon
-		= attachment_image_tag user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
+		= link_to user_path(user) do
+			= attachment_image_tag user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
 	.sidebar_info-name
-		h5 = user.name
+		= link_to user.name, user_path(user)
 	.sidebar_info-introduction
-		p = user.introduction
+		p.text-secondary = user.introduction
 	- if user.id == current_user.id
 		.sidebar_info-edit-btn
 			= link_to "登録情報の編集", edit_user_path(current_user), class: "btn btn-secondary btn-block"

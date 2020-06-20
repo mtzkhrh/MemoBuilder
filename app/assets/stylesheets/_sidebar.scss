@@ -1,0 +1,16 @@
+.sidebar{
+	&_info{
+		border:1px solid #e8e8e8;
+		padding:10px;
+		&-name{
+				font-size: 1.1rem;
+				font-weight: bold;
+				margin: 8px 0;
+				color: inherit;
+				line-height: 1.4;
+		}
+	}
+	&_relationships{
+		text-align: center;
+	}
+}
