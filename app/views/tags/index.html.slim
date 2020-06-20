@@ -2,17 +2,10 @@
 .row
 	.sidebar.col-sm-3
 		= render 'users/profile', user: @user
-		.sidebar__memo-btn
-			= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
-	.tags.index.col-sm-9
-		= search_form_for @q, url: user_tags_path(@user) do |f|
-			.input-group.mb-2
-				= f.search_field :name_cont, class: "form-control", placeholder: "検索..."
-				.input-group-append
-					=f.button type: "submit", class: "btn btn-secondary" do
-						i.fas.fa-search
-		.list_title
-			h4 使用タグ一覧
-		.tags_list
+	.col-sm-9
+		.tags.index
+			== render 'layouts/sort_search_bar', base:@tags,ransack: @q
+			.list_title
+				h4 使用タグ一覧
 			== render 'tags/tags_list', tags: @tags
