@@ -20,20 +20,7 @@
 
 		.row.my-3
 			.likes.col
-				- if @memo.liked_by?(current_user)
-					= link_to memo_likes_path(@memo),method: :delete, class: "likes__btn btn btn-success btn-block"
-						i.fas.fa-thumbs-up
-						|  Like
-						span.badge.badge-light.ml-1
-							="#{@memo.likes.size}"
-
-				- else
-					= link_to memo_likes_path(@memo),method: :POST, class: "likes__btn btn btn-outline-success btn-block"
-						i.far.fa-thumbs-up
-						|  Like
-						span.badge.badge-light.ml-1
-							="#{@memo.likes.size}"
-
+				== render 'likes/like_btn', memo: @memo
 			stocks.col
 				- if @memo.stocked_by?(current_user)
 					= link_to memo_stocks_path(@memo),method: :delete, class: "stocks__btn btn btn-secondary btn-block"

@@ -2,13 +2,13 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
 
 def create
-	current_user.likes.create(memo_id: params[:memo_id])
-	redirect_back(fallback_location: root_path)
+	@memo = Memo.find(params[:memo_id])
+	current_user.likes.create(memo_id: @memo.id)
 end
 
 def destroy
-	current_user.likes.find_by(memo_id: params[:memo_id]).destroy
-	redirect_back(fallback_location: root_path)
+	@memo = Memo.find(params[:memo_id])
+	current_user.likes.find_by(memo_id: @memo.id).destroy
 end
 
 end
