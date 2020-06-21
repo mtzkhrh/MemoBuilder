@@ -19,7 +19,7 @@
 					= attachment_image_tag @memo, :image,class: "img-fluid"
 
 		.row.my-3
-			.likes.col
+			.likes.col id="likes_#{@memo.id}"
 				== render 'likes/like_btn', memo: @memo
 			stocks.col
 				- if @memo.stocked_by?(current_user)

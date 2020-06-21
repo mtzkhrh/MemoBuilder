@@ -1,1 +1,1 @@
-$('.likes').html("<%= j(render 'likes/like_btn', memo: @memo) %>")
+$('#likes_<%= @memo.id %>').html("<%= j(render 'likes/like_btn', memo: @memo) %>")
