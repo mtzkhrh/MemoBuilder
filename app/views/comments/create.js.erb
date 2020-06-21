@@ -1,0 +1,7 @@
+<% if @comment.save %>
+	$("textarea").val("");
+	$("#comments_<%= @memo.id %>").html("<%= j(render 'comments/comments_list', comments: @comments ) %>");
+	$(".invalid-feedback").css("display", "none");
+<% else %>
+	$(".invalid-feedback").css("display", "block");
+<% end %>
