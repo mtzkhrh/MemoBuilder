@@ -2,19 +2,14 @@ class StocksController < ApplicationController
   before_action :authenticate_user!
 
   def create
-  	# urlで(memo_id: @memo.id)を記述してparamsを渡す
-		current_user.stocks.create(memo_id: params[:memo_id])
-		redirect_back(fallback_location: root_path)
+    @memo = Memo.find(params[:memo_id])
+		current_user.stocks.create(memo_id: @memo.id)
   end
 
   def destroy
-  	@stock = current_user.stocks.find_by(memo_id: params[:memo_id])
-  	if @stock.user_id == current_user.id
-  		@stock.destroy
-			redirect_back(fallback_location: root_path)
-		else
-			redirect_back(fallback_location: root_path)
-		end
+    @memo = Memo.find(params[:memo_id])
+  	@stock = current_user.stocks.find_by(memo_id: @memo.id)
+		@stock.destroy
   end
 
 end
