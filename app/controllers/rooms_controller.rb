@@ -10,13 +10,8 @@ class RoomsController < ApplicationController
 			flash[:success]="部屋を作成しました"
 			redirect_back(fallback_location: root_path)
 		else
-			# ハウス内の一覧に戻る
-			@house = House.find(room_params[:house_id])
-	  	@user = @house.user
-	  	@r = @house.rooms.ransack(params[:r])
-	  	@rooms = @r.result(distinct: true)
-      pickup_memos_within_range(@house,@user)
-			render 'houses/show'
+      flash[:alert]="部屋を作成できませんでした"
+      redirect_back(fallback_location: root_path)
 		end
 	end
 
@@ -38,7 +33,8 @@ class RoomsController < ApplicationController
   		flash[:success]="部屋を改装しました"
   		redirect_to house_path(@room.house)
   	else
-  		render :edit
+      flash[:alert]= "部屋を改装できませんでした"
+      redirect_back(fallback_location: root_path)
   	end
   end
 
