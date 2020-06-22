@@ -5,7 +5,7 @@ class HousesController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-  	@q = @user.houses.eager_load(:house_memos,:memos,:rooms).resent.ransack(params[:q])
+  	@q = @user.houses.preload(:house_memos,:memos,:rooms).resent.ransack(params[:q])
   	@houses = @q.result(distinct: true)
   end
 
@@ -15,13 +15,14 @@ class HousesController < ApplicationController
   		flash[:success]= "新しく家を建てました"
 			redirect_back(fallback_location: root_path)
 		else
+      flash[:alert]= "家を建てられませんでした"
       redirect_back(fallback_location: root_path)
 		end
   end
 
   def show
   	@user = @house.user
-  	@r = @house.rooms.eager_load(:memos).resent.ransack(params[:q])
+  	@r = @house.rooms.preload(:memos).resent.ransack(params[:q])
   	@rooms = @r.result(distinct: true)
     pickup_memos_within_range(@house,@user)
   end
@@ -38,7 +39,8 @@ class HousesController < ApplicationController
   		flash[:success]= "家の名前を変更しました"
   		redirect_to user_houses_path(current_user)
   	else
-  		render :edit
+      flash[:alert]= "家の名前を変更できませんでした"
+      redirect_back(fallback_location: root_path)
   	end
   end
 

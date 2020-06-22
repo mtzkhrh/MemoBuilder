@@ -1,19 +1,21 @@
 - content_for(:html_title) {"#{@user.name}の家一覧 | MemoBuilder"}
 .row
-	.col-sm-3
+	.col-md-3
 		.sidebar
 			= render 'users/profile', user: @user
-			.sidebar__memo-btn
-				= link_to "投稿を作成する", new_user_memo_path(current_user), class: "btn btn-primary btn-block"
 
-			.sidebar__field.form-group.clearfix
-				= form_with model: [current_user, House.new], local: true do |f|
-					= f.label :name, "家を建てる"
-					= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
-					= f.submit "作成", class: "btn btn-primary float-right"
-
-	.col-sm-9
+	.col-md-9
 		== render 'layouts/breadcrumbs', model: @user
+		.form-row
+			.col
+				span 『家』->『部屋』->『メモ』の順で保存しよう
+			.col
+				= form_with model: [current_user, House.new], local: true do |f|
+					.input-group
+						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
+						.input-group-append
+						=f.button "作成", type: "submit", class: "btn btn-primary"
+
 		.houses
 			== render 'layouts/sort_search_bar', base:@houses,ransack: @q
 			.list

@@ -45,7 +45,7 @@ class MemosController < ApplicationController
   def show
     range_barrier(@memo)
     @tags = @memo.tags
-    @comments = @memo.comments.all.includes(:user)
+    @comments = @memo.comments.all.eager_load(:user)
     @comment = Comment.new
   end
 

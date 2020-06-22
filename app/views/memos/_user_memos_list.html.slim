@@ -12,6 +12,9 @@
 						= link_to "#{memo.user.name}", user_path(memo.user)
 					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
 					p = "Like #{memo.likes.size}"
+					p
+						i.far.fa-comment-dots
+						| #{memo.comments.size}
 - else
 	.nothing
 		- if params[:q].present?

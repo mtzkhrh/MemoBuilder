@@ -19,30 +19,10 @@
 					= attachment_image_tag @memo, :image,class: "img-fluid"
 
 		.row.my-3
-			.likes.col
-				- if @memo.liked_by?(current_user)
-					= link_to memo_likes_path(@memo),method: :delete, class: "likes__btn btn btn-success btn-block"
-						i.fas.fa-thumbs-up
-						|  Like
-						span.badge.badge-light.ml-1
-							="#{@memo.likes.size}"
-
-				- else
-					= link_to memo_likes_path(@memo),method: :POST, class: "likes__btn btn btn-outline-success btn-block"
-						i.far.fa-thumbs-up
-						|  Like
-						span.badge.badge-light.ml-1
-							="#{@memo.likes.size}"
-
-			stocks.col
-				- if @memo.stocked_by?(current_user)
-					= link_to memo_stocks_path(@memo),method: :delete, class: "stocks__btn btn btn-secondary btn-block"
-						i.fas.fa-check
-							| ストック中
-
-				- else
-					= link_to "ストックする", memo_stocks_path(@memo),method: :POST, class: "stocks__btn btn btn-outline-secondary btn-block"
-
+			.likes.col id="likes_#{@memo.id}"
+				== render 'likes/like_btn', memo: @memo
+			stocks.col id="stocks_#{@memo.id}"
+				== render 'stocks/stock_btn', memo: @memo
 			- if @memo.user_id == current_user.id
 				.col
 					=link_to "編集", edit_memo_path(@memo), class: "btn btn-info btn-block"
@@ -50,37 +30,22 @@
 		.row
 			.comments.col-sm-12
 				h4 Comments
-				.comments_list
-					- if @comments.present?
-						- @comments.each do |comment|
-						 section.comments_item id= "comment_#{comment.id}"
-						 	.comments_header
-								.comments_header-user
-									= link_to user_path(comment.user_id) do
-										= attachment_image_tag comment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50"
-								.comments_header-user
-									= link_to comment.user.name, user_path(comment.user_id)
-								.comments_header-date
-									= comment.created_at.strftime('%Y/%m/%d')
-							.comments_body
-								= comment.comment
-							.comments_destroy-btn
-								- if current_user == comment.user
-									= link_to "削除",comment_path(comment), method: :delete, remote: true,class: "btn-sm btn-danger destroy_comment"
-					- else
-						.comments_body
-							コメントはまだありません
+				.comments_list id="comments_#{@memo.id}"
+					== render 'comments/comments_list', comments: @comments
 
-
-				.comments_form.border.p-2
-					= form_with model:[@memo,@comment], local: true do |f|
+				.comments_form
+					= form_with model:[@memo,@comment] do |f|
 						== render "layouts/error_messages", model: @comment
 						= f.hidden_field :memo_id, value: @memo.id
 						.form-group
-							= f.text_area :comment,class: "form-control mb-1"
-						.clearfix
-							= attachment_image_tag current_user, :profile_image,:fill, 40, 40, format: 'jpg', fallback: "no_image.jpg", size: "40x40", class: "float-left"
-							p.float-left #{current_user.name}
-							= f.submit 'コメント送信',class: "btn btn-primary float-right"
-		= link_to "<< 戻る", :back, class: "links"
+							= f.text_area :comment,class: "form-control"
+							.invalid-feedback
+								p コメントを入力してください
+						.comments_form-footer
+							.comments_form-footer-user
+								= attachment_image_tag current_user, :profile_image,:fill, 40, 40, format: 'jpg', fallback: "no_image.jpg", size: "40x40", class: ""
+								p #{current_user.name}
+							.comments_form-actions
+								= f.submit 'コメント送信',class: "btn btn-primary"
+				= link_to "<< 戻る", :back, class: "links"
 

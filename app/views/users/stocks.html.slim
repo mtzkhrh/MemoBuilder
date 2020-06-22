@@ -1,14 +1,14 @@
 - content_for(:html_title) {'ストック一覧 | MemoBuilder'}
 .row
-	.sidebar.col-sm-3
+	.sidebar.col-md-3
 		= render 'users/profile', user: @user
 
-	.col-sm-9
+	.col-md-9
 		.memos
 			== render 'layouts/sort_search_bar', base:@stocks,ransack: @q
 			.list
 				.list_title
 					h4 ストック一覧
 				.memos_list
-					== render 'memos/memos_list', memos: @stocks
+					== render 'memos/user_memos_list', memos: @stocks
 		= link_to "<< マイページへ", user_path(@user), class: "links"

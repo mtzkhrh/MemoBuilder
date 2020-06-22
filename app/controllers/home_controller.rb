@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def top
   	@user = User.new
-  	@resent_memos = Memo.all.includes(:user).first(10)
+  	@memos = Memo.open.all.eager_load(:user).preload(:likes,:comments).first(20)
   end
 
   def about

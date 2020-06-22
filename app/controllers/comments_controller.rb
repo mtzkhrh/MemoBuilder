@@ -3,21 +3,17 @@ class CommentsController < ApplicationController
 
 	def create
 		@comment = current_user.comments.new(comment_params)
-		if @comment.save
-			flash[:success]="コメントを送信しました"
-			redirect_back(fallback_location: root_path)
-		else
-			@memo = Memo.find(params[:id])
-		  @comments = @memo.comments.all.includes(:user)
-			render 'memos/show'
-		end
+		@memo = Memo.find(params[:memo_id])
+		@comments = @memo.comments.all.eager_load(:user)
+		@comment.save
 	end
 
 	def destroy
 		comment = Comment.find(params[:id])
+		check_your_id(comment.user_id)
+		@memo = Memo.find(comment.memo_id)
+		@comments = @memo.comments.all.eager_load(:user)
 		comment.destroy
-		flash[:alert]="コメントを削除しました"
-		redirect_back(fallback_location: root_path)
 	end
 
 	private
