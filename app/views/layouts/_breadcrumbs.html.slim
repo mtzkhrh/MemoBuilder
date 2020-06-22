@@ -1,7 +1,7 @@
 nav [aria-label="パンくずリスト"]
 	-if model.class.name == "Memo"
 		- if model.room_id.present?
-			ol.breadcrumb.mb-1
+			ol.breadcrumb
 				li.breadcrumb-item
 					= link_to user_houses_path(model.user) do
 						i.fas.fa-user
@@ -19,7 +19,7 @@ nav [aria-label="パンくずリスト"]
 						i.far.fa-file
 						= " #{model.title}"
 		- else
-			ol.breadcrumb.mb-1
+			ol.breadcrumb
 				li.breadcrumb-item
 					= link_to user_houses_path(model.user) do
 						i.fas.fa-user
@@ -34,7 +34,7 @@ nav [aria-label="パンくずリスト"]
 						= " #{model.title}"
 
 	-elsif model.class.name == "Room"
-		ol.breadcrumb.mb-1
+		ol.breadcrumb
 			li.breadcrumb-item
 				= link_to user_houses_path(model.user) do
 					i.fas.fa-user
@@ -49,7 +49,7 @@ nav [aria-label="パンくずリスト"]
 					= " #{model.name}"
 
 	- elsif model.class.name == "House"
-		ol.breadcrumb.mb-1
+		ol.breadcrumb
 			li.breadcrumb-item
 				= link_to user_houses_path(model.user) do
 					i.fas.fa-user
@@ -60,7 +60,7 @@ nav [aria-label="パンくずリスト"]
 					= " #{model.name}"
 
 	- elsif model.class.name == "User"
-		ol.breadcrumb.mb-1
+		ol.breadcrumb
 			li.breadcrumb-item.active [aria-current="page"]
 				span
 					i.fas.fa-user

@@ -3,7 +3,9 @@
 	- houses.each do |house|
 		.list_item
 			.item_body
-				= link_to house.name, house_path(house),class: "item_body-title"
+				= link_to house_path(house),class: "item_body-title" do
+					i.fas.fa-home.mr-1
+					| #{house.name}
 				.meta
 					p 部屋数 (#{house.rooms.size})
 					p 総メモ数 (#{house.memos.size + house.house_memos.size})

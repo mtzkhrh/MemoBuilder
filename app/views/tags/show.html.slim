@@ -1,9 +1,9 @@
 - content_for(:html_title) {"タグ付け投稿一覧(#{@tag.name}) | MemoBuilder"}
 .row
-	.sidebar.col-sm-3
+	.sidebar.col-md-3
 		= render 'users/profile', user: @user
 
-	.col-sm-9
+	.col-md-9
 		.memos
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
 			.list

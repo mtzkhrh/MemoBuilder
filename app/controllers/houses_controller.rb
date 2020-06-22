@@ -15,6 +15,7 @@ class HousesController < ApplicationController
   		flash[:success]= "新しく家を建てました"
 			redirect_back(fallback_location: root_path)
 		else
+      flash[:alert]= "家を建てられませんでした"
       redirect_back(fallback_location: root_path)
 		end
   end
@@ -38,7 +39,8 @@ class HousesController < ApplicationController
   		flash[:success]= "家の名前を変更しました"
   		redirect_to user_houses_path(current_user)
   	else
-  		render :edit
+      flash[:alert]= "家の名前を変更できませんでした"
+      redirect_back(fallback_location: root_path)
   	end
   end
 

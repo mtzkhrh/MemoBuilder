@@ -1,10 +1,10 @@
 - content_for(:html_title) {"部屋(#{@room.name})の中 | MemoBuilder"}
 .row.
-	.col-sm-3
+	.col-md-3
 		.sidebar
 			= render 'users/profile', user: @user
 
-	.col-sm-9
+	.col-md-9
 		== render 'layouts/breadcrumbs', model: @room
 		.form-row.my-2
 			.col = link_to edit_room_path(@room), class: "btn btn-info btn-block" do

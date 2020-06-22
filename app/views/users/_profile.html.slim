@@ -9,7 +9,9 @@
 		p.text-secondary = user.introduction
 	- if user.id == current_user.id
 		.sidebar_info-edit-btn
-			= link_to "登録情報の編集", edit_user_path(current_user), class: "btn btn-secondary btn-block"
+			= link_to edit_user_path(current_user), class: "btn btn-secondary btn-block" do
+				i.fas.fa-user-edit
+				|  編集
 	- else
 		.sidebar_relationships
 			== render 'users/follow_btn', user: user

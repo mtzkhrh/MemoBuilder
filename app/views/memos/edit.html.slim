@@ -1,6 +1,6 @@
 - content_for(:html_title) {"メモ(#{@memo.title})の編集 | MemoBuilder"}
 .row
-	.col-sm-9.general.memos
+	.col-md-9.general.memos
 		== render 'layouts/breadcrumbs', model: @memo
 		h2.general__title
 			| メモの編集
@@ -17,10 +17,10 @@
 				.form-row
 						= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-sm-6"}
 						template id="rooms-of-houses"
-							= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
+							= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
 						- @houses.each do |house|
 							template id="rooms-of-house#{house.id}"
-								= f.collection_select :room_id, house.rooms, :id, :name,{prompt: "部屋を選んでください"}, {class: "form-control col-sm-6"}
+								= f.collection_select :room_id, house.rooms, :id, :name,{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6"}
 				.form-row.mt-3
 					.col-md-2.col-sm-3
 						= f.label :range, "公開範囲"
@@ -42,28 +42,35 @@
 					= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
 				.actions
 					= f.submit "投稿", class: "btn btn-primary btn-block"
-	.col-sm-3
+
+	.col-md-3
 		.sidebar
-			.sidebar__field.form-group.clearfix
+			.sidebar_field
 				= form_with model: [current_user, House.new], local: true do |f|
 					= f.label :name, "家を建てる"
-					= f.text_field :name, placeholder: "家の名前を記入してください", class: "form-control"
-					= f.submit "作成", class: "btn btn-secondary float-right"
+					.input-group
+						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
+						.input-group-append
+						=f.button "作成", type: "submit", class: "btn btn-secondary"
 
-		.sidebar__field.form-group.clearfix
-			= form_with model: [current_user, Room.new], local: true do |f|
-				= f.label :name, "部屋を作る"
-				= f.collection_select :house_id, @houses, :id, :name, {prompt: @house || "家を選んでください"},{class: "form-control"}
-				= f.text_field :name, placeholder: "部屋の名前を記入してください", class: "form-control"
-				= f.submit "作成", class: "btn btn-secondary float-right"
+
+			.sidebar_field.form-group
+				= form_with model: [current_user, Room.new], local: true do |f|
+					= f.label :name, "部屋を作る"
+					= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
+					.input-group
+						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+						.input-group-append
+						=f.button "作成", type: "submit", class: "btn btn-secondary"
 
 javascript:
 	$(document).on('turbolinks:load', function(){
 		let defaultRoomSelect = $(`#rooms-of-houses`).html();
 		let roomVal = $('#memo_room_id').val();
+		let memoRoom = #{@memo.room_id}
 		$('#memo_room_id').remove();
 		$('#memo_house_id').after(defaultRoomSelect);
-		if (roomVal !== "") {
+		if ( memoRoom && roomVal !== "") {
 			let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
 			$('#memo_house_id').val(houseId);
 		}
