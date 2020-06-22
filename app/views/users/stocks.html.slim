@@ -10,5 +10,5 @@
 				.list_title
 					h4 ストック一覧
 				.memos_list
-					== render 'memos/memos_list', memos: @stocks
+					== render 'memos/user_memos_list', memos: @stocks
 		= link_to "<< マイページへ", user_path(@user), class: "links"
