@@ -62,6 +62,10 @@
 					content: ",";
 					margin-right: 4px;
 				}
+				span:not(:last-child)::after{
+					content: ",";
+					margin-right: 4px;
+				}
 			}
 			.meta{
 				display: flex;
