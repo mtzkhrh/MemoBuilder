@@ -24,20 +24,20 @@
 						.col-sm-2
 							= f.label :range, "公開範囲"
 						.col-sm-3
-							= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control",autofocus: true}
+							= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
 					.form-group
 						= f.label :title, "タイトル"
-						= f.text_field :title, class: "form-control",autofocus: true
+						= f.text_field :title, class: "form-control"
 					.form-group
 						= f.label :body, "本文"
-						= f.cktext_area :body, class: "form-control",autofocus: true
+						= f.cktext_area :body, class: "form-control"
 					.form-group
 						= f.label :image, "画像"
 						br
 						= f.attachment_field :image
 					.form-group
 						= f.label :tag_list, "タグ付け"
-						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
+						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control"
 					.actions
 						= f.submit "投稿", class: "btn btn-primary btn-block"
 	.col-md-3
@@ -64,9 +64,10 @@ javascript:
 	$(document).on('turbolinks:load', function(){
 		let defaultRoomSelect = $(`#rooms-of-houses`).html();
 		let roomVal = $('#memo_room_id').val();
+		let memoRoom = #{@memo.room_id}
 		$('#memo_room_id').remove();
 		$('#memo_house_id').after(defaultRoomSelect);
-		if (roomVal !== "") {
+		if ( memoRoom && roomVal !== "") {
 			let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
 			$('#memo_house_id').val(houseId);
 		}
