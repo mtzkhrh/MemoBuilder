@@ -23,6 +23,9 @@
 		align-items: center;
 	}
 	&_about{
+		&-main{
+			background-position: 0 25%;
+		}
 		.img{
 			height:140px;
 			width:140px;
