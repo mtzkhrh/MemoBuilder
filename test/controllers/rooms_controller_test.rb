@@ -10,5 +10,4 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
     get rooms_edit_url
     assert_response :success
   end
-
 end

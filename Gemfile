@@ -53,7 +53,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop-airbnb'
-  gem 'rubocop',require: false
+  gem 'rubocop', require: false
   gem 'rubocop-rails'
   gem 'html2slim'
 end
@@ -70,7 +70,6 @@ group :production do
   gem 'mysql2'
 end
 
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
@@ -80,19 +79,19 @@ gem 'refile', require: 'refile/rails', github: 'manfe/refile'
 gem 'refile-mini_magick'
 gem 'pry-byebug'
 gem 'pry-rails'
-gem 'kaminari','~> 1.2.1'
+gem 'kaminari', '~> 1.2.1'
 gem 'font-awesome-sass'
 gem 'rails-i18n'
-#Bootstrap4
+# Bootstrap4
 gem 'bootstrap'
-#環境変数化
+# 環境変数化
 gem 'dotenv-rails'
-#タグ管理用gem
+# タグ管理用gem
 gem 'acts-as-taggable-on', '~> 6.0'
-#検索用gem
+# 検索用gem
 gem 'ransack'
-#リッチテキストのためのWYSIWYGエディタ
+# リッチテキストのためのWYSIWYGエディタ
 gem 'ckeditor'
 gem 'summernote-rails'
-#slimで記述する
+# slimで記述する
 gem 'slim-rails'
