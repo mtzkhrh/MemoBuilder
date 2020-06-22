@@ -27,7 +27,9 @@
 					- @rooms.each do |room|
 						.list_item
 							.item_body
-								= link_to room.name, room_path(room),class: "item_body-title"
+								= link_to room_path(room),class: "item_body-title" do
+									i.fas.fa-door-closed.mr-1
+									| #{room.name}
 								.info
 									p メモ数 (#{room.memos.size})
 									p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
