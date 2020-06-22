@@ -1,43 +1,27 @@
 - content_for(:html_title) {"#{@user.name}の登録情報 | MemoBuilder管理者"}
 .row
-	.users__info.col-sm-3
-		.sidebar__back
-			= link_to "<< ユーザ一覧に戻る", admins_users_path
-		.sideber__icon
-			= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
-		.sidebar__name
-			h5 = @user.name
-		.sidebar__introduction
-			p = @user.introduction
-		.sidebar__edit-btn
-			= link_to "登録情報の編集", edit_admins_user_path(@user), class: "btn btn-secondary btn-block"
+	.col-md-3
+		.sidebar
+			.sidebar_info
+				.sideber_info-icon
+					= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
+				.sidebar_info-name
+					h5 = @user.name
+				.sidebar_info-introduction
+					p.text-secondary = @user.introduction
+				.sidebar_info-edit-btn
+					= link_to edit_admins_user_path(@user), class: "btn btn-secondary btn-block" do
+						i.fas.fa-user-edit
+						|  編集
 
-	.memos.col-sm-9
-		h4 #{@user.name}の投稿一覧
-		.form-group
-			= search_form_for @q, url: admins_user_path do |f|
-				= f.label :title_cont, "投稿を探す"
-				= f.search_field :title_cont, class: "form-control w-50", placeholder: "入力してENTER"
-		ul.list-group.list-group-horizontal
-		  li.list-group-item
-		  	= sort_link(@q, :title, "タイトル順")
-			li.list-group-item
-				= sort_link(@q, :updated_at, "更新順")
-		  li.list-group-item
-		  	= sort_link(@q, :created_at, "登録順")
+	.col-sm-9
+		.memos
+			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.list
+				.list_title
+					h4 #{@user.name}の投稿一覧
+				.memos_list
+					== render 'admins/memos/memos_list', memos: @memos
+			= paginate @memos
+		= link_to "<< ユーザ一覧に戻る", admins_users_path,class: "links"
 
-		- if @memos.present?
-			- @memos.each do |memo|
-				.memos__memo-list.media
-					.media__body
-						h5
-							= link_to "#{memo.title}",admins_memo_path(memo)
-						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-		- else
-			- if params[:q].present?
-				.memos__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-			- else
-				.memos__nothing
-					h4 投稿はありません
