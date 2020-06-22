@@ -40,18 +40,11 @@ body{
 	  display: none !important;
 	}
 	#error_explanation {
-		border:1px solid crimson;
 		margin-bottom: 10px;
 		h4{
-			padding: 5px;
-			border-bottom: 1px solid crimson;
-			color: white;
 			font-weight: bold;
-			background-color: red;
 		}
 	  ul{
-	  	color: red;
-	  	padding-top:10px;
 	  	li{
 	  		margin-bottom:3px;
 	  		&:last-child{

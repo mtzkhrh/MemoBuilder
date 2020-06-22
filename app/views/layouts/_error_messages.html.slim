@@ -1,5 +1,5 @@
 - if model.errors.present?
-	#error_explanation
+	#error_explanation.alert.alert-danger
 		h4  = "#{model.errors.count} 件のエラーがあります"
 		ul
 			- model.errors.full_messages.each do | message |
