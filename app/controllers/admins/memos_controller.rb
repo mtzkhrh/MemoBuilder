@@ -3,8 +3,8 @@ class Admins::MemosController < ApplicationController
   before_action :set_memo, only: [:show,:edit,:update,:destroy]
 
   def index
-  	@q = Memo.includes(:user).ransack(params[:q])
-  	@memos = @q.result(distinct: true)
+  	@q = Memo.eager_load(:user).preload(:comments, :likes).ransack(params[:q])
+  	@memos = @q.result(distinct: true).page(params[:page])
   end
 
   def show

@@ -1,25 +1,10 @@
 - content_for(:html_title) {"全投稿一覧 | MemoBuilder管理者"}
 .row.justify-content-center
 	.memos.col-sm-9
-		.form-group
-			= search_form_for @q, url: admins_memos_path do |f|
-				= f.label :title_cont, "投稿を探す"
-				= f.search_field :title_cont, class: "form-control", placeholder: "入力してENTER"
-
-		h4 投稿一覧
-		- if @memos.present?
-			- @memos.each do |memo|
-				.memos__memo-list.media
-					.media__body
-						h5
-							= link_to "#{memo.title}",admins_memo_path(memo)
-						p = "by #{memo.user.name}"
-						p = "#{memo.updated_at.strftime('%Y/%m/%d')} 更新"
-		- else
-			- if params[:q].present?
-				.memos__nothing
-					h4 見つかりませんでした
-					= link_to "戻る", :back
-			- else
-				.memos__nothing
-					h4 投稿はありません
+		== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+		.list
+			.list_title
+				h4 公開された投稿一覧
+			.memos_list
+				== render 'admins/memos/user_memos_list', memos: @memos
+		= paginate @memos
