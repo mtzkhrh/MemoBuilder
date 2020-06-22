@@ -20,7 +20,9 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 					.dropdown-menu[aria-labelledby="dropdown"]
 						= link_to "ストック一覧", stocks_user_path(current_user), class: "dropdown-item"
 						= link_to "フレンド一覧", relationships_user_path(current_user), class: "dropdown-item"
-						= link_to "全ユーザ一覧", users_path, class: "dropdown-item"
+						= link_to "自分の投稿一覧", user_memos_path(current_user), class: "dropdown-item"
+						.dropdown-separator
+						= link_to "ユーザ一覧", users_path, class: "dropdown-item"
 						= link_to "公開投稿一覧", memos_all_path, class: "dropdown-item"
 				li.nav-item
 					= link_to "ログアウト", destroy_user_session_path,method: :delete, class: "nav-link"
@@ -48,7 +50,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 			ul.navbar-nav.ml-auto
 				li.nav-item.active
 				li.nav-item
-					= link_to "アバウト", about_path, class: "nav-link"
+					= link_to "About", about_path, class: "nav-link"
 				li.nav-item
 					= link_to "サインイン", new_user_registration_path, class: "nav-link"
 				li.nav-item

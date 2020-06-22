@@ -30,6 +30,12 @@ body{
 	.body{
 		margin: 50px auto;
 	}
+	.dropdown-separator{
+    width: 100%;
+	  height: 1px;
+    margin: 4px 0;
+    background-color: #ddd;
+	}
 	#cke_10{
 	  display: none !important;
 	}

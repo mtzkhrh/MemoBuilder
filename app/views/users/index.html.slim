@@ -1,9 +1,9 @@
 - content_for(:html_title) {'ユーザ一覧 | MemoBuilder'}
 .row
-	.sidebar.col-sm-3
+	.sidebar.col-md-3
 		= render 'users/profile', user: @user
 
-	.users.general.col-sm-9
+	.users.general.col-md-9
 		== render 'layouts/sort_search_bar', base:@users,ransack: @q
 		.list
 			.list_title
