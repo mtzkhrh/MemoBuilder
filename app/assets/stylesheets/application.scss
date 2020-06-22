@@ -20,7 +20,6 @@
 @import 'font-awesome';
 
 body{
-	min-height: 100vh;
 	a{
 		color:inherit;
 		&:hover{
@@ -28,7 +27,8 @@ body{
 		}
 	}
 	.body{
-		margin: 50px auto;
+		min-height: 90vh;
+		margin: 5vh auto;
 	}
 	.dropdown-separator{
     width: 100%;
