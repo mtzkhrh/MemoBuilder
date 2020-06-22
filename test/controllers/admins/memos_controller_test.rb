@@ -15,5 +15,4 @@ class Admins::MemosControllerTest < ActionDispatch::IntegrationTest
     get admins_memos_edit_url
     assert_response :success
   end
-
 end

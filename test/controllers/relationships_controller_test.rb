@@ -5,5 +5,4 @@ class RelationshipsControllerTest < ActionDispatch::IntegrationTest
     get relationships_index_url
     assert_response :success
   end
-
 end

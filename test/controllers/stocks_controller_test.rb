@@ -5,5 +5,4 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
     get stocks_index_url
     assert_response :success
   end
-
 end

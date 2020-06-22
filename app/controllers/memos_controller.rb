@@ -1,16 +1,16 @@
 class MemosController < ApplicationController
   include MemosHelper
   before_action :authenticate_user!
-  before_action :set_memo, only: [:show,:edit,:update,:destroy]
+  before_action :set_memo, only: [:show, :edit, :update, :destroy]
 
   def all
-		@q = Memo.open.eager_load(:user,:likes).ransack(params[:q])
-  	@memos = @q.result(distinct: true).page(params[:page])
+    @q = Memo.open.eager_load(:user, :likes).ransack(params[:q])
+    @memos = @q.result(distinct: true).page(params[:page])
   end
 
   def index
-		@user = User.find(params[:user_id])
-    pickup_memos_within_range(@user,@user)
+    @user = User.find(params[:user_id])
+    pickup_memos_within_range(@user, @user)
   end
 
   def new
@@ -22,24 +22,24 @@ class MemosController < ApplicationController
       @memo.room_id = params[:room_id]
       @memo.house_id = room.house_id
     end
-  	@user = current_user
+    @user = current_user
     @houses = @user.houses.all.preload(:rooms).resent
-  	@rooms = @user.rooms.all.resent
+    @rooms = @user.rooms.all.resent
   end
 
   def create
-  	@memo = current_user.memos.new(memo_params)
+    @memo = current_user.memos.new(memo_params)
     decide_parent(@memo)
-  	if @memo.save
+    if @memo.save
       touch_parent(@memo)
-  		flash[:success]="投稿が完了しました"
-  		back_in_place(@memo)
-  	else
+      flash[:success] = "投稿が完了しました"
+      back_in_place(@memo)
+    else
       @user = current_user
       @houses = @user.houses.all.preload(:rooms).resent
       @rooms = @user.rooms.all.resent
-  		render :new
-  	end
+      render :new
+    end
   end
 
   def show
@@ -52,53 +52,54 @@ class MemosController < ApplicationController
   def edit
     check_your_id(@memo.user_id)
     @user = @memo.user
-  	@houses = @user.houses.all.preload(:rooms).resent
-  	@rooms = @user.rooms.all.resent
+    @houses = @user.houses.all.preload(:rooms).resent
+    @rooms = @user.rooms.all.resent
   end
 
   def update
     check_your_id(@memo.user_id)
     @memo.tag_list.remove(@memo.tag_list)
-  	@memo.assign_attributes(memo_params)
-  	decide_parent(@memo)
-  	if @memo.save
+    @memo.assign_attributes(memo_params)
+    decide_parent(@memo)
+    if @memo.save
       touch_parent(@memo)
-  		flash[:success]="投稿を更新しました"
-  		back_in_place(@memo)
-  	else
+      flash[:success] = "投稿を更新しました"
+      back_in_place(@memo)
+    else
       @user = @memo.user
       @houses = @user.houses.all.resent
       @rooms = @user.rooms.all.resent
-  		render :edit
-  	end
+      render :edit
+    end
   end
 
   def destroy
     check_your_id(@memo.user_id)
-  	@memo.destroy
-  	flash[:alert]="投稿を削除しました"
-  	back_in_place(@memo)
+    @memo.destroy
+    flash[:alert] = "投稿を削除しました"
+    back_in_place(@memo)
   end
-
 
   private
+
   def memo_params
-  	params.require(:memo).permit(:title,:body,:tag_list,:range,:image,:house_id,:room_id)
+    params.require(:memo).permit(:title, :body, :tag_list, :range, :image, :house_id, :room_id)
   end
+
   def set_memo
     @memo = Memo.find(params[:id])
   end
 
   # 公開範囲に合わせてアクセスを拒否
   def range_barrier(memo)
-    if memo.range == "自分のみ" #自分以外back
+    if memo.range == "自分のみ" # 自分以外back
       unless memo.user_id == current_user.id
-        flash[:alert]="閲覧権限がありません"
+        flash[:alert] = "閲覧権限がありません"
         redirect_back(fallback_location: root_path)
       end
-    elsif memo.range == "友達のみ" #自分と友達以外back
+    elsif memo.range == "友達のみ" # 自分と友達以外back
       unless memo.user_id == current_user.id || current_user.friends.ids.include?(memo.user_id)
-        flash[:alert]="閲覧権限がありません"
+        flash[:alert] = "閲覧権限がありません"
         redirect_back(fallback_location: root_path)
       end
     end
@@ -108,26 +109,25 @@ class MemosController < ApplicationController
   def touch_parent(memo)
     if memo.room_id.present?
       room = Room.find_by(id: memo.room_id)
-      room.touch #部屋の更新日を変更する
-      House.find_by(id: room.house_id).touch #家の更新日を変更する
+      room.touch # 部屋の更新日を変更する
+      House.find_by(id: room.house_id).touch # 家の更新日を変更する
     elsif memo.house_id.present?
       House.find_by(id: memo.house_id).touch
     end
   end
 
-
   # メモの場所によって家と部屋どちらかに遷移するか
   def back_in_place(memo)
-  	if memo.room_id.present?
-			redirect_to room_path(memo.room)
-		else #memo.house == true
-			redirect_to house_path(memo.house)
-		end
-	end
-	def decide_parent(memo)
-  	if memo.house_id && memo.room_id
-  		memo.house_id = nil
-  	end
-	end
+    if memo.room_id.present?
+      redirect_to room_path(memo.room)
+    else # memo.house == true
+      redirect_to house_path(memo.house)
+    end
+  end
 
+  def decide_parent(memo)
+    if memo.house_id && memo.room_id
+      memo.house_id = nil
+    end
+  end
 end

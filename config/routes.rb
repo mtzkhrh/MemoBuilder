@@ -3,23 +3,23 @@ Rails.application.routes.draw do
   get '/about' => 'home#about'
 
   # 会員用URL
-  devise_for :users,controllers: {
+  devise_for :users, controllers: {
     registrations: 'users/registrations',
-    sessions:      'users/sessions',
-    passwords:     'users/passwords'
+    sessions: 'users/sessions',
+    passwords: 'users/passwords',
   }
 
   get '/tags/all', to: 'tags#all'
   get '/memos/all', to: 'memos#all'
 
-  resources :users, only:[:index, :show, :edit, :update, :destroy] do
+  resources :users, only: [:index, :show, :edit, :update, :destroy] do
     get :relationships, on: :member
     get :stocks, on: :member
     resources :memos, shallow: true
     resource :relationships, only: [:create, :destroy], shallow: true
-    resources :tags, only: [:index,:show]
+    resources :tags, only: [:index, :show]
     resources :houses, only: [:index, :show, :create, :edit, :update, :destroy], shallow: true
-    resources :rooms, only:[:show, :create, :edit, :update, :destroy], shallow: true
+    resources :rooms, only: [:show, :create, :edit, :update, :destroy], shallow: true
   end
 
   # URLでmemo_idを渡すためにmemosのルートなしでネスト
@@ -38,10 +38,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admins do
-    resources :users, only: [:index,:show,:edit,:update,:destroy]
-    resources :memos, only: [:index,:show,:edit,:update,:destroy]
+    resources :users, only: [:index, :show, :edit, :update, :destroy]
+    resources :memos, only: [:index, :show, :edit, :update, :destroy]
   end
 
   get '/admins', to: 'admins/home#top', as: :admin
-
 end
