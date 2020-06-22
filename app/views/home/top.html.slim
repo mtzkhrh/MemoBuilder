@@ -29,15 +29,8 @@
 					= f.submit "アカウントを作成",class: "btn btn-primary btn-block"
 .row.mt-5
 	.memos.col-md-12
-		h4 最近の投稿リスト
-		- if @resent_memos.present?
-			- @resent_memos.each do |memo|
-				.memos__list.media
-					= attachment_image_tag memo.user,:profile_image,:fill,40,40,fallback: "no_image.jpg",size: "40x40"
-					.media__body
-						h5 = memo.title
-						p = "by #{memo.user.name}"
-						p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
-		- else
-			.memos__nothing
-				h5 投稿されたメモがありません
+		.list
+			.list_title
+				h4 最近の投稿
+			.memos_list
+				== render 'memos/user_memos_list', memos: @memos
