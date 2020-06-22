@@ -1,0 +1,20 @@
+/ model: users
+- if users.present?
+	- users.each do |user|
+		.list_item
+			= link_to admins_user_path(user) do
+				= attachment_image_tag user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
+			.item_body
+				.item_body-header
+					= link_to user.name, admins_user_path(user),class: "item_body-name"
+					p.text-secondary 総メモ数(#{user.memos.size})
+				p.text-secondary = user.introduction
+
+
+- else
+	.nothing
+		- if params[:q].present?
+			h5 見つかりませんでした
+			= link_to "<< 戻る", :back,class: "links"
+		- else
+			h5 = ユーザーはいません
