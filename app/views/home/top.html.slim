@@ -1,10 +1,10 @@
 - content_for(:html_title) {"Top | MemoBuilder"}
 - unless user_signed_in?
 	.row.home
-		.home__main-visual.col-md-6.col-lg-8
+		.home_main-visual.col-md-6.col-lg-8
 			.px-md-3.px-lg-5
 				h4 Let's build memo's houses and rooms
-				p MemoBuilderは思い出すことに焦点を当てた記録ツールです。メモを思い出しやすいよう部屋を分けて保存しよう！友達機能を使ってシェアもできるよ！
+				p MemoBuilderは思い出すことに焦点を当てた記録ツールです。メモを思い出しやすいよう家と部屋を分けて保存しよう！友達機能を使ってシェアもできるよ！
 		.home__top-form.col-md-6.col-lg-4.d-none.d-md-block
 			= form_for(@user, url: user_registration_path(@user)) do |f|
 				= render "users/shared/error_messages", resource: @user
@@ -27,7 +27,7 @@
 					br
 					.devise__actions
 					= f.submit "アカウントを作成",class: "btn btn-primary btn-block"
-.row.mt-5
+.row
 	.memos.col-md-12
 		.list
 			.list_title

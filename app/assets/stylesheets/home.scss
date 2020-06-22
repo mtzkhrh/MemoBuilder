@@ -3,12 +3,26 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .home{
-	&__main-visual{
+	&_main-visual{
+		color:white;
+		text-shadow:
+       1px  1px 0px #000,
+      -1px  1px 0px #000,
+       1px -1px 0px #000,
+      -1px -1px 0px #000,
+       1px  0px 0px #000,
+       0px  1px 0px #000,
+      -1px  0px 0px #000,
+       0px -1px 0px #000;
+		background-image: image-url("memohouse.jpg");
+		background-size: cover;
+    min-height: 430px;
+    margin-bottom: 50px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-	&__about{
+	&_about{
 		.img{
 			height:140px;
 			width:140px;
