@@ -5,7 +5,7 @@ class HousesController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-  	@q = @user.houses.eager_load(:house_memos,:memos,:rooms).resent.ransack(params[:q])
+  	@q = @user.houses.preload(:house_memos,:memos,:rooms).resent.ransack(params[:q])
   	@houses = @q.result(distinct: true)
   end
 
@@ -21,7 +21,7 @@ class HousesController < ApplicationController
 
   def show
   	@user = @house.user
-  	@r = @house.rooms.eager_load(:memos).resent.ransack(params[:q])
+  	@r = @house.rooms.preload(:memos).resent.ransack(params[:q])
   	@rooms = @r.result(distinct: true)
     pickup_memos_within_range(@house,@user)
   end

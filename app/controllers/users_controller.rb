@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show,:edit,:update,:destroy]
 
   def index
-  	@q = User.ransack(params[:q])
+    @q = User.ransack(params[:q])
   	@users = @q.result(distinct: true)
     @user = current_user
   end
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def relationships
-    @user = User.eager_load(:followings).find(params[:id])
+    @user = User.find(params[:id])
     @q = @user.friends.ransack(params[:q])
     @friends = @q.result(distinct: true)
     @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
