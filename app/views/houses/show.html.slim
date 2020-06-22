@@ -41,11 +41,14 @@
 
 						- else
 							h5 部屋はありません
+			= paginate @rooms
+
 		.memos
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
 			.list
 				.list_title
 					h4 #{@house.name} 内の投稿一覧
 				== render 'memos/memos_list', memos: @memos
+			= paginate @memos
 
 		= link_to "<< 家の一覧へ", user_houses_path(@user), class: "links"

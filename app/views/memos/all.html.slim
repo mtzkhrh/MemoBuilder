@@ -7,3 +7,4 @@
 				h4 公開された投稿一覧
 			.memos_list
 				== render 'memos/user_memos_list', memos: @memos
+		= paginate @memos

@@ -5,7 +5,7 @@ class MemosController < ApplicationController
 
   def all
 		@q = Memo.open.eager_load(:user,:likes).ransack(params[:q])
-  	@memos = @q.result(distinct: true)
+  	@memos = @q.result(distinct: true).page(params[:page])
   end
 
   def index

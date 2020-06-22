@@ -11,6 +11,6 @@ class TagsController < ApplicationController
   	@user = User.find(params[:user_id])
   	@tag = Memo.tag_counts.find(params[:id])
   	@q = Memo.tagged_with(@tag.name).where(user_id: @user.id).preload(:tags).ransack(params[:q])
-    @memos = @q.result(distinct: true)
+    @memos = @q.result(distinct: true).page(params[:page])
   end
 end

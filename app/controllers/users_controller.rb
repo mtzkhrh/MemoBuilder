@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def index
     @q = User.ransack(params[:q])
-  	@users = @q.result(distinct: true)
+  	@users = @q.result(distinct: true).page(params[:page])
     @user = current_user
   end
 
@@ -39,17 +39,17 @@ class UsersController < ApplicationController
   def stocks
     @user = current_user
     @q = current_user.stock_memos.eager_load(:user).preload(:likes, :comments).resent.ransack(params[:q])
-    @stocks = @q.result(distinct: true)
+    @stocks = @q.result(distinct: true).page(params[:page])
   end
 
   def relationships
     @user = User.find(params[:id])
     @q = @user.friends.ransack(params[:q])
-    @friends = @q.result(distinct: true)
+    @friends = @q.result(distinct: true).page(params[:page])
     @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
-    @followings = @r.result(distinct: true)
+    @followings = @r.result(distinct: true).page(params[:page])
     @s = @user.followers.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
-    @followers = @s.result(distinct: true)
+    @followers = @s.result(distinct: true).page(params[:page])
   end
 
 
