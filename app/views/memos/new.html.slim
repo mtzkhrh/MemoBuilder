@@ -1,10 +1,29 @@
 - content_for(:html_title) {"新規投稿 | MemoBuilder"}
 .row
+	.col-md-3
+		.sidebar
+			.sidebar_field
+				= form_with model: [current_user, House.new], local: true do |f|
+					= f.label :name, "家を建てる"
+					.input-group
+						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
+						.input-group-append
+						=f.button "作成", type: "submit", class: "btn btn-secondary"
+
+
+			.sidebar_field.form-group
+				= form_with model: [current_user, Room.new], local: true do |f|
+					= f.label :name, "部屋を作る"
+					= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
+					.input-group
+						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+						.input-group-append
+						=f.button "作成", type: "submit", class: "btn btn-secondary"
 	.col-md-9
 		.general.memos
-			h2.general__title
+			h2.general_title
 				| メモの作成
-			.memos__field
+			.memos_field
 				= form_with model: [@user,@memo], local: true do |f|
 					== render 'layouts/error_messages', model: @memo
 					.d-none.d-sm-block
@@ -40,25 +59,7 @@
 						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control"
 					.actions
 						= f.submit "投稿", class: "btn btn-primary btn-block"
-	.col-md-3
-		.sidebar
-			.sidebar_field
-				= form_with model: [current_user, House.new], local: true do |f|
-					= f.label :name, "家を建てる"
-					.input-group
-						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
-						.input-group-append
-						=f.button "作成", type: "submit", class: "btn btn-secondary"
-
-
-			.sidebar_field.form-group
-				= form_with model: [current_user, Room.new], local: true do |f|
-					= f.label :name, "部屋を作る"
-					= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
-					.input-group
-						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
-						.input-group-append
-						=f.button "作成", type: "submit", class: "btn btn-secondary"
+		= link_to "<< マイページへ", user_path(@user), class: "links"
 
 javascript:
 	$(document).on('turbolinks:load', function(){
