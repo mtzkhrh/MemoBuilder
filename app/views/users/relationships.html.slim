@@ -22,11 +22,13 @@
 			#friends.tab-pane.active[role="tabpanel" aria-labelledby="friends-tab"]
 				.list
 					== render 'users/user_list', users: @friends, msg: "友達はいません"
-
+				= paginate @friends
 			#followings.tab-pane[role="tabpanel" aria-labelledby="followings-tab"]
 				.list
 					== render 'users/user_list', users: @followings, msg: "申請中の相手はいません"
+				= paginate @followings
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
 				.list
 					== render 'users/user_list', users: @followers, msg: "承認待ちの人はいません"
+				= paginate @followers

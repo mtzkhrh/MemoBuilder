@@ -11,4 +11,6 @@
 					h4 #{@user.name} の投稿一覧
 				.memos_list
 					== render 'memos/memos_list', memos: @memos
+			= paginate @memos
+
 		= link_to "<< マイページへ", user_path(@user), class: "links"

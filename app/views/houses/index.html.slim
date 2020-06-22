@@ -23,4 +23,5 @@
 					h4 持ち家一覧
 				.houses_list
 					== render 'houses/houses_list', houses: @houses
+			= paginate @houses
 		= link_to "<< マイページへ", user_path(@user), class: "links"

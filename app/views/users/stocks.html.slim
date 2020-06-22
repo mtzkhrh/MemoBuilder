@@ -11,4 +11,6 @@
 					h4 ストック一覧
 				.memos_list
 					== render 'memos/user_memos_list', memos: @stocks
+			= paginate @stocks
+
 		= link_to "<< マイページへ", user_path(@user), class: "links"

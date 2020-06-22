@@ -9,3 +9,4 @@
 			.list_title
 				h4 全ユーザ一覧
 			== render 'users/user_list', users: @users
+		= paginate @users
