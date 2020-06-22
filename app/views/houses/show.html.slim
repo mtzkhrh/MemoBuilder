@@ -4,9 +4,9 @@
 		.sidebar
 			= render 'users/profile', user: @user
 
-	.col-md-9.
+	.col-md-9
 		== render 'layouts/breadcrumbs', model: @house
-		.form-row.my-2
+		.form-row
 			.col = link_to edit_house_path(@house), class: "btn btn-info btn-block" do
 				i.fas.fa-hammer
 				|  家のリフォーム
