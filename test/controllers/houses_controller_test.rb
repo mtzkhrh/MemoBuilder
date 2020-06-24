@@ -15,5 +15,4 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     get houses_edit_url
     assert_response :success
   end
-
 end

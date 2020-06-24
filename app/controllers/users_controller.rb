@@ -1,18 +1,18 @@
 class UsersController < ApplicationController
   include MemosHelper
   before_action :authenticate_user!
-  before_action :set_user, only: [:show,:edit,:update,:destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
     @q = User.ransack(params[:q])
-  	@users = @q.result(distinct: true)
+    @users = @q.result(distinct: true).page(params[:page])
     @user = current_user
   end
 
   def show
     @tags = @user.memos.tag_counts.order(updated_at: :desc).first(10)
-  	@houses = @user.houses.eager_load(:house_memos,:memos,:rooms).first(8)
-  	pickup_memos_within_range(@user,@user)
+    @houses = @user.houses.eager_load(:house_memos, :memos, :rooms).first(8)
+    pickup_memos_within_range(@user, @user)
     @resent_memos = @memos.first(10)
   end
 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @user.assign_attributes(user_params)
     @user.profile_image_id = nil if params[:image_is_delete] == "true"
     if @user.save
-      flash[:success]= "登録情報を更新しました"
+      flash[:success] = "登録情報を更新しました"
       redirect_to user_path(@user)
     else
       render :edit
@@ -32,26 +32,25 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    flash[:alert]="登録情報を全て削除しました"
+    flash[:alert] = "登録情報を全て削除しました"
     redirect_to root_path
   end
 
   def stocks
     @user = current_user
     @q = current_user.stock_memos.eager_load(:user).preload(:likes, :comments).resent.ransack(params[:q])
-    @stocks = @q.result(distinct: true)
+    @stocks = @q.result(distinct: true).page(params[:page])
   end
 
   def relationships
     @user = User.find(params[:id])
     @q = @user.friends.ransack(params[:q])
-    @friends = @q.result(distinct: true)
+    @friends = @q.result(distinct: true).page(params[:page])
     @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
-    @followings = @r.result(distinct: true)
+    @followings = @r.result(distinct: true).page(params[:page])
     @s = @user.followers.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
-    @followers = @s.result(distinct: true)
+    @followers = @s.result(distinct: true).page(params[:page])
   end
-
 
   private
 
@@ -62,8 +61,4 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-
-
-
-
 end

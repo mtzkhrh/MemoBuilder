@@ -2,25 +2,25 @@
 .row.justify-content-center
 	.col-sm-10
 		nav [aria-label="パンくずリスト"]
-			== render 'layouts/breadcrumbs', model: @memo
+			== render 'admins/memos/breadcrumbs', model: @memo
 		.memos.border.p-2
-			.memos__title.border-bottom
+			.memos_title.border-bottom
 				h2
 					= @memo.title
 					span.tags.badge.badge-secondary.ml-3
 						= @memo.range
-			.memos__tags
+			.memos_tags
 				- @memo.tag_list.each do |tag|
 					span.tags.badge.badge-success.p-1.mx-1
 						| #{tag}
-			.memos__body
+			.memos_body
 				= @memo.body.html_safe
 
 			- if @memo.image_id.present?
-				.memos__image
+				.memos_image
 					= attachment_image_tag @memo, :image,class: "img-fluid"
 
-		.row.my-2
+		.row.my-4
 			.col
 				= link_to "編集", edit_admins_memo_path(@memo), class: "btn btn-info btn-block"
 			.col
@@ -44,3 +44,5 @@
 					- else
 						tr
 							td コメントはまだありません
+
+		= link_to "<< 戻る", admins_user_path(@memo.user_id), class: "links"

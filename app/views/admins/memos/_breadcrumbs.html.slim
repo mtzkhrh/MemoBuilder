@@ -1,0 +1,33 @@
+nav [aria-label="パンくずリスト"]
+	- if model.room_id.present?
+		ol.breadcrumb
+			li.breadcrumb-item
+			 = link_to admins_user_path(model.user_id)
+					i.fas.fa-user
+					= " #{model.user.name}"
+			li class="breadcrumb-item"
+				span
+					i.fas.fa-home
+					= " #{model.room.house.name}"
+			li class="breadcrumb-item"
+				span
+					i.fas.fa-door-open
+					= " #{model.room.name}"
+			li.breadcrumb-item.active [aria-current="page"]
+				span
+					i.far.fa-file
+					= " #{model.title}"
+	- else
+		ol.breadcrumb
+			li.breadcrumb-item
+				= link_to admins_user_path(model.user_id)
+					i.fas.fa-user
+					=" #{model.user.name}"
+			li class="breadcrumb-item"
+				span
+					i.fas.fa-home
+					= " #{model.house.name}"
+			li.breadcrumb-item.active [aria-current="page"]
+				span
+					i.far.fa-file
+					= " #{model.title}"

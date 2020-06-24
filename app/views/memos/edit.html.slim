@@ -1,48 +1,5 @@
 - content_for(:html_title) {"メモ(#{@memo.title})の編集 | MemoBuilder"}
 .row
-	.col-md-9.general.memos
-		== render 'layouts/breadcrumbs', model: @memo
-		h2.general__title
-			| メモの編集
-			= link_to "削除する", memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger float-right"
-		.memos__field
-			= form_with model: [@memo], local: true do |f|
-				== render 'layouts/error_messages', model: @memo
-				.d-none.d-sm-block
-					.form-row
-						.col-sm-6
-							= f.label :house_id, "家"
-						.col-sm-6
-							=f.label :room_id, "部屋"
-				.form-row
-						= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-sm-6"}
-						template id="rooms-of-houses"
-							= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
-						- @houses.each do |house|
-							template id="rooms-of-house#{house.id}"
-								= f.collection_select :room_id, house.rooms, :id, :name,{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6"}
-				.form-row.mt-3
-					.col-md-2.col-sm-3
-						= f.label :range, "公開範囲"
-					.col-md-3.col-sm-4
-						= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
-				.form-group
-					= f.label :title, "タイトル"
-					= f.text_field :title, class: "form-control",autofocus: true
-				.form-group
-					= f.label :body, "本文"
-					= f.cktext_area :body, class: "form-control",autofocus: true
-				.form-row
-					.col
-						= f.label :image, "画像"
-				.form-group
-					= f.attachment_field :image
-				.form-group
-					= f.label :tag_list, "タグ付け"
-					= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
-				.actions
-					= f.submit "投稿", class: "btn btn-primary btn-block"
-
 	.col-md-3
 		.sidebar
 			.sidebar_field
@@ -52,8 +9,6 @@
 						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
 						.input-group-append
 						=f.button "作成", type: "submit", class: "btn btn-secondary"
-
-
 			.sidebar_field.form-group
 				= form_with model: [current_user, Room.new], local: true do |f|
 					= f.label :name, "部屋を作る"
@@ -62,6 +17,51 @@
 						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
 						.input-group-append
 						=f.button "作成", type: "submit", class: "btn btn-secondary"
+
+	.col-md-9
+		.general.memos
+			== render 'layouts/breadcrumbs', model: @memo
+			h2.general__title
+				| メモの編集
+				= link_to "削除する", memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger float-right"
+			.memos_field
+				= form_with model: [@memo], local: true do |f|
+					== render 'layouts/error_messages', model: @memo
+					.d-none.d-sm-block
+						.form-row
+							.col-sm-6
+								= f.label :house_id, "家"
+							.col-sm-6
+								=f.label :room_id, "部屋"
+					.form-row
+							= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control col-sm-6"}
+							template id="rooms-of-houses"
+								= f.select :room_id,options_for_select(@rooms.map{|r|[r[:name], r[:id], data: { house_id: "#{r[:house_id]}"}]},@memo.room_id),{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6 default-rooms"}
+							- @houses.each do |house|
+								template id="rooms-of-house#{house.id}"
+									= f.collection_select :room_id, house.rooms, :id, :name,{include_blank: "部屋を選んでください"}, {class: "form-control col-sm-6"}
+					.form-row.mt-3
+						.col-md-2.col-sm-3
+							= f.label :range, "公開範囲"
+						.col-md-3.col-sm-4
+							= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
+					.form-group
+						= f.label :title, "タイトル"
+						= f.text_field :title, class: "form-control",autofocus: true
+					.form-group
+						= f.label :body, "本文"
+						= f.cktext_area :body, class: "form-control",autofocus: true
+					.form-row
+						.col
+							= f.label :image, "画像"
+					.form-group
+						= f.attachment_field :image
+					.form-group
+						= f.label :tag_list, "タグ付け"
+						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
+					.actions
+						= f.submit "投稿", class: "btn btn-primary btn-block"
+		= link_to "<< 戻る", memo_path(@memo), class: "links"
 
 javascript:
 	$(document).on('turbolinks:load', function(){

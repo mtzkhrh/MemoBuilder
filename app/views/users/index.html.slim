@@ -3,9 +3,12 @@
 	.sidebar.col-md-3
 		= render 'users/profile', user: @user
 
-	.users.general.col-md-9
-		== render 'layouts/sort_search_bar', base:@users,ransack: @q
-		.list
-			.list_title
-				h4 全ユーザ一覧
-			== render 'users/user_list', users: @users
+	.col-md-9
+		.users.general
+			== render 'layouts/sort_search_bar', base:@users,ransack: @q
+			.list
+				.list_title
+					h4 全ユーザ一覧
+				== render 'users/user_list', users: @users
+			= paginate @users
+		= link_to "<< マイページへ", user_path(current_user), class: "links"

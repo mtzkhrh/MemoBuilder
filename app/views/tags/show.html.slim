@@ -12,4 +12,5 @@
 						= link_to @tag.name, user_tag_path(@user,@tag)
 				.memos_list
 					== render 'memos/memos_list', memos: @memos
-		= link_to "<< 一覧にもどる", user_tags_path(@user), class: "links"
+			= paginate @memos
+		= link_to "<< 使用タグ一覧へ", user_tags_path(@user), class: "links"
