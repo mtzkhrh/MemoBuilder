@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resource :relationships, only: [:create, :destroy], shallow: true
     resources :tags, only: [:index, :show]
     resources :houses, only: [:index, :show, :create, :edit, :update, :destroy], shallow: true
-    resources :rooms, only: [:show, :create, :edit, :update, :destroy], shallow: true
+    resources :rooms, only: [:index, :show, :create, :edit, :update, :destroy], shallow: true
   end
 
   # URLでmemo_idを渡すためにmemosのルートなしでネスト

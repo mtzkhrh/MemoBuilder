@@ -23,24 +23,7 @@
 			.list_title
 				h4 #{@house.name}の部屋一覧
 			.list
-				- if @rooms.present?
-					- @rooms.each do |room|
-						.list_item
-							.item_body
-								= link_to room_path(room),class: "item_body-title" do
-									i.fas.fa-door-closed.mr-1
-									| #{room.name}
-								.info
-									p メモ数 (#{room.memos.size})
-									p = "#{room.updated_at.strftime('%Y/%m/%d')} 更新"
-				- else
-					.nothing
-						- if params[:q].present?
-							h5 見つかりませんでした
-							= link_to "<< 戻る", :back, class: "links"
-
-						- else
-							h5 部屋はありません
+				== render 'rooms/rooms_list', rooms: @rooms
 			= paginate @rooms
 
 		.memos
