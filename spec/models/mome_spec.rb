@@ -5,7 +5,7 @@ RSpec.describe 'Memoモデルのテスト', type: :model do
     let(:house) { create(:house, user_id: user.id)}
     let(:room) { create(:room, user_id: user.id, house_id: house.id)}
     let!(:memo) { build(:memo, user_id: user.id, house_id: house.id, room_id: room.id)}
-    it "user_idとhouse_iとnameが存在すれば有効" do
+    it "user_idとhouse_idとnameが存在すれば有効" do
 	    expect(memo.valid?).to eq true
 	  end
     context 'titleカラム' do
