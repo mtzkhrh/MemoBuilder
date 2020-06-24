@@ -29,7 +29,6 @@ class MemosController < ApplicationController
 
   def create
     @memo = current_user.memos.new(memo_params)
-    decide_parent(@memo)
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿が完了しました"
@@ -60,7 +59,6 @@ class MemosController < ApplicationController
     check_your_id(@memo.user_id)
     @memo.tag_list.remove(@memo.tag_list)
     @memo.assign_attributes(memo_params)
-    decide_parent(@memo)
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿を更新しました"
@@ -122,12 +120,6 @@ class MemosController < ApplicationController
       redirect_to room_path(memo.room)
     else # memo.house == true
       redirect_to house_path(memo.house)
-    end
-  end
-
-  def decide_parent(memo)
-    if memo.house_id && memo.room_id
-      memo.house_id = nil
     end
   end
 end
