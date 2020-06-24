@@ -3,6 +3,14 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
+
+  def index
+    @user = User.find(params[:user_id])
+    @houses = @user.houses.resent.all
+    @q = @user.rooms.preload(:memos).resent.ransack(params[:q])
+    @rooms = @q.result(distinct: true).page(params[:page])
+  end
+
   def create
     @room = current_user.rooms.new(room_params)
     if @room.save
