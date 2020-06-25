@@ -49,7 +49,7 @@
 						= f.label :tag_list, "タグ付け"
 						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
 					.actions
-						= f.submit "投稿", class: "btn btn-primary btn-block"
+						= f.submit "更新", class: "btn btn-primary btn-block"
 		= link_to "<< 戻る", memo_path(@memo), class: "links"
 
 javascript:
