@@ -38,7 +38,8 @@ class UsersController < ApplicationController
   end
 
   def stocks
-    @user = current_user
+    @user = User.find(params[:id])
+    check_your_id(@user.id)
     @q = current_user.stock_memos.eager_load(:user).preload(:likes, :comments).resent.ransack(params[:q])
     @stocks = @q.result(distinct: true).page(params[:page])
   end
