@@ -14,6 +14,8 @@ class MemosController < ApplicationController
   end
 
   def new
+    @user = User.find(params[:user_id])
+    check_your_id(@user.id)
     @memo = Memo.new
     if params[:house_id]
       @memo.house_id = params[:house_id]
@@ -22,7 +24,6 @@ class MemosController < ApplicationController
       @memo.room_id = params[:room_id]
       @memo.house_id = room.house_id
     end
-    @user = current_user
     @houses = @user.houses.all.preload(:rooms).resent
     @rooms = @user.rooms.all.resent
   end
