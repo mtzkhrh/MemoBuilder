@@ -6,27 +6,27 @@ RSpec.describe 'Userモデルのテスト', type: :model do
 	    expect(user.valid?).to eq true
 	  end
     context 'nameカラム' do
-		  it "nameがないと無効" do
+		  it "空欄でないこと" do
 		    user.name = ""
 		    expect(user.valid?).to eq false
 		  end
 		end
 	  context 'emailカラム' do
-	  	it "emailがないと無効" do
+	  	it "空欄でないこと" do
 		    user.email = ""
 		    expect(user.valid?).to eq false
 		  end
-		  it "＠がないと無効" do
+		  it "＠があること" do
 		  	user.email = Faker::Lorem.characters(number:30)
 		    expect(user.valid?).to eq false
 		  end
 		end
 		context 'passwordカラム' do
-		  it "パスワードがないと無効" do
+		  it "空欄でないこと" do
 		    user.password = ""
 		    expect(user.valid?).to eq false
 		  end
-		  it "パスワードが不一致で無効" do
+		  it "パスワードが不一致でないこと" do
 		    user.password_confirmation = ""
 		    expect(user.valid?).to eq false
 		  end
@@ -49,7 +49,33 @@ RSpec.describe 'Userモデルのテスト', type: :model do
         expect(User.reflect_on_association(:rooms).macro).to eq :has_many
       end
     end
-
+    context 'Memoモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:memos).macro).to eq :has_many
+      end
+    end
+    context 'Commentモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:comments).macro).to eq :has_many
+      end
+    end
+    context 'Likeモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:likes).macro).to eq :has_many
+      end
+    end
+    context 'Stockモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(User.reflect_on_association(:stocks).macro).to eq :has_many
+      end
+    end
+    context 'Relationshipモデルとの関係' do
+      it '受動的関係と1:Nとなっている' do
+        expect(User.reflect_on_association(:followed).macro).to eq :has_many
+      end
+      it '能動的関係と1:Nとなっている' do
+        expect(User.reflect_on_association(:follower).macro).to eq :has_many
+      end
+    end
   end
-
 end
