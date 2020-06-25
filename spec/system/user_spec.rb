@@ -280,6 +280,19 @@ describe 'ユーザのテスト' do
           expect(find('#followers')).not_to have_content test_user3.name
         end
       end
+      context '検索機能のテスト' do
+        it '検索に成功する' do
+          fill_in 'q[name_cont]',with: test_user2.name
+          click_button 'q[submit]'
+          expect(page).to have_content test_user2.name
+          expect(page).not_to have_content test_user3.name
+        end
+        it '該当なしの時「見つかりませんでした」を表示する' do
+          fill_in 'q[name_cont]',with: Faker::Lorem.characters(number:21)
+          click_button 'q[submit]'
+          expect(page).to have_content '見つかりませんでした'
+        end
+      end
     end
   end
 end
