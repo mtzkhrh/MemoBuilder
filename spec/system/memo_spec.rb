@@ -232,8 +232,12 @@ RSpec.describe 'Memo', type: :system do
 	  			fill_in 'memo[title]', with: test_memo.title
 	  			fill_in_ckeditor :memo_body, with: test_memo.body
 	  			fill_in 'memo[tag_list]', with: test_memo.tag_list.join(",")
-	  			click_button '投稿'
+	  			click_button '更新'
 	  			expect(page).to have_content '投稿を更新しました'
+	  			@memo = Memo.find(memo.id)
+	  			expect(@memo.room.name).to eq(test_room2.name)
+	  			expect(@memo.room.house.name).to eq(test_house2.name)
+	  			expect(@memo.range).to eq('公開')
 	  		end
 	  		it 'メモの編集に失敗する' do
 	  			select test_house2.name, from: 'memo[house_id]'
@@ -242,8 +246,12 @@ RSpec.describe 'Memo', type: :system do
 	  			fill_in 'memo[title]', with: ""
 	  			fill_in_ckeditor :memo_body, with: ""
 	  			fill_in 'memo[tag_list]', with: test_memo.tag_list.join(",")
-	  			click_button '投稿'
+	  			click_button '更新'
 	  			expect(page).to have_content 'エラー'
+	  			@memo = Memo.find(memo.id)
+	  			expect(@memo.room.name).not_to eq(test_room2.name)
+	  			expect(@memo.room.house.name).not_to eq(test_house2.name)
+	  			expect(@memo.range).not_to eq('公開')
 	  		end
 	  	end
 	  end
