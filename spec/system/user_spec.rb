@@ -126,6 +126,11 @@ describe 'ユーザのテスト' do
       it '自己紹介編集フォームに自分の自己紹介が表示される' do
         expect(page).to have_field 'user[introduction]', with: user.introduction
       end
+    end
+    context 'フォームの確認' do
+      before do
+        visit edit_user_path(user)
+      end
       it '編集に成功する' do
         click_button '更新する'
         expect(page).to have_content '登録情報を更新しました'
