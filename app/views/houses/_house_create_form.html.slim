@@ -1,0 +1,6 @@
+= form_with model: [current_user, House.new], local: true do |f|
+	= f.label :name, "家を建てる"
+	.input-group
+		= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
+		.input-group-append
+			=f.button "作成", type: "submit", class: "btn btn-secondary", name: "house[submit]"
