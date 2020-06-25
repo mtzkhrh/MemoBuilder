@@ -78,4 +78,28 @@ RSpec.describe 'Userモデルのテスト', type: :model do
       end
     end
   end
+  describe 'メソッドのテスト' do
+    let(:user){ create(:user) }
+    let(:test_user2){ create(:user) }
+    before do
+      user.follow(test_user2.id)
+      test_user2.follow(user.id)
+    end
+    it 'followメソッド' do
+      expect(user.followings).to include(test_user2)
+    end
+    it 'unfollowメソッド' do
+      user.unfollow(test_user2.id)
+      expect(user.followings).not_to include(test_user2)
+    end
+    it 'following?メソッド' do
+      expect(user.following?(test_user2)).to eq true
+    end
+    it 'friendsメソッド' do
+      expect(user.friends).to include(test_user2)
+    end
+    it 'friends?メソッド' do
+      expect(user.friends?(test_user2)).to eq true
+    end
+  end
 end
