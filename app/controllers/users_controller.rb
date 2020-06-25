@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    check_your_id(@user.id)
   end
 
   def update
@@ -44,6 +45,7 @@ class UsersController < ApplicationController
 
   def relationships
     @user = User.find(params[:id])
+    check_your_id(@user.id)
     @q = @user.friends.ransack(params[:q])
     @friends = @q.result(distinct: true).page(params[:page])
     @r = @user.followings.where.not(id: @user.friends.pluck(:id)).ransack(params[:q])
