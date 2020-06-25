@@ -24,7 +24,7 @@ RSpec.describe 'Memoモデルのテスト', type: :model do
         expect(memo.valid?).to eq false
       end
     end
-    context 'tagsのテスト' do
+    context 'tagsカラム' do
       it "5個以下であること" do
         memo.tag_list = %w(one two three four five six)
         expect(memo.valid?).to eq false
@@ -40,12 +40,12 @@ RSpec.describe 'Memoモデルのテスト', type: :model do
       end
     end
     context 'アソシエーションの可否' do
-      it "家か部屋に所属していないと無効" do
+      it "家か部屋のどちらかに所属していること" do
         memo.house_id = nil
         memo.room_id = nil
         expect(memo.valid?).to eq false
       end
-      it "家と部屋の両方に所属している場合は部屋に所属する" do
+      it "家と部屋の両方に所属している場合はsave時に家IDを削除すること" do
         memo.save
         expect(memo.house_id).to eq nil
       end
@@ -65,6 +65,21 @@ RSpec.describe 'Memoモデルのテスト', type: :model do
     context 'Userモデルとの関係' do
       it 'N:1となっている' do
         expect(Memo.reflect_on_association(:user).macro).to eq :belongs_to
+      end
+    end
+    context 'Commentモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(Memo.reflect_on_association(:comments).macro).to eq :has_many
+      end
+    end
+    context 'Likeモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(Memo.reflect_on_association(:likes).macro).to eq :has_many
+      end
+    end
+    context 'Stockモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(Memo.reflect_on_association(:stocks).macro).to eq :has_many
       end
     end
   end
