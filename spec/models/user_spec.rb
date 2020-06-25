@@ -10,6 +10,10 @@ RSpec.describe 'Userモデルのテスト', type: :model do
 		    user.name = ""
 		    expect(user.valid?).to eq false
 		  end
+      it "20文字以下であること" do
+        user.name = Faker::Lorem.characters(number:21)
+        expect(user.valid?).to eq false
+      end
 		end
 	  context 'emailカラム' do
 	  	it "空欄でないこと" do
