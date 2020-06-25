@@ -64,5 +64,6 @@ RSpec.configure do |config|
 
   # factory_botで記述を省略する
   config.include FactoryBot::Syntax::Methods
+  # supportで作成したModuleを使えるようにする
   include Ckeditor
 end

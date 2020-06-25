@@ -1,3 +1,4 @@
+# ckeditorのtextareaにデータを入れるメソッド
 module Ckeditor
   def fill_in_ckeditor(locator, opts)
     content = opts.fetch(:with).to_json
