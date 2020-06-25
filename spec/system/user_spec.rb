@@ -95,7 +95,7 @@ describe 'ユーザのテスト' do
       end
       it '編集リンクが表示される' do
         visit user_path(user)
-        expect(page).to have_link '', href: edit_user_path(user)
+        expect(page).to have_link '編集', href: edit_user_path(user)
       end
     end
   end
