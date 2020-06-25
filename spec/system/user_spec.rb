@@ -13,7 +13,7 @@ describe 'ユーザー認証のテスト' do
         fill_in 'user[password_confirmation]', with: 'password'
         click_button 'アカウントを作成'
 
-        expect(page).to have_content 'successfully'
+        expect(page).to have_content 'アカウント登録が完了しました。'
       end
       it '新規登録に失敗する' do
         fill_in 'user[name]', with: ''
@@ -22,9 +22,10 @@ describe 'ユーザー認証のテスト' do
         fill_in 'user[password_confirmation]', with: ''
         click_button 'アカウントを作成'
 
-        expect(page).to have_content 'error'
+        expect(page).to have_content 'エラー'
       end
     end
+    context 'トップページから新規登録をする'
   end
   describe 'ユーザーログイン' do
     let(:user) { create(:user) }
@@ -34,15 +35,15 @@ describe 'ユーザー認証のテスト' do
     context 'ログイン画面に遷移' do
       let(:test_user) { user }
       it 'ログインに成功する' do
-        fill_in 'user[name]', with: test_user.name
+        fill_in 'user[email]', with: test_user.email
         fill_in 'user[password]', with: test_user.password
         click_button 'ログイン'
 
-        expect(page).to have_content 'successfully'
+        expect(page).to have_content 'ログインしました。'
       end
 
       it 'ログインに失敗する' do
-        fill_in 'user[name]', with: ''
+        fill_in 'user[email]', with: ''
         fill_in 'user[password]', with: ''
         click_button 'ログイン'
 
