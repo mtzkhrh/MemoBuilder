@@ -110,7 +110,7 @@ describe 'ユーザのテスト' do
     context '他人の編集画面への遷移' do
       it '遷移できない' do
         visit edit_user_path(test_user2)
-        expect(current_path).not_to eq('/users/' + user.id.to_s + '/edit')
+        expect(current_path).not_to eq('/users/' + test_user2.id.to_s + '/edit')
       end
     end
     context '表示の確認' do
@@ -199,6 +199,86 @@ describe 'ユーザのテスト' do
         fill_in 'q[name_cont]',with: Faker::Lorem.characters(number:21)
         click_button 'q[submit]'
         expect(page).to have_content '見つかりませんでした'
+      end
+    end
+  end
+  describe '友達一覧画面のテスト' do
+    context '自分の友達一覧画面への遷移' do
+      it '遷移できる' do
+        visit relationships_user_path(user)
+        expect(current_path).to eq('/users/' + user.id.to_s + '/relationships')
+      end
+    end
+    context '他人の友達一覧画面への遷移' do
+      it '遷移できない' do
+        visit relationships_user_path(test_user2)
+        expect(current_path).not_to eq('/users/' + test_user2.id.to_s + '/relationships')
+      end
+    end
+    context '表示の確認' do
+      before do
+        visit relationships_user_path(user)
+      end
+      it '友達一覧が表示される' do
+        expect(page).to have_content '友達一覧'
+      end
+      it '承認待ち一覧が表示される' do
+        expect(page).to have_content '承認待ち一覧'
+      end
+      it '申請一覧が表示される' do
+        expect(page).to have_content '申請一覧'
+      end
+      it '検索フォームが表示される' do
+        expect(page).to have_field 'q[name_cont]'
+      end
+    end
+    context 'ユーザの表示の確認' do
+      let(:test_user3) { create(:user) }
+      let(:test_user4) { create(:user) }
+      before do
+        user.follow(test_user2.id)
+        user.follow(test_user3.id)
+        test_user2.follow(user.id)
+        test_user4.follow(user.id)
+        visit relationships_user_path(user)
+      end
+      context '友達一覧のユーザ表示' do
+        it '友達のユーザが表示される' do
+          expect(user.friends?(test_user2)).to eq true
+          expect(find('#friends')).to have_content test_user2.name
+        end
+        it '友達以外のユーザは表示されない' do
+          expect(user.friends?(test_user3)).to eq false
+          expect(user.friends?(test_user4)).to eq false
+          expect(find('#friends')).not_to have_content test_user3.name
+          expect(find('#friends')).not_to have_content test_user4.name
+        end
+      end
+      context '承認待ち一覧のユーザ表示' do
+        it '承認待ちのユーザが表示される' do
+          expect(user.following?(test_user3)).to eq true
+          expect(user.friends?(test_user3)).to eq false
+          expect(find('#followings')).to have_content test_user3.name
+        end
+        it '承認待ち以外のユーザは表示されない' do
+          expect(user.friends?(test_user2)).to eq true
+          expect(user.following?(test_user4)).to eq false
+          expect(find('#followings')).not_to have_content test_user2.name
+          expect(find('#followings')).not_to have_content test_user4.name
+        end
+      end
+      context '申請一覧のユーザ表示' do
+        it '申請を送ってきたユーザが表示される' do
+          expect(test_user4.following?(user)).to eq true
+          expect(user.friends?(test_user4)).to eq false
+          expect(find('#followers')).to have_content test_user4.name
+        end
+        it '申請を送ってきていないユーザは表示されない' do
+          expect(user.friends?(test_user2)).to eq true
+          expect(test_user3.following?(user)).to eq false
+          expect(find('#followers')).not_to have_content test_user2.name
+          expect(find('#followers')).not_to have_content test_user3.name
+        end
       end
     end
   end
