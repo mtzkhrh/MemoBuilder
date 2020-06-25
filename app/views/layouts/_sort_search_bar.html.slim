@@ -10,7 +10,7 @@
       .input-group
         = f.search_field :title_cont, class: "form-control", placeholder: "検索..."
         .input-group-append
-          =f.button type: "submit", class: "btn btn-secondary" do
+          =f.button type: "submit", class: "btn btn-secondary", name: "q[submit]" do
             i.fas.fa-search
 
 - elsif base.name == "Room" || base.name == "House"
@@ -24,7 +24,7 @@
       .input-group
         = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
         .input-group-append
-          =f.button type: "submit", class: "btn btn-secondary" do
+          =f.button type: "submit", class: "btn btn-secondary", name: "q[submit]" do
             i.fas.fa-search
 
 - elsif  base.name == "User"
@@ -38,7 +38,7 @@
       .input-group
         = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
         .input-group-append
-          =f.button type: "submit", class: "btn btn-secondary" do
+          =f.button type: "submit", class: "btn btn-secondary", name: "q[submit]" do
             i.fas.fa-search
 
 - else #"ActsAsTaggableOn::Tag"
@@ -50,5 +50,5 @@
       .input-group
         = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
         .input-group-append
-          =f.button type: "submit", class: "btn btn-secondary" do
+          =f.button type: "submit", class: "btn btn-secondary", name: "q[submit]" do
             i.fas.fa-search
