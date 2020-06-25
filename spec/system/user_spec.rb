@@ -101,9 +101,11 @@ RSpec.describe 'User', type: :system do
     end
 
     describe '編集のテスト' do
+      before do
+        visit edit_user_path(user)
+      end
       context '自分の編集画面への遷移' do
         it '遷移できる' do
-          visit edit_user_path(user)
           expect(current_path).to eq('/users/' + user.id.to_s + '/edit')
         end
       end
@@ -114,9 +116,6 @@ RSpec.describe 'User', type: :system do
         end
       end
       context '表示の確認' do
-        before do
-          visit edit_user_path(user)
-        end
         it '名前編集フォームに自分の名前が表示される' do
           expect(page).to have_field 'user[name]', with: user.name
         end
@@ -128,19 +127,23 @@ RSpec.describe 'User', type: :system do
         end
       end
       context 'フォームの確認' do
-        before do
-          visit edit_user_path(user)
-        end
+        let(:edit_user) { build(:user) }
         it '編集に成功する' do
+          fill_in 'user[name]', with: edit_user.name
+          fill_in 'user[introduction]', with: edit_user.introduction
           click_button '更新する'
           expect(page).to have_content '登録情報を更新しました'
+          expect(page).to have_content edit_user.name
+          expect(page).to have_content edit_user.introduction
           expect(current_path).to eq('/users/' + user.id.to_s)
         end
         it '編集に失敗する' do
           fill_in 'user[name]', with: ''
+          fill_in 'user[introduction]', with: edit_user.introduction
           click_button '更新する'
           expect(page).to have_content 'エラー'
           expect(current_path).to eq('/users/' + user.id.to_s)
+          expect(User.find(user.id).introduction).not_to eq(edit_user.introduction)
         end
       end
     end
