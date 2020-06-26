@@ -415,5 +415,52 @@ RSpec.describe 'Memo', type: :system do
 	  		end
 	  	end
 	  end
+	  describe 'メモ一覧画面のテスト' do
+	  	let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
+	  	let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id, range: '公開')}
+	  	before do
+	  		visit user_memos_path(user)
+	  	end
+	  	context '表示のテスト' do
+	  		it '「投稿一覧」が表示される' do
+	  			expect(page).to have_content '投稿一覧'
+	  		end
+	  		it 'メモのタイトルが表示される' do
+	  			expect(page).to have_content memo1.title
+	  			expect(page).to have_content memo2.title
+	  		end
+	  		it 'メモのタグがリンクで表示される' do
+	  			expect(page).to have_link memo1.tag_list[0]
+	  			expect(page).to have_link memo1.tag_list[1]
+	  			expect(page).to have_link memo1.tag_list[2]
+	  			expect(page).to have_link memo2.tag_list[0]
+	  			expect(page).to have_link memo2.tag_list[1]
+	  			expect(page).to have_link memo2.tag_list[2]
+	  		end
+	  		it 'メモの公開範囲が表示される' do
+	  			expect(page).to have_content memo1.range
+	  			expect(page).to have_content memo2.range
+	  		end
+        it '検索フォームが表示される' do
+          expect(page).to have_field 'q[title_cont]'
+        end
+        it 'マイページへのリンクが表示される' do
+        	expect(page).to have_link '<< マイページへ', href: user_path(user)
+        end
+	  	end
+	  	context '検索フォームの確認' do
+	  		it '検索に成功する' do
+	  			fill_in '検索...', with: memo1.title
+	  			click_on 'q[submit]'
+	  			expect(page).to have_content memo1.title
+	  			expect(page).not_to have_content memo2.title
+	  		end
+	  		it '該当なしの時「見つかりませんでした」を表示する' do
+	  			fill_in '検索...', with: Faker::Lorem.characters(number:51)
+	  			click_on 'q[submit]'
+	  			expect(page).to have_content '見つかりませんでした'
+	  		end
+	  	end
+	  end
 	end
 end
