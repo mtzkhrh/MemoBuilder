@@ -303,5 +303,56 @@ RSpec.describe 'User', type: :system do
         end
       end
     end
+    describe 'ストック一覧画面のテスト' do
+      let!(:house) { create(:house, user_id: user.id) }
+      let!(:room) { create(:room, user_id: user.id, house_id: house.id) }
+      let!(:memo) { create(:memo,room_id: room.id, user_id: user.id) }
+      before do
+        create(:stock, user_id: user.id, memo_id: memo.id)
+        visit stocks_user_path(user)
+      end
+      context '表示の確認' do
+        it '「ストック一覧」が表示される' do
+          expect(page).to have_content 'ストック一覧'
+        end
+        it 'ストックされたメモのタイトルリンクが表示される' do
+          expect(page).to have_link memo.title,href: memo_path(memo)
+        end
+        it '投稿したユーザリンクが表示される' do
+          expect(find('.list_item')).to have_link user.name,href: user_path(user)
+        end
+        it '投稿のLikeの数が表示される' do
+          expect(find('.list_item')).to have_content memo.likes.size
+        end
+        it '投稿のコメント数が表示される' do
+          expect(find('.list_item')).to have_content memo.comments.size
+        end
+        it '検索フォームが表示される' do
+          expect(page).to have_field '検索...'
+        end
+        it 'マイページへのリンクが表示される' do
+          expect(page).to have_link '<< マイページへ', href: user_path(user)
+        end
+        context '検索フォームの確認' do
+          let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
+          let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id)}
+          before do
+            create(:stock, user_id: user.id, memo_id: memo1.id)
+            create(:stock, user_id: user.id, memo_id: memo2.id)
+          end
+          it '検索に成功する' do
+            fill_in '検索...', with: memo1.title
+            click_on 'q[submit]'
+            expect(page).to have_content memo1.title
+            expect(page).not_to have_content memo2.title
+          end
+          it '該当なしの時「見つかりませんでした」を表示する' do
+            fill_in '検索...', with: Faker::Lorem.characters(number:51)
+            click_on 'q[submit]'
+            expect(page).to have_content '見つかりませんでした'
+          end
+        end
+      end
+    end
   end
 end
