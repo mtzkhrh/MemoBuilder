@@ -3,7 +3,6 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
-
   def index
     @user = User.find(params[:user_id])
     @houses = @user.houses.resent.all

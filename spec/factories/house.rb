@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :house do
-    name { Faker::Lorem.characters(number:20) }
-	end
+    name { Faker::Lorem.characters(number: 20) }
+  end
 end
