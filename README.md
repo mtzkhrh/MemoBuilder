@@ -51,8 +51,7 @@ SNS的な利用をする場合、知識を保存し、他者に活かしても�
 - 家の中・部屋の中と分割して表示できる
 - 家から順にページ遷移することでデータが見つけやすい
 - 自分のみ・友達のみ・公開の３種類の公開範囲を選択できる
--ER図 データに画像の添付ができる(Refile)[]
-[ワイヤーフレーム]
+- データに画像の添付ができる(Refile)
 - コメント・いいね機能
 
 ### 各データの検索機能
@@ -76,9 +75,9 @@ SNS的な利用をする場合、知識を保存し、他者に活かしても�
 
 ## 設計
 ### 設計書
-[ER図](https://drive.google.com/file/d/1a5Ef1un2_GitRdnwZ-Pgdp-s8KoaXnn4/view?usp=sharing)
-[ワイヤーフレーム](https://drive.google.com/file/d/1HtUShxXPoxzwMkq5JNd-tEW583mloDYA/view?usp=sharing)
-[詳細設計](https://docs.google.com/spreadsheets/d/1w8F0worbB8bxHyn1_kTAO2r8XC6c1BO5-1p8JhLS-as/edit?usp=sharing)
+- [ER図](https://drive.google.com/file/d/1a5Ef1un2_GitRdnwZ-Pgdp-s8KoaXnn4/view?usp=sharing)
+- [ワイヤーフレーム](https://drive.google.com/file/d/1HtUShxXPoxzwMkq5JNd-tEW583mloDYA/view?usp=sharing)
+- [詳細設計](https://docs.google.com/spreadsheets/d/1w8F0worbB8bxHyn1_kTAO2r8XC6c1BO5-1p8JhLS-as/edit?usp=sharing)
 
 ### 機能一覧
 [機能一覧](https://docs.google.com/spreadsheets/d/1AE_4bTmePz_kfmAAMN1GkQFBQoLb83-OLgLhKVb1P-0/edit?usp=sharing)
