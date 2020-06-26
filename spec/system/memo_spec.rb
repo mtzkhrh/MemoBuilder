@@ -75,31 +75,31 @@ RSpec.describe 'Memo', type: :system do
 	  		it '「メモの作成」が表示される' do
 	  			expect(page).to have_content 'メモの作成'
 	  		end
-	  		it '家のセレクトボックスがある' do
+	  		it '家のセレクトボックスが表示される' do
 	  			expect(page).to have_select 'memo[house_id]'
 	  		end
-	  		it '部屋のセレクトボックスがある',js: true do
+	  		it '部屋のセレクトボックスが表示される',js: true do
 	  			expect(page).to have_select 'memo[room_id]'
 	  		end
-	  		it '公開範囲のセレクトボックスがある' do
+	  		it '公開範囲のセレクトボックスが表示される' do
 	  			expect(page).to have_select 'memo[range]'
 	  		end
-	  		it 'タイトルフォームがある' do
+	  		it 'タイトルフォームが表示される' do
 	  			expect(page).to have_field 'memo[title]'
 	  		end
-	  		it '本文フォームがある' do
+	  		it '本文フォームが表示される' do
 	  			expect(page).to have_field 'memo[body]'
 	  		end
-	  		it '画像登録フォームがある' do
+	  		it '画像登録フォームが表示される' do
 	  			expect(page).to have_field 'memo[image]'
 	  		end
-	  		it 'タグ付けフォームがある' do
+	  		it 'タグ付けフォームが表示される' do
 	  			expect(page).to have_field 'memo[tag_list]'
 	  		end
-	  		it '投稿ボタンがある' do
+	  		it '投稿ボタンが表示される' do
 	  			expect(page).to have_button '投稿'
 	  		end
-	  		it 'マイページへのリンクがある' do
+	  		it 'マイページへのリンクが表示される' do
 	  			expect(page).to have_link '<< マイページへ', href: user_path(user)
 	  		end
 	  	end
@@ -339,31 +339,31 @@ RSpec.describe 'Memo', type: :system do
 	  		it '「メモの編集」が表示される' do
 	  			expect(page).to have_content 'メモの編集'
 	  		end
-	  		it '家のセレクトボックスが選択されている',js: true do
+	  		it '家のセレクトボックスが選択される',js: true do
 	  			expect(page).to have_select('memo[house_id]', selected: house.name)
 	  		end
-	  		it '部屋のセレクトボックスが選択されている',js: true do
+	  		it '部屋のセレクトボックスが選択される',js: true do
 	  			expect(page).to have_select('memo[room_id]', selected: room.name)
 	  		end
-	  		it '公開範囲のセレクトボックスが選択されている' do
+	  		it '公開範囲のセレクトボックスが選択される' do
 	  			expect(page).to have_select('memo[range]', selected: memo.range)
 	  		end
-	  		it 'タイトルフォームにタイトルが表示されている' do
+	  		it 'タイトルフォームにタイトルが表示される' do
 	  			expect(page).to have_field 'memo[title]', with: memo.title
 	  		end
-	  		it '本文フォームに本文が表示されている' do
+	  		it '本文フォームに本文が表示される' do
 	  			expect(page).to have_field 'memo[body]', with: memo.body
 	  		end
-	  		it '画像登録フォームがある' do
+	  		it '画像登録フォームが表示される' do
 	  			expect(page).to have_field 'memo[image]'
 	  		end
-	  		it 'タグ付けフォームにタグが表示されている' do
+	  		it 'タグ付けフォームにタグが表示される' do
 	  			expect(page).to have_field 'memo[tag_list]',with: memo.tag_list.join(",")
 	  		end
-	  		it '更新ボタンがある' do
+	  		it '更新ボタンが表示される' do
 	  			expect(page).to have_button '更新'
 	  		end
-	  		it '戻るリンクがある' do
+	  		it '戻るリンクが表示される' do
 	  			expect(page).to have_link '<< 戻る', href: memo_path(memo)
 	  		end
 	  	end
