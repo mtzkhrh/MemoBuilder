@@ -4,7 +4,7 @@ class MemosController < ApplicationController
   before_action :set_memo, only: [:show, :edit, :update, :destroy]
 
   def all
-    @q = Memo.open.eager_load(:user, :likes).ransack(params[:q])
+    @q = Memo.open.resent.eager_load(:user, :likes).ransack(params[:q])
     @memos = @q.result(distinct: true).page(params[:page])
   end
 
