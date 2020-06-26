@@ -4,7 +4,7 @@ class MemosController < ApplicationController
   before_action :set_memo, only: [:show, :edit, :update, :destroy]
 
   def all
-    @q = Memo.open.eager_load(:user, :likes).ransack(params[:q])
+    @q = Memo.open.resent.eager_load(:user, :likes).ransack(params[:q])
     @memos = @q.result(distinct: true).page(params[:page])
   end
 
@@ -14,6 +14,8 @@ class MemosController < ApplicationController
   end
 
   def new
+    @user = User.find(params[:user_id])
+    check_your_id(@user.id)
     @memo = Memo.new
     if params[:house_id]
       @memo.house_id = params[:house_id]
@@ -22,14 +24,12 @@ class MemosController < ApplicationController
       @memo.room_id = params[:room_id]
       @memo.house_id = room.house_id
     end
-    @user = current_user
     @houses = @user.houses.all.preload(:rooms).resent
     @rooms = @user.rooms.all.resent
   end
 
   def create
     @memo = current_user.memos.new(memo_params)
-    decide_parent(@memo)
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿が完了しました"
@@ -60,7 +60,6 @@ class MemosController < ApplicationController
     check_your_id(@memo.user_id)
     @memo.tag_list.remove(@memo.tag_list)
     @memo.assign_attributes(memo_params)
-    decide_parent(@memo)
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿を更新しました"
@@ -122,12 +121,6 @@ class MemosController < ApplicationController
       redirect_to room_path(memo.room)
     else # memo.house == true
       redirect_to house_path(memo.house)
-    end
-  end
-
-  def decide_parent(memo)
-    if memo.house_id && memo.room_id
-      memo.house_id = nil
     end
   end
 end

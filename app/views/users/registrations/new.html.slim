@@ -8,7 +8,7 @@
       .devise.form-group
         .devise__field
           = f.label :name,"名前"
-          = f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control"
+          = f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control",placeholder: "20文字以下で入力してください"
           br
         .devise__field
           = f.label :email,"メールアドレス"

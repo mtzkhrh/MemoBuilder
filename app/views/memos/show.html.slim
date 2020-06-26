@@ -46,6 +46,6 @@
 								= attachment_image_tag current_user, :profile_image,:fill, 40, 40, format: 'jpg', fallback: "no_image.jpg", size: "40x40", class: ""
 								p #{current_user.name}
 							.comments_form-actions
-								= f.submit 'コメント送信',class: "btn btn-primary"
+								= f.submit 'コメント送信',class: "btn btn-primary", name: "comment[submit]"
 				= link_to "<< 戻る", :back, class: "links"
 

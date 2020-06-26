@@ -1,4 +1,6 @@
 class Memo < ApplicationRecord
+  # 家と部屋の両方に付随できない
+  before_save :decide_parent
   # Memoにgemのタグが付随する
   acts_as_taggable_on :tags
   # refileの設定
@@ -25,9 +27,17 @@ class Memo < ApplicationRecord
   validate :check_tag_name_full_length
   validate :check_tag_name_length
 
+  def decide_parent
+    if house_id && room_id
+      self.house_id = nil
+    end
+  end
+
   def associate_valid?
-    error_msg = "メモは必ず家か部屋に入れてください"
-    errors.add(:base, error_msg) unless house_id || room_id
+    unless house_id || room_id
+      error_msg = "メモは必ず家か部屋に入れてください"
+      errors.add(:base, error_msg)
+    end
   end
 
   def check_tag_list_size

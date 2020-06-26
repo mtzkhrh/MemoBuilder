@@ -30,6 +30,6 @@
 
 			#followers.tab-pane[role="tabpanel" aria-labelledby="followers-tab"]
 				.list
-					== render 'users/user_list', users: @followers, msg: "承認待ちの人はいません"
+					== render 'users/user_list', users: @followers, msg: "届いた申請はありません"
 				= paginate @followers
 		= link_to "<< マイページへ", user_path(@user), class: "links"
