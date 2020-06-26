@@ -6,15 +6,16 @@
 
 	.col-md-9
 		== render 'layouts/breadcrumbs', model: @user
-		.form-row
-			.col
-				span 『家』->『部屋』->『投稿』の順で保存しよう
-			.col
-				= form_with model: [current_user, House.new], local: true do |f|
-					.input-group
-						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
-						.input-group-append
-						=f.button "作成", type: "submit", class: "btn btn-primary"
+		- if @user.id == current_user.id
+			.form-row
+				.col
+					span 『家』->『部屋』->『投稿』の順で保存しよう
+				.col
+					= form_with model: [current_user, House.new], local: true do |f|
+						.input-group
+							= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
+							.input-group-append
+							=f.button "作成", type: "submit", class: "btn btn-primary"
 
 		.houses
 			== render 'layouts/sort_search_bar', base:@houses,ransack: @q

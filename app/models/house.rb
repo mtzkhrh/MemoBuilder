@@ -8,7 +8,7 @@ class House < ApplicationRecord
   belongs_to :user
 
   validates :user_id, presence: true
-  validates :name,    presence: true
+  validates :name,    presence: true, length: { maximum: 40 }
 
   # 更新順
   scope :resent, -> { order(updated_at: :desc) }

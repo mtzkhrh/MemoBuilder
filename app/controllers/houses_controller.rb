@@ -10,7 +10,9 @@ class HousesController < ApplicationController
   end
 
   def create
-    @house = current_user.houses.new(house_params)
+    @user = User.find(params[:user_id])
+    check_your_id(@user.id)
+    @house = @user.houses.new(house_params)
     if @house.save
       flash[:success] = "新しく家を建てました"
       redirect_back(fallback_location: root_path)

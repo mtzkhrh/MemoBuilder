@@ -3,7 +3,6 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
-
   def index
     @user = User.find(params[:user_id])
     @houses = @user.houses.resent.all
@@ -12,7 +11,9 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = current_user.rooms.new(room_params)
+    @user = User.find(params[:user_id])
+    check_your_id(@user.id)
+    @room = @user.rooms.new(room_params)
     if @room.save
       @room.house.touch
       flash[:success] = "部屋を作成しました"

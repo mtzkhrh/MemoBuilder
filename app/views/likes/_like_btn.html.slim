@@ -3,12 +3,12 @@
 	= link_to memo_likes_path(memo),method: :delete, remote: true, class: "btn btn-success btn-block" do
 		i.fas.fa-thumbs-up
 		|  Like
-		span.badge.badge-light.ml-1
+		span#like_count.badge.badge-light.ml-1
 			= "#{memo.likes.size}"
 
 - else
 	= link_to memo_likes_path(memo),method: :POST, remote: true, class: "btn btn-outline-success btn-block" do
 		i.far.fa-thumbs-up
 		|  Like
-		span.badge.badge-light.ml-1
+		span#like_count.badge.badge-light.ml-1
 			= "#{memo.likes.size}"

@@ -1,0 +1,9 @@
+/ model: houses
+= form_with model: [current_user, Room.new], local: true do |f|
+	.form-group
+		= f.label :name, "部屋を作る"
+		= f.collection_select :house_id, houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
+		.input-group
+			= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+			.input-group-append
+				=f.button "作成", type: "submit", class: "btn btn-secondary", name: "room[submit]"

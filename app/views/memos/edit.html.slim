@@ -3,20 +3,9 @@
 	.col-md-3
 		.sidebar
 			.sidebar_field
-				= form_with model: [current_user, House.new], local: true do |f|
-					= f.label :name, "家を建てる"
-					.input-group
-						= f.text_field :name, placeholder: "新しい家の名前", class: "form-control"
-						.input-group-append
-						=f.button "作成", type: "submit", class: "btn btn-secondary"
-			.sidebar_field.form-group
-				= form_with model: [current_user, Room.new], local: true do |f|
-					= f.label :name, "部屋を作る"
-					= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
-					.input-group
-						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
-						.input-group-append
-						=f.button "作成", type: "submit", class: "btn btn-secondary"
+				== render 'houses/house_create_form'
+			.sidebar_field
+				== render 'rooms/room_create_form', houses: @houses
 
 	.col-md-9
 		.general.memos
@@ -60,7 +49,7 @@
 						= f.label :tag_list, "タグ付け"
 						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
 					.actions
-						= f.submit "投稿", class: "btn btn-primary btn-block"
+						= f.submit "更新", class: "btn btn-primary btn-block"
 		= link_to "<< 戻る", memo_path(@memo), class: "links"
 
 javascript:

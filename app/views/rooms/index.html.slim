@@ -6,18 +6,19 @@
 
 	.col-md-9
 		== render 'layouts/breadcrumbs', model: @user
-		= form_with model: [current_user, Room.new], local: true do |f|
-			.form-row
-				.col.clearfix
-					= f.label "部屋を作る", class: "float-right mt-2 mb-0"
-					i.fas.fa-hammer.float-right.mt-2.mr-1
-				.col
-					= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
-				.col
-						.input-group
-							= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
-							.input-group-append
-								=f.button "作成", type: "submit", class: "btn btn-primary"
+		- if @user.id == current_user.id
+			= form_with model: [current_user, Room.new], local: true do |f|
+				.form-row
+					.col.clearfix
+						= f.label "部屋を作る", class: "float-right mt-2 mb-0"
+						i.fas.fa-hammer.float-right.mt-2.mr-1
+					.col
+						= f.collection_select :house_id, @houses, :id, :name, {prompt: "家を選んでください"},{class: "form-control"}
+					.col
+							.input-group
+								= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+								.input-group-append
+									=f.button "作成", type: "submit", class: "btn btn-primary"
 
 		.houses
 			== render 'layouts/sort_search_bar', base:@rooms,ransack: @q

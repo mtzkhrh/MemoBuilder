@@ -1,7 +1,7 @@
 / model: memos
 - if memos.present?
 	- memos.each do |memo|
-		.list_item
+		.list_item id= "memo_#{memo.id}"
 			= link_to admins_user_path(memo.user_id) do
 				= attachment_image_tag memo.user, :profile_image,:fill, 50, 50, format: 'jpg', fallback: "no_image.jpg", size: "50x50"
 			.item_body
