@@ -60,6 +60,7 @@ class MemosController < ApplicationController
     check_your_id(@memo.user_id)
     @memo.tag_list.remove(@memo.tag_list)
     @memo.assign_attributes(memo_params)
+    @memo.image_id = nil if params[:image_is_delete] == "true"
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿を更新しました"

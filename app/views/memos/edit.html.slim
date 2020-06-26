@@ -33,18 +33,23 @@
 						.col-md-2.col-sm-3
 							= f.label :range, "公開範囲"
 						.col-md-3.col-sm-4
-							= f.select :range, Memo.ranges.keys,{selected: "自分のみ"},{class: "form-control"}
+							= f.select :range, Memo.ranges.keys,{},{class: "form-control"}
 					.form-group
 						= f.label :title, "タイトル"
 						= f.text_field :title, class: "form-control",autofocus: true
 					.form-group
 						= f.label :body, "本文"
 						= f.cktext_area :body, class: "form-control",autofocus: true
-					.form-row
-						.col
-							= f.label :image, "画像"
 					.form-group
+						= f.label :image, "画像"
+						br
 						= f.attachment_field :image
+						- if @memo.image_id.present?
+							.d-flex.mt-2
+								.form-check
+									= check_box_tag :image_is_delete,"true",false,class: "form-check-input"
+									= label_tag :image_is_delete, "画像を削除する",class: "form-check-label"
+								= attachment_image_tag @memo, :image,:fill,80,80,format: 'jpg',size: "80x80",class: "ml-5"
 					.form-group
 						= f.label :tag_list, "タグ付け"
 						= f.text_field :tag_list,value: @memo.tag_list.join(','), placeholder: "「,」区切りで追加してください", class: "form-control",autofocus: true
