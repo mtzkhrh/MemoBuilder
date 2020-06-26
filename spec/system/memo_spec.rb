@@ -418,16 +418,17 @@ RSpec.describe 'Memo', type: :system do
 	  describe 'メモ一覧画面のテスト' do
 	  	let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
 	  	let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id, range: '公開')}
+	  	let!(:close_memo){ create(:memo,room_id: room.id, user_id: test_user2.id) }
 	  	before do
 	  		visit user_memos_path(user)
 	  	end
-	  	context '表示のテスト' do
+	  	context '表示の確認' do
 	  		it '「投稿一覧」が表示される' do
 	  			expect(page).to have_content '投稿一覧'
 	  		end
-	  		it 'メモのタイトルが表示される' do
-	  			expect(page).to have_content memo1.title
-	  			expect(page).to have_content memo2.title
+	  		it 'メモのタイトルリンクが表示される' do
+	  			expect(page).to have_link memo1.title, href: memo_path(memo1)
+	  			expect(page).to have_link memo2.title, href: memo_path(memo2)
 	  		end
 	  		it 'メモのタグがリンクで表示される' do
 	  			expect(page).to have_link memo1.tag_list[0]
@@ -447,6 +448,11 @@ RSpec.describe 'Memo', type: :system do
         it 'マイページへのリンクが表示される' do
         	expect(page).to have_link '<< マイページへ', href: user_path(user)
         end
+        it '非公開メモは他人に表示されない' do
+        	visit user_memos_path(test_user2)
+        	expect(current_path).to eq('/users/' + test_user2.id.to_s + '/memos')
+        	expect(page).not_to have_content close_memo.title
+        end
 	  	end
 	  	context '検索フォームの確認' do
 	  		it '検索に成功する' do
@@ -462,5 +468,55 @@ RSpec.describe 'Memo', type: :system do
 	  		end
 	  	end
 	  end
+	  describe '公開投稿一覧画面のテスト' do
+	  	let!(:close_memo){create(:memo,room_id: room.id, user_id: user.id)}
+	  	let!(:open_memo){create(:memo,room_id: room.id, user_id: user.id,range: '公開')}
+	  	let!(:like){create(:like,user_id: user.id,memo_id: open_memo.id)}
+	  	before do
+	  		visit memos_all_path
+	  	end
+	  	context '表示の確認' do
+	  		it '「公開された投稿一覧」が表示される' do
+	  			expect(page).to have_content '公開された投稿一覧'
+	  		end
+	  		it '公開された投稿のタイトルリンクが表示される' do
+	  			expect(page).to have_link open_memo.title, href: memo_path(open_memo)
+	  		end
+	  		it '公開されていない投稿は表示されない' do
+	  			expect(page).not_to have_content close_memo.title
+	  		end
+	  		it '投稿したユーザリンクが表示される' do
+	  			expect(find('.list_item')).to have_link user.name,href: user_path(user)
+	  		end
+	  		it '投稿のLikeの数が表示される' do
+	  			expect(find('.list_item')).to have_content open_memo.likes.size
+	  		end
+	  		it '投稿のコメント数が表示される' do
+	  			expect(find('.list_item')).to have_content open_memo.comments.size
+	  		end
+        it '検索フォームが表示される' do
+          expect(page).to have_field 'q[title_cont]'
+        end
+        it 'マイページへのリンクが表示される' do
+        	expect(page).to have_link '<< マイページへ', href: user_path(user)
+        end
+      end
+	  	context '検索フォームの確認' do
+	  	let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id, range: '公開')}
+	  	let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id, range: '公開')}
+	  		it '検索に成功する' do
+	  			fill_in '検索...', with: memo1.title
+	  			click_on 'q[submit]'
+	  			expect(page).to have_content memo1.title
+	  			expect(page).not_to have_content memo2.title
+	  		end
+	  		it '該当なしの時「見つかりませんでした」を表示する' do
+	  			fill_in '検索...', with: Faker::Lorem.characters(number:51)
+	  			click_on 'q[submit]'
+	  			expect(page).to have_content '見つかりませんでした'
+	  		end
+	  	end
+	  end
+
 	end
 end
