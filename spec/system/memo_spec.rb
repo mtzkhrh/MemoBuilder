@@ -151,7 +151,167 @@ RSpec.describe 'Memo', type: :system do
 	  		end
 	  	end
 	  end
-
+	  describe 'メモの詳細画面のテスト' do
+	  	let!(:memo){create(:memo,room_id: room.id, user_id: user.id)}
+	  	let!(:comment){create(:comment,user_id: user.id,memo_id: memo.id)}
+  		let!(:test_comment2){create(:comment,user_id: test_user2.id,memo_id: memo.id)}
+	  	# 公開と自分のみの投稿ユーザ
+	  	let(:close_user){create(:user)}
+		  let(:close_user_house) { create(:house, user_id: close_user.id)}
+		  let(:close_user_room) { create(:room, user_id: close_user.id, house_id: close_user_house.id)}
+	  	let!(:close_memo){create(:memo,room_id: close_user_room.id, user_id: close_user.id, range: '自分のみ')}
+	  	let!(:open_memo){create(:memo,room_id: close_user_room.id, user_id: close_user.id, range: '公開')}
+	  	# 友達のみの投稿ユーザ
+	  	let(:friend_user){create(:user)}
+		  let(:friend_user_house) { create(:house, user_id: friend_user.id)}
+		  let(:friend_user_room) { create(:room, user_id: friend_user.id, house_id: friend_user_house.id)}
+	  	let!(:friend_memo){create(:memo,room_id: friend_user_room.id, user_id: friend_user.id, range: '友達のみ')}
+	  	before do
+	  		user.follow(friend_user.id)
+	  		friend_user.follow(user.id)
+	  		visit memo_path(memo)
+	  	end
+	  	context '自分のメモの詳細画面への遷移' do
+	  		it '遷移できる' do
+		  		expect(current_path).to eq('/memos/' + memo.id.to_s)
+		  		memo.range = '友達のみ'
+		  		visit memo_path(memo)
+		  		expect(current_path).to eq('/memos/' + memo.id.to_s)
+		  		memo.range = '公開'
+		  		visit memo_path(memo)
+		  		expect(current_path).to eq('/memos/' + memo.id.to_s)
+		  	end
+	  	end
+	  	context '他人の公開されたメモの詳細画面への遷移' do
+	  		it '遷移できる' do
+	  			visit memo_path(open_memo)
+		  		expect(current_path).to eq('/memos/' + open_memo.id.to_s)
+	  		end
+	  	end
+	  	context '他人の友達のみ公開のメモの詳細画面への遷移' do
+	  		it '友達は遷移できる' do
+	  			visit memo_path(friend_memo)
+		  		expect(current_path).to eq('/memos/' + friend_memo.id.to_s)
+	  		end
+	  		it '友達以外は遷移できない' do
+	  			user.unfollow(friend_user.id)
+	  			visit memo_path(friend_memo)
+		  		expect(current_path).not_to eq('/memos/' + friend_memo.id.to_s)
+	  		end
+	  	end
+	  	context '他人の非公開メモの詳細画面への遷移' do
+	  		it '遷移できない' do
+	  			visit memo_path(close_memo)
+		  		expect(current_path).not_to eq('/memos/' + close_memo.id.to_s)
+	  		end
+	  	end
+	  	context '表示の確認' do
+	  		it 'パンくずリストが表示される' do
+	  			expect(find('.breadcrumb')).to have_content(user.name + " " + memo.room.house.name + " " + memo.room.name + " " + memo.title)
+	  		end
+	  		it 'タイトルが表示される' do
+	  			expect(page).to have_selector 'div.memos_title', text: memo.title
+	  		end
+	  		it '公開範囲が表示される' do
+	  			expect(page).to have_content memo.range
+	  		end
+	  		it 'タグのリンクが表示される' do
+	  			expect(page).to have_link memo.tag_list[0]
+	  			expect(page).to have_link memo.tag_list[1]
+	  		end
+	  		it '本文が表示される' do
+	  			expect(page).to have_content memo.body
+	  		end
+	  		it 'いいねボタンが表示される' do
+	  			expect(page).to have_link 'Like', href: memo_likes_path(memo)
+	  		end
+	  		it 'ストックボタンが表示される' do
+	  			expect(page).to have_link 'ストックする', href: memo_stocks_path(memo)
+	  		end
+	  		it '自分の投稿には編集ボタンが表示される' do
+	  			expect(page).to have_link '編集', href: edit_memo_path(memo)
+	  			visit memo_path(open_memo)
+	  			expect(page).not_to have_link '編集', href: edit_memo_path(open_memo)
+	  		end
+	  		it 'コメントが表示される' do
+	  			expect(page).to have_content comment.comment
+	  		end
+	  		it '自分のコメントには削除ボタンが表示される' do
+	  			expect(page).to have_link '削除', href: comment_path(comment)
+	  		end
+	  		it '他人のコメントには削除ボタンが表示されない' do
+					expect(page).not_to have_link '削除', href: comment_path(test_comment2)
+	  		end
+	  		it 'コメントフォームが表示される' do
+	  			expect(page).to have_field 'comment[comment]'
+	  		end
+	  		it '自分のアイコンがコメントフォーム下に表示される' do
+	  			expect(page).to have_selector 'img.profile_image'
+	  		end
+	  		it 'コメントを送るボタンがある' do
+	  			expect(page).to have_button 'コメント送信'
+	  		end
+	  		it '戻るリンクがある' do
+	  			expect(page).to have_link '<< 戻る'
+	  		end
+	  	end
+	  	context 'コメント削除のテスト',js:true do
+	  		it '削除できる' do
+	  			click_on '削除'
+	  			sleep 0.5
+	  			expect(page).not_to have_link '削除'
+	  		end
+	  	end
+	  	context 'Likeボタンのテスト', js: true do
+	  		it 'Likeする' do
+		  		click_on "Like"
+		  		sleep 0.5
+	  			expect(user.likes.size).to eq(1)
+	  			expect(find('#like_count')).to have_content '1'
+	  		end
+	  		it 'Likeを消す' do
+	  			create(:like, user_id: user.id, memo_id: memo.id)
+	  			visit current_path
+		  		click_on "Like"
+		  		sleep 0.5
+	  			expect(user.likes.size).to eq(0)
+	  			expect(find('#like_count')).to have_content '0'
+	  		end
+	  	end
+	  	context 'ストックボタンのテスト',js: true do
+	  		it 'ストックする' do
+	  			click_on 'ストックする'
+	  			sleep 0.5
+	  			expect(page).to have_content 'ストック中'
+	  			expect(user.stocks.size).to eq(1)
+	  		end
+	  		it 'ストックを消す' do
+	  			create(:stock, user_id: user.id, memo_id: memo.id)
+	  			visit current_path
+	  			click_on 'ストック中'
+	  			sleep 0.5
+	  			expect(page).to have_content 'ストックする'
+	  			expect(user.stocks.size).to eq(0)
+	  		end
+	  	end
+	  	context 'コメントフォームの確認', js: true do
+	  		let(:test_comment){build(:comment,user_id: test_user2.id,memo_id: memo.id)}
+	  		it 'コメントの送信に成功する' do
+	  			fill_in 'comment[comment]', with: test_comment.comment
+	  			click_on 'comment[submit]'
+	  			sleep 0.5
+	  			expect(page).to have_content test_comment.comment
+	  			expect(memo.comments.size).to eq(3)
+	  		end
+	  		it 'コメントの送信に失敗する' do
+	  			fill_in 'comment[comment]', with: ""
+	  			click_on 'comment[submit]'
+	  			sleep 0.5
+	  			expect(page).to have_content 'コメントを入力してください'
+	  			expect(memo.comments.size).to eq(2)
+	  		end
+	  	end
+	  end
 	  describe 'メモ編集画面のテスト' do
 		  let(:test_house2) { create(:house, user_id: user.id)}
 		  let(:test_house3) { create(:house, user_id: user.id)}
@@ -249,9 +409,9 @@ RSpec.describe 'Memo', type: :system do
 	  			click_button '更新'
 	  			expect(page).to have_content 'エラー'
 	  			@memo = Memo.find(memo.id)
-	  			expect(@memo.room.name).not_to eq(test_room2.name)
-	  			expect(@memo.room.house.name).not_to eq(test_house2.name)
-	  			expect(@memo.range).not_to eq('公開')
+	  			expect(@memo.room.name).to eq(memo.room.name)
+	  			expect(@memo.room.house.name).to eq(memo.room.house.name)
+	  			expect(@memo.range).to eq('自分のみ')
 	  		end
 	  	end
 	  end
