@@ -6,17 +6,18 @@
 
 	.col-md-9
 		== render 'layouts/breadcrumbs', model: @house
-		.form-row
-			.col = link_to edit_house_path(@house), class: "btn btn-info btn-block" do
-				i.fas.fa-hammer
-				|  家のリフォーム
-			.col
-				= form_with model: [current_user, Room.new], local: true do |f|
-					= f.hidden_field :house_id, value: @house.id
-					.input-group
-						= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
-						.input-group-append
-							=f.button "作成", type: "submit", class: "btn btn-primary"
+		- if @user.id == current_user.id
+			.form-row
+				.col = link_to edit_house_path(@house), class: "btn btn-info btn-block" do
+					i.fas.fa-hammer
+					|  家のリフォーム
+				.col
+					= form_with model: [current_user, Room.new], local: true do |f|
+						= f.hidden_field :house_id, value: @house.id
+						.input-group
+							= f.text_field :name, placeholder: "新しい部屋の名前", class: "form-control"
+							.input-group-append
+								=f.button "作成", type: "submit", class: "btn btn-primary"
 
 		.rooms
 			== render 'layouts/sort_search_bar', base:@rooms,ransack: @r
