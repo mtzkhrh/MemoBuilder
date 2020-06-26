@@ -454,7 +454,9 @@ RSpec.describe 'Memo', type: :system do
     describe 'メモ一覧画面のテスト' do
       let!(:memo1) { create(:memo, room_id: room.id, user_id: user.id) }
       let!(:memo2) { create(:memo, room_id: room.id, user_id: user.id, range: '公開') }
-      let!(:close_memo) { create(:memo, room_id: room.id, user_id: test_user2.id) }
+      let(:test_house) { create(:house, user_id: test_user2.id) }
+      let!(:test_room) { create(:room, user_id: test_user2.id, house_id: test_house.id) }
+      let!(:close_memo) { create(:memo, room_id: test_room.id, user_id: test_user2.id) }
 
       before do
         visit user_memos_path(user)
