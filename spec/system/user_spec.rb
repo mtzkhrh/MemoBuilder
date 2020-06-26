@@ -210,6 +210,62 @@ RSpec.describe 'User', type: :system do
         end
       end
     end
+    describe 'マイページ画面のテスト' do
+      let(:house) { create(:house, user_id: user.id) }
+      let(:room) { create(:room, user_id: user.id, house_id: house.id) }
+      let!(:memo1) { create(:memo,room_id: room.id, user_id: user.id) }
+      let!(:memo2) { create(:memo,room_id: room.id, user_id: user.id) }
+      let(:test_user_house) { create(:house, user_id: test_user2.id)}
+      let(:test_user_room) { create(:room, user_id: test_user2.id, house_id: test_user_house.id)}
+      let!(:open_memo){create(:memo, user_id: test_user2.id, room_id: test_user_room.id, range: '公開')}
+      let!(:close_memo){create(:memo, user_id: test_user2.id, room_id: test_user_room.id)}
+      before do
+        visit user_path(user)
+      end
+      context '他人のマイページ画面に遷移' do
+        it '非公開のメモは表示されない' do
+          visit user_path(test_user2)
+          expect(page).to have_content open_memo.title
+          expect(page).not_to have_content close_memo.title
+        end
+      end
+      context '表示の確認' do
+        it '「持ち家ピックアップ」が表示される' do
+          expect(page).to have_content '持ち家ピックアップ'
+        end
+        it '持ち家のリスト表示される' do
+          expect(page).to have_content house.name
+        end
+        it '持ち家一覧リンクが表示される' do
+          expect(page).to have_link '持ち家一覧 >>', href: user_houses_path(user)
+        end
+        it '「最近の使用タグ一覧」が表示される' do
+          expect(page).to have_content '最近の使用タグ一覧'
+        end
+        it '使用したタグの名前リンクが表示される' do
+          expect(find('.tags_list')).to have_link memo1.tag_list[0]
+          expect(find('.tags_list')).to have_link memo1.tag_list[1]
+          expect(find('.tags_list')).to have_link memo1.tag_list[2]
+          expect(find('.tags_list')).to have_link memo2.tag_list[0]
+          expect(find('.tags_list')).to have_link memo2.tag_list[1]
+          expect(find('.tags_list')).to have_link memo2.tag_list[2]
+        end
+        it '使用タグ一覧リンクが表示される' do
+          expect(page).to have_link '使用タグ一覧 >>', href: user_tags_path(user)
+        end
+        it '「最近の投稿リスト」が表示される' do
+          expect(page).to have_content '最近の投稿リスト'
+        end
+        it '投稿の一覧が表示される' do
+          expect(page).to have_link memo1.title,href: memo_path(memo1)
+          expect(page).to have_link memo2.title,href: memo_path(memo2)
+        end
+        it '投稿一覧リンクが表示される' do
+          expect(page).to have_link '投稿一覧 >>',href: user_memos_path(user)
+        end
+
+      end
+    end
     describe '友達一覧画面のテスト' do
       context '自分の友達一覧画面への遷移' do
         it '遷移できる' do
@@ -333,24 +389,24 @@ RSpec.describe 'User', type: :system do
         it 'マイページへのリンクが表示される' do
           expect(page).to have_link '<< マイページへ', href: user_path(user)
         end
-        context '検索フォームの確認' do
-          let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
-          let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id)}
-          before do
-            create(:stock, user_id: user.id, memo_id: memo1.id)
-            create(:stock, user_id: user.id, memo_id: memo2.id)
-          end
-          it '検索に成功する' do
-            fill_in '検索...', with: memo1.title
-            click_on 'q[submit]'
-            expect(page).to have_content memo1.title
-            expect(page).not_to have_content memo2.title
-          end
-          it '該当なしの時「見つかりませんでした」を表示する' do
-            fill_in '検索...', with: Faker::Lorem.characters(number:51)
-            click_on 'q[submit]'
-            expect(page).to have_content '見つかりませんでした'
-          end
+      end
+      context '検索フォームの確認' do
+        let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
+        let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id)}
+        before do
+          create(:stock, user_id: user.id, memo_id: memo1.id)
+          create(:stock, user_id: user.id, memo_id: memo2.id)
+        end
+        it '検索に成功する' do
+          fill_in '検索...', with: memo1.title
+          click_on 'q[submit]'
+          expect(page).to have_content memo1.title
+          expect(page).not_to have_content memo2.title
+        end
+        it '該当なしの時「見つかりませんでした」を表示する' do
+          fill_in '検索...', with: Faker::Lorem.characters(number:51)
+          click_on 'q[submit]'
+          expect(page).to have_content '見つかりませんでした'
         end
       end
     end
