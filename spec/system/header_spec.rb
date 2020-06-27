@@ -153,68 +153,57 @@ RSpec.describe 'Header', type: :system do
         end
       end
     end
-    # describe '管理者ログイン時' do
-    #   let(:admin) { build(:admin) }
-    #   before do
-    #     visit new_admin_session_path
-    #     fill_in 'admin[email]', with: admin.email
-    #     fill_in 'admin[password]', with: admin.password
-    #     click_button 'ログイン'
-    #   end
-    #   context '表示の確認' do
-    #     it 'タイトルが表示される' do
-    #       expect(page).to have_link 'MemoBuilder',href: root_path
-    #     end
-    #     it '検索フォームが表示される' do
-    #       expect(page).to have_field 'q[title_cont]'
-    #     end
-    #     it '管理者トップが表示される' do
-    #       expect(page).to have_link '管理者TOP',href: admin_path
-    #     end
-    #     it 'ユーザ一覧リンクが表示される' do
-    #       expect(page).to have_link 'ユーザ一覧',href: admins_users_path
-    #     end
-    #     it '投稿一覧リンクが表示される' do
-    #       expect(page).to have_link '投稿一覧',href: admins_memos_path
-    #     end
-    #     it 'ログアウトが表示される' do
-    #       expect(page).to have_link 'ログアウト',href: destroy_admin_session_path
-    #     end
-    #   end
-    #   context 'リンクの確認' do
-    #     it 'トップページに遷移する' do
-    #       click_on 'MemoBuilder'
-    #       expect(current_path).to eq '/'
-    #     end
-    #     it '管理者TOPに遷移する' do
-    #       click_on '管理者TOP'
-    #       expect(current_path).to eq '/admins'
-    #     end
-    #     it 'ユーザ一覧に遷移する' do
-    #       click_on 'ユーザ一覧'
-    #       expect(current_path).to eq '/admins/users'
-    #     end
-    #     it '投稿一覧に遷移する' do
-    #       click_on '投稿一覧'
-    #       expect(current_path).to eq '/admins/memos'
-    #     end
-    #     it 'ログアウトする' do
-    #       click_on 'ログアウト'
-    #       expect(current_path).to eq '/admins/sign_in'
-    #     end
-    #   end
-    #   context '検索フォームの確認' do
-    #     let!(:user) { create(:user) }
-    #     let!(:memo1){ create(:memo,room_id: room.id, user_id: user.id)}
-    #     let!(:memo2){ create(:memo,room_id: room.id, user_id: user.id)}
-    #     it '投稿の検索をし管理者側投稿一覧に遷移する' do
-    #        fill_in 'q[title_cont]', with: memo1.title
-    #        click_on 'q[submit]'
-    #        expect(page).to have_content memo1.title
-    #        expect(page).not_to have_content memo2.title
-    #       expect(current_path).to eq '/admins/memos'
-    #     end
-    #   end
-    # end
+    describe '管理者ログイン時' do
+      let(:admin) { create(:admin) }
+      let!(:user) { create(:user) }
+      before do
+        visit new_admin_session_path
+        fill_in 'admin[email]', with: admin.email
+        fill_in 'admin[password]', with: admin.password
+        click_button 'ログイン'
+      end
+      context '表示の確認' do
+        it 'タイトルが表示される' do
+          expect(page).to have_link 'MemoBuilder',href: root_path
+        end
+        it '検索フォームが表示される' do
+          expect(page).to have_field 'q[title_cont]'
+        end
+        it '管理者トップが表示される' do
+          expect(page).to have_link '管理者TOP',href: admin_path
+        end
+        it 'ユーザ一覧リンクが表示される' do
+          expect(page).to have_link 'ユーザ一覧',href: admins_users_path
+        end
+        it '投稿一覧リンクが表示される' do
+          expect(page).to have_link '投稿一覧',href: admins_memos_path
+        end
+        it 'ログアウトが表示される' do
+          expect(page).to have_link 'ログアウト',href: destroy_admin_session_path
+        end
+      end
+      context 'リンクの確認' do
+        it 'トップページに遷移する' do
+          click_on 'MemoBuilder'
+          expect(current_path).to eq '/'
+        end
+        it '管理者TOPに遷移する' do
+          click_on '管理者TOP'
+          expect(current_path).to eq '/admins'
+        end
+        it 'ユーザ一覧に遷移する' do
+          click_on 'ユーザ一覧'
+          expect(current_path).to eq '/admins/users'
+        end
+        it '投稿一覧に遷移する' do
+          click_on '投稿一覧'
+          expect(current_path).to eq '/admins/memos'
+        end
+        it 'ログアウトする' do
+          click_on 'ログアウト'
+          expect(current_path).to eq '/admins/sign_in'
+        end
+      end
+    end
   end
 end
