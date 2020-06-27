@@ -273,7 +273,7 @@ RSpec.describe 'Memo', type: :system do
           expect(page).to have_button 'コメント送信'
         end
         it '戻るリンクがある' do
-          expect(page).to have_link '<< 戻る'
+          expect(page).to have_link '<<'
         end
       end
 
