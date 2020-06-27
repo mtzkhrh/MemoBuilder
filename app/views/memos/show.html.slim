@@ -47,5 +47,9 @@
 								p #{current_user.name}
 							.comments_form-actions
 								= f.submit 'コメント送信',class: "btn btn-primary", name: "comment[submit]"
-				= link_to "<< 戻る", :back, class: "links"
+				- if @memo.room_id?
+					= link_to "<< 部屋に戻る", room_path(@memo.room_id), class: "links"
+				- elsif @memo.house_id?
+					= link_to "<< 家に戻る", house_path(@memo.house_id), class: "links"
+
 
