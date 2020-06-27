@@ -10,11 +10,3 @@ Admin.create!(
 	email: "halu0502@gmail.com",
 	password: "halu16209"
 )
-
-5.times do |n|
-	User.create!(
-		name: "test#{n+1}",
-		email: "test#{n+1}@email.com",
-		password: "password"
-	)
-end
