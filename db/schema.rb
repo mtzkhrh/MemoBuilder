@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_07_07_060712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rooms_count", default: 0, null: false
-    t.integer "house_memos_count", default: 0, null: false
+    t.integer "memos_count", default: 0, null: false
   end
 
   create_table "likes", force: :cascade do |t|
