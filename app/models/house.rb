@@ -2,7 +2,7 @@ class House < ApplicationRecord
   has_many :rooms, dependent: :destroy
   # ルーム内のメモ
   has_many :rooms_memos, class_name: "Memo",
-            through: :rooms, dependent: :destroy
+                         through: :rooms, dependent: :destroy
   # ハウス内のメモ
   has_many :house_memos, class_name: "Memo", dependent: :destroy
 
@@ -13,5 +13,4 @@ class House < ApplicationRecord
 
   scope :resent, -> { order(updated_at: :desc) }
   scope :with_rooms, -> { preload(:rooms) }
-
 end

@@ -12,5 +12,4 @@ class Room < ApplicationRecord
 
   scope :resent, -> { order(updated_at: :desc) }
   scope :with_memo, -> { preload(:memos) }
-
 end
