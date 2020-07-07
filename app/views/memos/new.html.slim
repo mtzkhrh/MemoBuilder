@@ -49,36 +49,4 @@
 						= f.submit "投稿", class: "btn btn-primary btn-block"
 		= link_to "<< マイページへ", user_path(@user), class: "links"
 
-javascript:
-	$(document).on('turbolinks:load', function(){
-		let defaultRoomSelect = $(`#rooms-of-houses`).html();
-		let roomVal = $('#memo_room_id').val();
-		let memoRoom = #{@memo.room_id}
-		$('#memo_room_id').remove();
-		$('#memo_house_id').after(defaultRoomSelect);
-		if ( memoRoom && roomVal !== "") {
-			let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
-			$('#memo_house_id').val(houseId);
-		}
-		// 全部屋リストで変更した時の処理
-		$(document).on('change', '.default-rooms', function() {
-			let roomVal = $('#memo_room_id').val();
-			if (roomVal !== "") {
-				let houseId = $(`.default-rooms`).find('option:selected').data().houseId;
-				$('#memo_house_id').val(houseId);
-			}
-		});
-			//家が変更された時の処理
-		$(document).on('change', '#memo_house_id', function() {
-			let houseVal = $('#memo_house_id').val();
-			if (houseVal !== "") {
-				let selectedTemplate = $(`#rooms-of-house${houseVal}`).html();
-				$('#memo_room_id').remove();
-				$('#memo_house_id').after(selectedTemplate);
-			}else {
-				$('#memo_room_id').remove();
-				$('#memo_house_id').after(defaultRoomSelect);
-	  	}
-		});
-	});
-
+= javascript_include_tag "memo_selectbox.js"
