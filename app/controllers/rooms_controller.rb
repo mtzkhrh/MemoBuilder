@@ -5,8 +5,8 @@ class RoomsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @houses = @user.houses.resent.all
-    @q = @user.rooms.preload(:memos).resent.ransack(params[:q])
+    @houses = @user.houses.all.resent
+    @q = @user.rooms.resent.ransack(params[:q])
     @rooms = @q.result(distinct: true).page(params[:page])
   end
 

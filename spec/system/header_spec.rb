@@ -153,35 +153,39 @@ RSpec.describe 'Header', type: :system do
         end
       end
     end
+
     describe '管理者ログイン時' do
       let(:admin) { create(:admin) }
       let!(:user) { create(:user) }
+
       before do
         visit new_admin_session_path
         fill_in 'admin[email]', with: admin.email
         fill_in 'admin[password]', with: admin.password
         click_button 'ログイン'
       end
+
       context '表示の確認' do
         it 'タイトルが表示される' do
-          expect(page).to have_link 'MemoBuilder',href: root_path
+          expect(page).to have_link 'MemoBuilder', href: root_path
         end
         it '検索フォームが表示される' do
           expect(page).to have_field 'q[title_cont]'
         end
         it '管理者トップが表示される' do
-          expect(page).to have_link '管理者TOP',href: admin_path
+          expect(page).to have_link '管理者TOP', href: admin_path
         end
         it 'ユーザ一覧リンクが表示される' do
-          expect(page).to have_link 'ユーザ一覧',href: admins_users_path
+          expect(page).to have_link 'ユーザ一覧', href: admins_users_path
         end
         it '投稿一覧リンクが表示される' do
-          expect(page).to have_link '投稿一覧',href: admins_memos_path
+          expect(page).to have_link '投稿一覧', href: admins_memos_path
         end
         it 'ログアウトが表示される' do
-          expect(page).to have_link 'ログアウト',href: destroy_admin_session_path
+          expect(page).to have_link 'ログアウト', href: destroy_admin_session_path
         end
       end
+
       context 'リンクの確認' do
         it 'トップページに遷移する' do
           click_on 'MemoBuilder'

@@ -10,3 +10,13 @@ Admin.create!(
 	email: "halu0502@gmail.com",
 	password: "halu16209"
 )
+if Rails.env == "development"
+	10.times do |n|
+		User.create!(
+			name: "test#{n + 1}",
+			email: "test#{n + 1}@email.com",
+			password: "password",
+			password_confirmation: "password"
+		)
+	end
+end

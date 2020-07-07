@@ -11,10 +11,10 @@
 						' by
 						= link_to "#{memo.user.name}", admins_user_path(memo.user_id)
 					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"
-					p = "Like #{memo.likes.size}"
+					p = "Like #{memo.likes_count}"
 					p
 						i.far.fa-comment-dots
-						| #{memo.comments.size}
+						| #{memo.comments_count}
 - else
 	.nothing
 		- if params[:q].present?

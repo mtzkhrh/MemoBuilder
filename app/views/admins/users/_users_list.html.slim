@@ -7,7 +7,7 @@
 			.item_body
 				.item_body-header
 					= link_to user.name, admins_user_path(user),class: "item_body-name"
-					p.text-secondary 総メモ数(#{user.memos.size})
+					p.text-secondary 総メモ数(#{user.memos_count})
 				p.text-secondary = user.introduction
 
 

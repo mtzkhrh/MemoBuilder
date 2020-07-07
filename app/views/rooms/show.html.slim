@@ -11,7 +11,7 @@
 				.col = link_to edit_room_path(@room), class: "btn btn-info btn-block" do
 					i.fas.fa-hammer
 					|  部屋のリフォーム
-				.col = link_to  new_user_memo_path(current_user,room_id: @room.id), class: "btn btn-primary btn-block" do
+				.col = link_to  new_user_memo_path(current_user,room_id: @room.id),data: {"turbolinks" => false}, class: "btn btn-primary btn-block" do
 					i.far.fa-edit
 					|  投稿を作成する
 
