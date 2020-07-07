@@ -4,9 +4,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
+    @user = User.find(current_user.id)
     @q = User.ransack(params[:q])
     @users = @q.result(distinct: true).page(params[:page])
-    @user = current_user
   end
 
   def show
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   def stocks
     @user = User.find(params[:id])
     check_your_id(@user.id)
-    @q = current_user.stock_memos.resent.ransack(params[:q])
+    @q = current_user.stock_memos.resent.with_user.ransack(params[:q])
     @stocks = @q.result(distinct: true).page(params[:page])
   end
 

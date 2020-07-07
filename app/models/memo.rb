@@ -31,6 +31,15 @@ class Memo < ApplicationRecord
   validate :check_tag_name_full_length
   validate :check_tag_name_length
 
+  scope :resent, -> { order(updated_at: :desc) }
+  # N+1問題を解消する取得
+  scope :with_tags, -> { preload(:tags) }
+  scope :with_meta, -> { preload(:comments, :likes) }
+  scope :with_user, -> { eager_load(:user) }
+  # 公開範囲に合わせた取得
+  scope :only_friends, -> { where.not(range: "自分のみ") }
+  scope :open, -> { where(range: "公開") }
+
   def decide_parent
     if house_id && room_id
       self.house_id = nil
@@ -72,13 +81,4 @@ class Memo < ApplicationRecord
   def liked_by?(user)
     likes.where(user_id: user.id).exists?
   end
-
-  scope :resent, -> { order(updated_at: :desc) }
-  # N+1問題を解消する取得
-  scope :with_tags, -> { preload(:tags) }
-  scope :with_meta, -> { preload(:comments, :likes) }
-  scope :with_user, -> { eager_load(:user) }
-  # 公開範囲に合わせた取得
-  scope :only_friends, -> { where.not(range: "自分のみ") }
-  scope :open, -> { where(range: "公開") }
 end
