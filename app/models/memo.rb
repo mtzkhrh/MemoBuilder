@@ -15,6 +15,7 @@ class Memo < ApplicationRecord
   belongs_to :room, optional: true
   belongs_to :house, optional: true
 
+  counter_culture :user
   counter_culture :room
   counter_culture [:room, :house], column_name: 'rooms_memos_count'
   counter_culture :house, column_name: 'house_memos_count'
