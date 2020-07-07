@@ -102,3 +102,5 @@ gem 'ckeditor'
 gem 'summernote-rails'
 # slimで記述する
 gem 'slim-rails'
+# counter_cache用gem
+gem 'counter_culture'
