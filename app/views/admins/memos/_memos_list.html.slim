@@ -11,10 +11,10 @@
 				= link_to memo.title, admins_memo_path(memo),class: "item_body-title"
 				.info
 					span.badge.badge-secondary.mr-2 = memo.range
-					p = "Like #{memo.likes.size}"
+					p = "Like #{memo.likes_count}"
 					p
 						i.far.fa-comment-dots
-						| #{memo.comments.size}
+						| #{memo.comments_count}
 
 
 					p = "#{memo.updated_at.strftime('%Y/%m/%d')}更新"

@@ -3,12 +3,12 @@ class Admins::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @q = User.eager_load(:memos).ransack(params[:q])
+    @q = User.ransack(params[:q])
     @users = @q.result(distinct: true).page(params[:page])
   end
 
   def show
-    @q = @user.memos.eager_load(:user).preload(:comments, :likes).with_tags.ransack(params[:q])
+    @q = @user.memos.with_tags.ransack(params[:q])
     @memos = @q.result(distinct: true).page(params[:page])
   end
 
