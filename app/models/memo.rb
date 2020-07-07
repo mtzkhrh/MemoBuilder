@@ -16,7 +16,8 @@ class Memo < ApplicationRecord
   belongs_to :house, optional: true
 
   counter_culture :room
-  counter_culture :house
+  counter_culture [:room, :house], column_name: 'rooms_memos_count'
+  counter_culture :house, column_name: 'house_memos_count'
 
   enum range: { 自分のみ: 0, 友達のみ: 1, 公開: 2 }
 
