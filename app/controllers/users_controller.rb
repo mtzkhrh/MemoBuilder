@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @tags = @user.memos.tag_counts.order(updated_at: :desc).first(10)
-    @houses = @user.houses.eager_load(:house_memos, :memos, :rooms).first(8)
+    @houses = @user.houses.first(8)
     pickup_memos_within_range(@user, @user)
     @resent_memos = @memos.first(10)
   end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   def stocks
     @user = User.find(params[:id])
     check_your_id(@user.id)
-    @q = current_user.stock_memos.eager_load(:user).preload(:likes, :comments).resent.ransack(params[:q])
+    @q = current_user.stock_memos.resent.ransack(params[:q])
     @stocks = @q.result(distinct: true).page(params[:page])
   end
 

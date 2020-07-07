@@ -4,7 +4,7 @@ class MemosController < ApplicationController
   before_action :set_memo, only: [:show, :edit, :update, :destroy]
 
   def all
-    @q = Memo.open.resent.eager_load(:user, :likes).ransack(params[:q])
+    @q = Memo.open.resent.ransack(params[:q])
     @memos = @q.result(distinct: true).page(params[:page])
   end
 
@@ -24,7 +24,7 @@ class MemosController < ApplicationController
       @memo.room_id = params[:room_id]
       @memo.house_id = room.house_id
     end
-    @houses = @user.houses.all.preload(:rooms).resent
+    @houses = @user.houses.all.resent
     @rooms = @user.rooms.all.resent
   end
 
