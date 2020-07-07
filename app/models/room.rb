@@ -4,6 +4,8 @@ class Room < ApplicationRecord
   belongs_to :house
   belongs_to :user
 
+  counter_culture :houses
+
   validates :user_id,  presence: true
   validates :house_id, presence: true
   validates :name, presence: true, length: { maximum: 40 }

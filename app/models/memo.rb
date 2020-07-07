@@ -15,6 +15,9 @@ class Memo < ApplicationRecord
   belongs_to :room, optional: true
   belongs_to :house, optional: true
 
+  counter_culture :room
+  counter_culture :house
+
   enum range: { 自分のみ: 0, 友達のみ: 1, 公開: 2 }
 
   validates :user_id, presence: true
