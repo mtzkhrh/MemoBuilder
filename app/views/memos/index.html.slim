@@ -4,13 +4,12 @@
 		= render 'users/profile', user: @user
 
 	.col-sm-9
-		.memos
+		.primary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.list_title
+				h4 #{@user.name} の投稿一覧
 			.list
-				.list_title
-					h4 #{@user.name} の投稿一覧
-				.memos_list
-					== render 'memos/memos_list', memos: @memos
+				== render 'memos/memos_list', memos: @memos
 			= paginate @memos
 
 		= link_to "<< マイページへ", user_path(@user), class: "links"

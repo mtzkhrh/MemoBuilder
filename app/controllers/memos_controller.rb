@@ -1,5 +1,4 @@
 class MemosController < ApplicationController
-  include MemosHelper
   before_action :authenticate_user!
   before_action :set_memo, only: [:show, :edit, :update, :destroy]
 

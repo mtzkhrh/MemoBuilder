@@ -15,13 +15,12 @@
 						|  編集
 
 	.col-sm-9
-		.memos
+		.prymary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.title
+				h4 #{@user.name}の投稿一覧
 			.list
-				.list_title
-					h4 #{@user.name}の投稿一覧
-				.memos_list
-					== render 'admins/memos/memos_list', memos: @memos
+				== render 'admins/memos/memos_list', memos: @memos
 			= paginate @memos
 		= link_to "<< ユーザ一覧に戻る", admins_users_path,class: "links"
 

@@ -15,11 +15,11 @@
 					i.far.fa-edit
 					|  投稿を作成する
 
-		.memos
+		.primary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.title
+				h4 #{@room.name} 内の投稿一覧
 			.list
-				.list_title
-					h4 #{@room.name} 内の投稿一覧
 				== render 'memos/memos_list', memos: @memos
 			= paginate @memos
 		= link_to "<< 部屋を出る", house_path(@room.house_id), class: "links"

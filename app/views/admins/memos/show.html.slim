@@ -33,7 +33,7 @@
 					- if @comments.present?
 						tbody
 							- @comments.each do |comment|
-								tr.comments__list.border-top.border-bottom
+								tr.comments_list.border-top.border-bottom
 									td
 										= link_to user_path(comment.user)
 											= attachment_image_tag comment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50"

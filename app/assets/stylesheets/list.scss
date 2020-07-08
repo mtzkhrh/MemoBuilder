@@ -91,11 +91,7 @@
 	div:first-child{
 		border-top: 0;
 	}
-	.index_link{
-		padding:10px;
-		border-top: 1px solid #e8e8e8;
-	}
-	.nothing{
+	&_nothing{
 		padding:16px;
 	}
 }

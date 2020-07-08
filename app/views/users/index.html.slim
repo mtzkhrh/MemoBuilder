@@ -4,11 +4,11 @@
 		= render 'users/profile', user: @user
 
 	.col-md-9
-		.users.general
+		.primary
 			== render 'layouts/sort_search_bar', base:@users,ransack: @q
+			.title
+				h4 全ユーザ一覧
 			.list
-				.list_title
-					h4 全ユーザ一覧
 				== render 'users/user_list', users: @users
 			= paginate @users
 		= link_to "<< マイページへ", user_path(current_user), class: "links"

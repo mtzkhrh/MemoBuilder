@@ -9,7 +9,7 @@
 					= link_to user.name, user_path(user),class: "item_body-title"
 					p.text-secondary = user.introduction
 	- else
-		.nothing
+		.list_nothing
 			- if params[:q].present?
 				h5 見つかりませんでした
 				= link_to "<< 戻る", :back,class: "links"
@@ -29,7 +29,7 @@
 
 
 	- else
-		.nothing
+		.list_nothing
 			- if params[:q].present?
 				h5 見つかりませんでした
 				= link_to "<< 戻る", :back,class: "links"

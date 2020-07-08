@@ -1,20 +1,20 @@
 - content_for(:html_title) {"Top | MemoBuilder管理者"}
 .row
 	.col
-		h2.general__title 管理者TOP
+		h2 管理者TOP
 .row
-	.users.col-md-6
+	.col-md-6
+		.title
+			h4 新規ユーザー
 		.list
-			.list_title
-				h4 新規ユーザー
 			== render 'admins/users/users_list', users: @users
-			.index_link.clearfix
-				= link_to "ユーザ一覧 >>", admins_users_path, class: "float-right links"
+		.index_link.clearfix
+			= link_to "ユーザ一覧 >>", admins_users_path, class: "float-right links"
 
-	.memos.col-md-6
+	.col-md-6
+		.title
+			h4 最近の投稿
 		.list
-			.list_title
-				h4 最近の投稿
 			== render 'admins/memos/user_memos_list', memos: @memos
-			.index_link.clearfix
-				= link_to "投稿一覧 >>", admins_memos_path, class: "float-right links"
+		.index_link.clearfix
+			= link_to "投稿一覧 >>", admins_memos_path, class: "float-right links"

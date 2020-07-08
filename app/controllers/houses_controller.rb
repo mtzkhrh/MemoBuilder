@@ -1,5 +1,4 @@
 class HousesController < ApplicationController
-  include MemosHelper
   before_action :authenticate_user!
   before_action :set_house, only: [:show, :edit, :update, :destroy]
 
