@@ -16,7 +16,7 @@
 						i.far.fa-comment-dots
 						| #{memo.comments_count}
 - else
-	.nothing
+	.list_nothing
 		- if params[:q].present?
 			h5 見つかりませんでした
 			= link_to "<< 戻る", :back, class: "links"

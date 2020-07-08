@@ -8,9 +8,8 @@
 				== render 'rooms/room_create_form', houses: @houses
 
 	.col-md-9
-		.general.memos
-			h2.general_title
-				| メモの作成
+		.memos
+			h2 メモの作成
 			.memos_field
 				= form_with model: [@user,@memo], local: true do |f|
 					== render 'layouts/error_messages', model: @memo

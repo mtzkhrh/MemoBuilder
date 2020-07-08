@@ -21,7 +21,7 @@
 		.row.my-3
 			.likes.col id="likes_#{@memo.id}"
 				== render 'likes/like_btn', memo: @memo
-			stocks.col id="stocks_#{@memo.id}"
+			.stocks.col id="stocks_#{@memo.id}"
 				== render 'stocks/stock_btn', memo: @memo
 			- if @memo.user_id == current_user.id
 				.col

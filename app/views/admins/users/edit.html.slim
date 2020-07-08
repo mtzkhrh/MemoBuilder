@@ -1,36 +1,35 @@
 - content_for(:html_title) {"#{@user.name}の会員情報編集 | MemoBuilder管理者"}
 .row.justify-content-center.users
-  .col-md-6.general
-		h2.general__title
+  .col-md-6
+		h2
 			| #{@user.name}
 			br
 			| の公開プロフィール
 		= form_with model: @user,url: admins_user_path, local: true do |f|
 			== render 'layouts/error_messages', model: @user
 			.form-group
-				.users__field
-					= f.label :name, "名前"
-					= f.text_field :name, class: "form-control"
-				.users__field
-					= f.label :introduction, "自己紹介"
-					= f.text_area :introduction, class: "form-control"
-					small.form-text.text-muted
-						i.fas.fa-info
-						|  200文字以内
-				.users__field
-					h5 プロフ画像
-					- if @user.profile_image_id.blank?
-						p 画像は登録されていません
-					- else
-						= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
-						.form-check
-							= f.radio_button :profile_image_delete, false, checked: true, class: "form-check-input"
-							= f.label :profile_image_delete, "そのまま"
-						.form-check
-							= f.radio_button :profile_image_delete, true, class: "form-check-input"
-							= f.label :profile_image_delete, "削除"
-				.form-row
-					.col
-						= f.submit "更新する", class: "btn btn-success btn-block"
-					.col
-						= link_to "退会させる", admins_user_path(@user), method: :delete, data: {confirm: "本当に退会させますか？"}, class: "btn btn-danger btn-block"
+				= f.label :name, "名前"
+				= f.text_field :name, class: "form-control"
+			.form-group
+				= f.label :introduction, "自己紹介"
+				= f.text_area :introduction, class: "form-control"
+				small.form-text.text-muted
+					i.fas.fa-info
+					|  200文字以内
+			.form-group
+				h5 プロフ画像
+				- if @user.profile_image_id.blank?
+					p 画像は登録されていません
+				- else
+					= attachment_image_tag @user, :profile_image, format: 'jpg', fallback: "no_image.jpg", class: "img-fluid"
+					.form-check
+						= f.radio_button :profile_image_delete, false, checked: true, class: "form-check-input"
+						= f.label :profile_image_delete, "そのまま"
+					.form-check
+						= f.radio_button :profile_image_delete, true, class: "form-check-input"
+						= f.label :profile_image_delete, "削除"
+			.form-row
+				.col
+					= f.submit "更新する", class: "btn btn-success btn-block"
+				.col
+					= link_to "退会させる", admins_user_path(@user), method: :delete, data: {confirm: "本当に退会させますか？"}, class: "btn btn-danger btn-block"

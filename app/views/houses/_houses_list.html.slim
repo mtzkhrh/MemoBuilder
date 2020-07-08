@@ -11,7 +11,7 @@
 					p 総メモ数 (#{house.house_memos_count + house.rooms_memos_count})
 					p = "#{house.updated_at.strftime('%Y/%m/%d')} 更新"
 - else
-	.nothing
+	.list_nothing
 		- if params[:q].present?
 			h5 見つかりませんでした
 			= link_to "<< 戻る", :back, class: "links"

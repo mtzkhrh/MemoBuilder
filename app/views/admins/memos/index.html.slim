@@ -1,10 +1,9 @@
 - content_for(:html_title) {"全投稿一覧 | MemoBuilder管理者"}
 .row.justify-content-center
-	.memos.col-sm-9
+	.primary.col-sm-9
 		== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+		.list_title
+			h4 全投稿一覧
 		.list
-			.list_title
-				h4 全投稿一覧
-			.memos_list
-				== render 'admins/memos/user_memos_list', memos: @memos
+			== render 'admins/memos/user_memos_list', memos: @memos
 		= paginate @memos

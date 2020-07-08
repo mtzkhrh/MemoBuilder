@@ -20,12 +20,11 @@
 								.input-group-append
 									=f.button "作成", type: "submit", class: "btn btn-primary"
 
-		.houses
+		.primary
 			== render 'layouts/sort_search_bar', base:@rooms,ransack: @q
+			.title
+				h4 部屋一覧
 			.list
-				.list_title
-					h4 部屋一覧
-				.houses_list
-					== render 'rooms/rooms_list', rooms: @rooms
+				== render 'rooms/rooms_list', rooms: @rooms
 			= paginate @rooms
 		= link_to "<< マイページへ", user_path(@user), class: "links"

@@ -8,9 +8,9 @@
 				== render 'rooms/room_create_form', houses: @houses
 
 	.col-md-9
-		.general.memos
+		.memos
 			== render 'layouts/breadcrumbs', model: @memo
-			h2.general__title
+			h2
 				| メモの編集
 				= link_to "削除する", memo_path(@memo), method: :delete, data: {confirm: "本当に削除しますか？"},class: "btn btn-danger float-right"
 			.memos_field

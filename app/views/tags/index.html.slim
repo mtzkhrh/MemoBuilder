@@ -4,9 +4,10 @@
 		= render 'users/profile', user: @user
 
 	.col-md-9
-		.tags.index
+		.primary.tags
 			== render 'layouts/sort_search_bar', base:@tags,ransack: @q
-			.list_title
+			.title
 				h4 使用タグ一覧
-			== render 'tags/tags_list', tags: @tags
+			.tags_index
+				== render 'tags/tags_list', tags: @tags
 		= link_to "<< マイページへ", user_path(@user), class: "links"

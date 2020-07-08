@@ -16,5 +16,5 @@
 			- if current_user == comment.user
 				= link_to "削除",comment_path(comment), method: :delete, remote: true,class: "btn-sm btn-danger destroy_comment"
 - else
-	.nothing
+	.comments_list-nothing
 		h5 コメントはまだありません
