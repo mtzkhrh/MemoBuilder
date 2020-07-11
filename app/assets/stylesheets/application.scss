@@ -53,12 +53,33 @@ body{
 	  	}
 	  }
 	}
+
+	.primary{
+		margin-bottom: 20px;
+	}
+
+	.title{
+		background-color: #e8e8e8;
+		padding: 10px;
+		h4{
+			display: inline-block;
+			margin-bottom: 0;
+		}
+		span.badge{
+			font-size: 1.1rem;
+		}
+	}
 	.pagination{
 		// border-top: 1px solid #e8e8e8;
 		padding-top: 16px;
 		justify-content: center;
 
 	}
+	.index_link{
+		padding:10px;
+		border-top: 1px solid #e8e8e8;
+	}
+
 	.breadcrumb{
 		margin-bottom: 10px;
 	}

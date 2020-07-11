@@ -4,13 +4,12 @@
 		= render 'users/profile', user: @user
 
 	.col-md-9
-		.memos
+		.primary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.title
+				span.badge.badge-success
+					= link_to @tag.name, user_tag_path(@user,@tag)
 			.list
-				.list_title
-					span.badge.badge-success
-						= link_to @tag.name, user_tag_path(@user,@tag)
-				.memos_list
-					== render 'memos/memos_list', memos: @memos
+				== render 'memos/memos_list', memos: @memos
 			= paginate @memos
 		= link_to "<< 使用タグ一覧へ", user_tags_path(@user), class: "links"

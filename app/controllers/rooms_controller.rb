@@ -1,12 +1,11 @@
 class RoomsController < ApplicationController
-  include MemosHelper
   before_action :authenticate_user!
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
   def index
     @user = User.find(params[:user_id])
-    @houses = @user.houses.resent.all
-    @q = @user.rooms.preload(:memos).resent.ransack(params[:q])
+    @houses = @user.houses.all.resent
+    @q = @user.rooms.resent.ransack(params[:q])
     @rooms = @q.result(distinct: true).page(params[:page])
   end
 

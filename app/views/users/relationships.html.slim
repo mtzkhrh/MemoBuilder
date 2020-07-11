@@ -18,7 +18,7 @@
 				a#followers-tab.nav-link[href="#followers" role="tab" data-toggle="tab" aria-controls="followers" aria-selected="false"]
 					| 申請一覧
 
-		#myTabContent.tab-content.mb-3
+		#myTabContent.tab-content.primary
 			#friends.tab-pane.active[role="tabpanel" aria-labelledby="friends-tab"]
 				.list
 					== render 'users/user_list', users: @friends, msg: "友達はいません"

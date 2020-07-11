@@ -1,15 +1,13 @@
 - content_for(:html_title) {"部屋(#{@room.name})のリフォーム | MemoBuilder"}
 .row.justify-content-center
-	.general.col-lg-6.col-md-8
+	.col-lg-6.col-md-8
 		== render 'layouts/breadcrumbs', model: @room
-		.general_title
-			h2 = "#{@room.name}のリフォーム"
+		h2 = "#{@room.name}のリフォーム"
 		= form_with model: @room, local: true do |f|
 			.form-group
 				= f.label :name, "名前"
 				= f.text_field :name, class: "form-control",autofocus: true
 			.form-group
-				/ 家を移動するためのselect_box
 				= f.label :house_id, "部屋の場所（家）"
 				= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
 			= f.submit "更新", class: "btn btn-primary btn-block"

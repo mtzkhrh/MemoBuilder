@@ -7,25 +7,26 @@
 	.col-md-9
 		.row
 			.col-md-12.col-lg-6
-				.houses
-					.list_title
+				.primary
+					.title
 						h4 持ち家ピックアップ
-					.list.
+					.list
 						== render 'houses/houses_list', houses: @houses
 						.index_link.clearfix
 							= link_to "持ち家一覧 >>", user_houses_path(@user), class: "float-right links"
 
-				.tags
-					.list_title
+				.primary.tags
+					.title
 						h4 最近の使用タグ一覧
 					== render 'tags/tags_list', tags: @tags
-					.index_link.clearfix
+					.tags_link.clearfix
 						= link_to "使用タグ一覧 >>", user_tags_path(@user), class: "float-right links"
 
-			.memos.col-md-12.col-lg-6
-				.list_title
-					h4 最近の投稿リスト
-				.list
-					== render 'memos/memos_list', memos: @resent_memos
-					.index_link.clearfix
-						= link_to "投稿一覧 >>", user_memos_path(@user), class: "float-right links"
+			.col-md-12.col-lg-6
+				.primary
+					.title
+						h4 最近の投稿リスト
+					.list
+						== render 'memos/memos_list', memos: @resent_memos
+						.index_link.clearfix
+							= link_to "投稿一覧 >>", user_memos_path(@user), class: "float-right links"

@@ -1,10 +1,9 @@
 class MemosController < ApplicationController
-  include MemosHelper
   before_action :authenticate_user!
   before_action :set_memo, only: [:show, :edit, :update, :destroy]
 
   def all
-    @q = Memo.open.resent.eager_load(:user, :likes).ransack(params[:q])
+    @q = Memo.open.resent.with_user.ransack(params[:q])
     @memos = @q.result(distinct: true).page(params[:page])
   end
 
@@ -24,7 +23,7 @@ class MemosController < ApplicationController
       @memo.room_id = params[:room_id]
       @memo.house_id = room.house_id
     end
-    @houses = @user.houses.all.preload(:rooms).resent
+    @houses = @user.houses.all.with_rooms.resent
     @rooms = @user.rooms.all.resent
   end
 
@@ -36,7 +35,7 @@ class MemosController < ApplicationController
       back_in_place(@memo)
     else
       @user = current_user
-      @houses = @user.houses.all.preload(:rooms).resent
+      @houses = @user.houses.all.with_rooms.resent
       @rooms = @user.rooms.all.resent
       render :new
     end
@@ -52,7 +51,7 @@ class MemosController < ApplicationController
   def edit
     check_your_id(@memo.user_id)
     @user = @memo.user
-    @houses = @user.houses.all.preload(:rooms).resent
+    @houses = @user.houses.all.with_rooms.resent
     @rooms = @user.rooms.all.resent
   end
 

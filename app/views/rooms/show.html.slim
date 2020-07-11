@@ -11,15 +11,15 @@
 				.col = link_to edit_room_path(@room), class: "btn btn-info btn-block" do
 					i.fas.fa-hammer
 					|  部屋のリフォーム
-				.col = link_to  new_user_memo_path(current_user,room_id: @room.id), class: "btn btn-primary btn-block" do
+				.col = link_to  new_user_memo_path(current_user,room_id: @room.id),data: {"turbolinks" => false}, class: "btn btn-primary btn-block" do
 					i.far.fa-edit
 					|  投稿を作成する
 
-		.memos
+		.primary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
+			.title
+				h4 #{@room.name} 内の投稿一覧
 			.list
-				.list_title
-					h4 #{@room.name} 内の投稿一覧
 				== render 'memos/memos_list', memos: @memos
 			= paginate @memos
 		= link_to "<< 部屋を出る", house_path(@room.house_id), class: "links"

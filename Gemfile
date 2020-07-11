@@ -56,6 +56,7 @@ group :development do
   gem 'rubocop', require: false
   gem 'rubocop-rails'
   gem 'html2slim'
+  gem 'bullet'
 end
 
 group :test do
@@ -101,3 +102,5 @@ gem 'ckeditor'
 gem 'summernote-rails'
 # slimで記述する
 gem 'slim-rails'
+# counter_cache用gem
+gem 'counter_culture'
