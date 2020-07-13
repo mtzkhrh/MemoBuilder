@@ -1,7 +1,7 @@
 / model: houses
 - if houses.present?
 	- houses.each do |house|
-		.list_item
+		.list_item id="house_#{house.id}"
 			.item_body
 				= link_to house_path(house),class: "item_body-title" do
 					i.fas.fa-home.mr-1
