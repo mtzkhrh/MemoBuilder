@@ -208,13 +208,26 @@ RSpec.describe 'House', type: :system do
       context '部屋検索フォームの確認' do
         it '検索に成功する' do
           fill_in 'q[name_cont]', with: room1.name
-          click_on 'q[submit]'
+          click_on 'directory_search'
           expect(page).to have_content room1.name
           expect(page).not_to have_content room2.name
         end
         it '該当なしの時「見つかりませんでした」を表示する' do
           fill_in 'q[name_cont]', with: Faker::Lorem.characters(number: 41)
-          click_on 'q[submit]'
+          click_on 'directory_search'
+          expect(page).to have_content '見つかりませんでした'
+        end
+      end
+
+      context 'メモ検索フォームの確認' do
+        it '検索に成功する' do
+          fill_in 'search_title', with: house_memo.title
+          click_on 'memo_search'
+          expect(page).to have_content house_memo.title
+        end
+        it '該当なしの時「見つかりませんでした」を表示する' do
+          fill_in 'search_title', with: Faker::Lorem.characters(number: 51)
+          click_on 'memo_search'
           expect(page).to have_content '見つかりませんでした'
         end
       end
@@ -222,15 +235,23 @@ RSpec.describe 'House', type: :system do
       context 'リンクの確認' do
         it '家の編集画面に遷移できる' do
           click_on '家のリフォーム'
-          expect(current_path).to eq( '/houses/' + house.id.to_s + '/edit' )
+          expect(current_path).to eq("/houses/#{house.id}/edit")
         end
         it '部屋の詳細画面に遷移できる' do
           click_link room1.name
-          expect(current_path).to eq('/rooms/' + room1.id.to_s)
+          expect(current_path).to eq("/rooms/#{room1.id}")
 
           visit house_path(house)
           click_link room2.name
-          expect(current_path).to eq('/rooms/' + room2.id.to_s)
+          expect(current_path).to eq("/rooms/#{room2.id}")
+        end
+        it 'メモの詳細画面に遷移できる' do
+          click_link house_memo.title
+          expect(current_path).to eq("/memos/#{house_memo.id}")
+        end
+        it '家の一覧画面に遷移する' do
+          click_link "<< 家の一覧へ"
+          expect(current_path).to eq("/users/#{user.id}/houses")
         end
       end
     end
