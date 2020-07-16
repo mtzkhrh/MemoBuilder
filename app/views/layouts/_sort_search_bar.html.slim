@@ -8,7 +8,7 @@
         = sort_link(ransack, :updated_at, "更新順")
     = search_form_for ransack, url: request.path do |f|
       .input-group
-        = f.search_field :title_cont, class: "form-control", placeholder: "検索..."
+        = f.search_field :title_cont, class: "form-control", id: "search_title", placeholder: "検索..."
         .input-group-append
           =f.button type: "submit", class: "btn btn-secondary", id: "memo_search", name: "q[submit]" do
             i.fas.fa-search
@@ -22,7 +22,7 @@
         = sort_link(ransack, :updated_at, "更新順")
     = search_form_for ransack, url: request.path do |f|
       .input-group
-        = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+        = f.search_field :name_cont, class: "form-control", id: "search_name", placeholder: "検索..."
         .input-group-append
           =f.button type: "submit", class: "btn btn-secondary", id: "directory_search", name: "q[submit]" do
             i.fas.fa-search
@@ -36,7 +36,7 @@
         = sort_link(ransack, :created_at, "登録順")
     = search_form_for ransack, url: request.path do |f|
       .input-group
-        = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+        = f.search_field :name_cont, class: "form-control", id: "search_name", placeholder: "検索..."
         .input-group-append
           =f.button type: "submit", class: "btn btn-secondary", id: "user_search", name: "q[submit]" do
             i.fas.fa-search
@@ -48,7 +48,7 @@
         = sort_link(ransack, :name, "名前順")
     = search_form_for ransack, url: request.path do |f|
       .input-group
-        = f.search_field :name_cont, class: "form-control", placeholder: "検索..."
+        = f.search_field :name_cont, class: "form-control", id: "search_name", placeholder: "検索..."
         .input-group-append
           =f.button type: "submit", class: "btn btn-secondary", id: "tag_search", name: "q[submit]" do
             i.fas.fa-search

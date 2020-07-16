@@ -8,7 +8,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
 			- a = Memo.ransack(params[:q])
 			.form-inline.my-2.my-md-0
 				= search_form_for a, url: memos_all_path do |f|
-					= f.search_field :title_cont, class: "form-control", placeholder: "公開投稿から検索..."
+					= f.search_field :title_cont, class: "form-control", id: "search_header", placeholder: "公開投稿から検索..."
 			ul.navbar-nav.ml-auto
 				li.nav-item.active
 					= link_to "投稿する", new_user_memo_path(current_user),data: {"turbolinks" => false}, class: "nav-link"
