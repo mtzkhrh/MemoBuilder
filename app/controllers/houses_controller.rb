@@ -38,7 +38,7 @@ class HousesController < ApplicationController
     check_your_id(@house.user_id)
     if @house.update(house_params)
       flash[:success] = "家の名前を変更しました"
-      redirect_to user_houses_path(current_user)
+      redirect_to house_path(@house)
     else
       flash[:alert] = "家の名前を変更できませんでした"
       redirect_back(fallback_location: root_path)
