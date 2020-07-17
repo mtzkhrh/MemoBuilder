@@ -255,6 +255,90 @@ RSpec.describe 'House', type: :system do
         end
       end
     end
+    describe '家の編集画面のテスト' do
+      let(:house) { create(:house, user_id: user.id) }
+      let(:test_house2) { create(:house, user_id: test_user2.id) }
+
+      before do
+        visit edit_house_path(house)
+      end
+
+      context '自分の家の編集画面に遷移' do
+        it '遷移できる' do
+          expect(current_path).to eq("/houses/#{house.id}/edit")
+        end
+      end
+
+      context '他人の家の編集画面に遷移' do
+        it '遷移できない' do
+          visit edit_house_path(test_house2)
+          expect(current_path).not_to eq("/houses/#{test_house2.id}/edit")
+
+          click_on 'ログアウト'
+          visit new_user_session_path
+          fill_in 'user[email]', with: test_user2.email
+          fill_in 'user[password]', with: test_user2.password
+          click_button 'ログイン'
+          visit edit_house_path(test_house2)
+          expect(current_path).to eq("/houses/#{test_house2.id}/edit")
+
+          visit edit_house_path(house)
+          expect(current_path).not_to eq("/houses/#{house.id}/edit")
+        end
+      end
+
+      context '表示の確認' do
+        it 'パンくずリストが表示される' do
+          expect(find('.breadcrumb')).to have_content(user.name + " " + house.name )
+        end
+        it '「〜のリフォーム」が表示される' do
+          expect(page).to have_content("#{house.name}のリフォーム")
+        end
+        it '名前フォームが表示される' do
+          expect(find('label')).to have_content("名前")
+          expect(page).to have_field('house[name]')
+        end
+        it '名前フォームに家の名前が表示される' do
+          expect(page).to have_field('house[name]'), with: house.name
+        end
+        it '更新ボタンが表示される' do
+          expect(page).to have_button('更新')
+        end
+        it '戻るリンクが表示される' do
+          expect(page).to have_link('<< 戻る'),href: house_path(house)
+        end
+        it '削除ボタンが表示される' do
+          expect(page).to have_link("削除する")
+        end
+      end
+
+      context 'フォームの確認' do
+        let (:test_house) {build(:house)}
+        it '更新に成功する' do
+          fill_in 'house[name]', with: test_house.name
+          click_on '更新'
+          expect(current_path).to eq("/houses/#{house.id}")
+          expect(user.houses.pluck(:name)).to include(test_house.name)
+          expect(page).to have_content("家の名前を変更しました")
+        end
+        it '更新に失敗する' do
+          fill_in 'house[name]', with: " "
+          click_on '更新'
+          expect(page).to have_content("家の名前を変更できませんでした")
+        end
+      end
+
+      context 'リンクの確認' do
+        it '前のページに戻れる' do
+          click_link '<< 戻る',href: house_path(house)
+          expect(current_path).to eq("/houses/#{house.id}")
+        end
+        it '削除できる' do
+          click_link '削除する'
+          expect(user.houses.size).to eq(0)
+        end
+      end
+    end
   end
 end
 
