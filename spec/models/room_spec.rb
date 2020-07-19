@@ -32,5 +32,11 @@ RSpec.describe 'Roomモデルのテスト', type: :model do
         expect(Room.reflect_on_association(:user).macro).to eq :belongs_to
       end
     end
+
+    context 'Memoモデルとの関係' do
+      it '1:Nとなっている' do
+        expect(Room.reflect_on_association(:memos).macro).to eq :has_many
+      end
+    end
   end
 end
