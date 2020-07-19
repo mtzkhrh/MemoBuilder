@@ -87,6 +87,20 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context '検索フォームの確認' do
+        it '検索に成功する' do
+          fill_in '検索...', with: room1.name
+          click_on 'q[submit]'
+          expect(page).to have_content room1.name
+          expect(page).not_to have_content room2.name
+        end
+        it '該当なしの時「見つかりませんでした」を表示する' do
+          fill_in '検索...', with: Faker::Lorem.characters(number: 41)
+          click_on 'q[submit]'
+          expect(page).to have_content '見つかりませんでした'
+        end
+      end
+
     end
   end
 end
