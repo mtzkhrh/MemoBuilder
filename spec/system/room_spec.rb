@@ -146,6 +146,53 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context '表示の確認' do
+        it 'パンくずリストが表示される' do
+          expect(find('.breadcrumb')).to have_content(user.name + " " + house.name + " " + room.name )
+        end
+        it '部屋のリフォームボタンが表示される' do
+          expect(page).to have_link '部屋のリフォーム', href: edit_room_path(room)
+        end
+        it '他人の詳細画面にはリフォームボタンが表示されない' do
+          visit room_path(test_room)
+          expect(page).not_to have_link '部屋のリフォーム'
+          expect(current_path).to eq('/rooms/' + test_room.id.to_s )
+        end
+        it '投稿作成ボタンが表示される' do
+          expect(page).to have_link '投稿を作成する'
+        end
+        it '他人の詳細画面には投稿作成が表示されない' do
+          visit room_path(test_room)
+          expect(page).not_to have_field '投稿を作成する'
+          expect(current_path).to eq('/rooms/' + test_room.id.to_s )
+        end
+        it '検索フォームが表示される' do
+          expect(page).to have_field 'q[title_cont]'
+        end
+        it '並び替えリンクが表示される' do
+          expect(page).to have_link 'タイトル順'
+          expect(page).to have_link '更新順'
+        end
+        it '「〜内の投稿一覧」が表示される' do
+          expect(page).to have_content room.name + '内の投稿一覧'
+        end
+        it '投稿タイトルのリンクが表示される' do
+          expect(page).to have_link memo1.title, href: memo_path(memo1)
+          expect(page).to have_link memo2.title, href: memo_path(memo2)
+          expect(page).to have_link memo3.title, href: memo_path(memo3)
+        end
+        it '公開範囲と更新日が表示される' do
+          expect(find("#memo_#{memo1.id}")).to have_content memo1.range
+          expect(find("#memo_#{memo1.id}")).to have_content "#{memo1.updated_at.strftime('%Y/%m/%d')}更新"
+          expect(find("#memo_#{memo2.id}")).to have_content memo2.range
+          expect(find("#memo_#{memo2.id}")).to have_content "#{memo2.updated_at.strftime('%Y/%m/%d')}更新"
+        end
+        it '「部屋を出る」リンクが表示される' do
+          expect(page).to have_link '<< 部屋を出る', href: house_path(room.house)
+        end
+
+      end
+
     end
 
 
