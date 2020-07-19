@@ -101,6 +101,25 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context 'リンクの確認' do
+        it '各部屋に遷移できる' do
+          click_link room1.name
+          expect(current_path).to eq('/rooms/' + room1.id.to_s)
+
+          visit user_rooms_path(user)
+          click_link room2.name
+          expect(current_path).to eq('/rooms/' + room2.id.to_s)
+
+          visit user_rooms_path(user)
+          click_link room3.name
+          expect(current_path).to eq('/rooms/' + room3.id.to_s)
+        end
+        it 'マイページに遷移できる' do
+          click_link '<< マイページへ'
+          expect(current_path).to eq('/users/' + user.id.to_s)
+        end
+      end
+
     end
   end
 end
