@@ -3,6 +3,7 @@ RSpec.describe 'Room', type: :system do
   describe '部屋のテスト' do
     let!(:user) { create(:user) }
     let!(:test_user2) { create(:user) }
+    let(:house) { create(:house, user_id: user.id) }
 
     before do
       visit new_user_session_path
@@ -11,7 +12,6 @@ RSpec.describe 'Room', type: :system do
       click_button 'ログイン'
     end
     describe '部屋一覧画面のテスト' do
-	    let(:house) { create(:house, user_id: user.id) }
 	    let!(:room1) { create(:room, user_id: user.id, house_id: house.id) }
 	    let!(:room2) { create(:room, user_id: user.id, house_id: house.id) }
 	    let!(:room3) { create(:room, user_id: user.id, house_id: house.id) }
@@ -119,8 +119,36 @@ RSpec.describe 'Room', type: :system do
           expect(current_path).to eq('/users/' + user.id.to_s)
         end
       end
+    end
+
+    describe '部屋の詳細画面のテスト' do
+	    let(:room) { create(:room, user_id: user.id, house_id: house.id) }
+      let!(:memo1) { create(:memo, room_id: room.id, user_id: user.id) }
+      let!(:memo2) { create(:memo, room_id: room.id, user_id: user.id) }
+      let!(:memo3) { create(:memo, room_id: room.id, user_id: user.id) }
+	    let(:test_house) { create(:house, user_id: test_user2.id) }
+	    let(:test_room) { create(:room, user_id: test_user2.id, house_id: test_house.id) }
+      let!(:test_memo) { create(:memo, room_id: test_room.id, user_id: test_user2.id) }
+      before do
+      	visit room_path(room)
+      end
+
+      context '自分の部屋の詳細画面への遷移' do
+        it '遷移できる' do
+          expect(current_path).to eq('/rooms/' + room.id.to_s )
+        end
+      end
+
+      context '他人の部屋の詳細画面への遷移' do
+        it '遷移できる' do
+          visit room_path(test_room)
+          expect(current_path).to eq('/rooms/' + test_room.id.to_s )
+        end
+      end
 
     end
+
+
   end
 end
 
