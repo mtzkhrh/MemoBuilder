@@ -255,6 +255,36 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context '表示の確認' do
+        it 'パンくずリストが表示される' do
+          expect(find('.breadcrumb')).to have_content(user.name + " " + house.name + " " + room.name )
+        end
+        it '「〜のリフォーム」が表示される' do
+          expect(page).to have_content("#{room.name}のリフォーム")
+        end
+        it '名前フォームが表示される' do
+          expect(page).to have_field('room[name]')
+        end
+        it '名前フォームに部屋の名前が表示される' do
+          expect(page).to have_field('room[name]'), with: room.name
+        end
+        it '家のセレクトボックスが表示される' do
+        	expect(page).to have_select 'room[house_id]'
+        end
+        it '家のセレクトボックスで今の家が表示される' do
+        	expect(page).to have_select 'room[house_id]', text: house.name
+        end
+        it '更新ボタンが表示される' do
+          expect(page).to have_button('更新')
+        end
+        it '戻るリンクが表示される' do
+          expect(page).to have_link('<< 戻る'),href: room_path(room)
+        end
+        it '削除ボタンが表示される' do
+          expect(page).to have_link("削除する")
+        end
+      end
+
     end
 
 
