@@ -206,6 +206,30 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context 'リンクの確認' do
+        it '部屋の編集画面に遷移できる' do
+          click_on '部屋のリフォーム'
+          expect(current_path).to eq("/rooms/#{room.id}/edit")
+        end
+        it 'メモの詳細画面に遷移できる' do
+          click_link memo1.title
+          expect(current_path).to eq("/memos/#{memo1.id}")
+
+          visit room_path(room)
+          click_link memo2.title
+          expect(current_path).to eq("/memos/#{memo2.id}")
+
+          visit room_path(room)
+          click_link memo3.title
+          expect(current_path).to eq("/memos/#{memo3.id}")
+        end
+        it '家の詳細画面に遷移する' do
+          click_link "<< 部屋を出る"
+          expect(current_path).to eq("/houses/#{house.id}")
+        end
+      end
+
+
 
     end
 
