@@ -312,6 +312,17 @@ RSpec.describe 'Room', type: :system do
           expect(page).to have_content("部屋を改装できませんでした")
         end
       end
+
+      context 'リンクの確認' do
+        it '詳細ページに戻れる' do
+          click_link '<< 戻る',href: room_path(room)
+          expect(current_path).to eq("/rooms/#{room.id}")
+        end
+        it '削除できる' do
+          click_link '削除する'
+          expect(user.rooms.size).to eq(0)
+        end
+      end
     end
   end
 end
