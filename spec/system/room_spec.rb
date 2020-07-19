@@ -59,8 +59,34 @@ RSpec.describe 'Room', type: :system do
         it 'マイページへのリンクが表示される' do
           expect(page).to have_link '<< マイページへ', href: user_path(user)
         end
-
       end
+
+      context '部屋の作成フォームの確認' do
+        let (:test_room) {build(:room)}
+
+        it '作成に成功する' do
+        	select(house.name, from: 'room[house_id]')
+          fill_in 'room[name]', with: test_room.name
+          click_button '作成'
+          expect(page).to have_content test_room.name
+        end
+        it '作成に失敗する' do
+          fill_in 'room[name]', with: test_room.name
+          click_button '作成'
+          expect(page).to have_content '部屋を作成できませんでした'
+
+        	select(house.name, from: 'room[house_id]')
+          fill_in 'room[name]', with: ""
+          click_button '作成'
+          expect(page).to have_content '部屋を作成できませんでした'
+
+        	select(house.name, from: 'room[house_id]')
+          fill_in 'room[name]', with: Faker::Lorem.characters(number: 41)
+          click_button '作成'
+          expect(page).to have_content '部屋を作成できませんでした'
+        end
+      end
+
     end
   end
 end
