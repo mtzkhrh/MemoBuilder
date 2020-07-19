@@ -33,7 +33,11 @@ RSpec.describe 'Room', type: :system do
       end
 
       context '表示の確認' do
+        it 'パンくずリストが表示される' do
+          expect(find('.breadcrumb')).to have_content(user.name)
+        end
 				it '部屋の作成フォームが表示される' do
+        	expect(page).to have_select 'room[house_id]'
           expect(page).to have_field 'room[name]'
         end
         it '他人の一覧には部屋作成フォームが表示されない' do
