@@ -63,7 +63,7 @@ class MemosController < ApplicationController
     if @memo.save
       touch_parent(@memo)
       flash[:success] = "投稿を更新しました"
-      back_in_place(@memo)
+      redirect_to memo_path(@memo)
     else
       @user = @memo.user
       @houses = @user.houses.all.resent

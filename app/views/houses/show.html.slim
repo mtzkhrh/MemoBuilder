@@ -30,7 +30,7 @@
 		.primary
 			== render 'layouts/sort_search_bar', base:@memos,ransack: @q
 			.title
-				h4 #{@house.name} 内の投稿一覧
+				h4 #{@house.name}内の投稿一覧
 			.list
 				== render 'memos/memos_list', memos: @memos
 			= paginate @memos

@@ -39,7 +39,7 @@ class RoomsController < ApplicationController
     if @room.update(room_params)
       House.find_by(id: room_params[:house_id]).touch # 移動先の家の更新日を変更する
       flash[:success] = "部屋を改装しました"
-      redirect_to house_path(@room.house)
+      redirect_to room_path(@room)
     else
       flash[:alert] = "部屋を改装できませんでした"
       redirect_back(fallback_location: root_path)

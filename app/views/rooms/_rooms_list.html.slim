@@ -1,6 +1,6 @@
 - if rooms.present?
 	- rooms.each do |room|
-		.list_item
+		.list_item id="room_#{room.id}"
 			.item_body
 				= link_to room_path(room),class: "item_body-title" do
 					i.fas.fa-door-closed.mr-1
