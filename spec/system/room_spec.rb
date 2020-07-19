@@ -239,8 +239,9 @@ RSpec.describe 'Room', type: :system do
 
     describe '部屋の編集画面のテスト' do
 	    let!(:room) { create(:room, user_id: user.id, house_id: house.id) }
-	    let(:test_house) { create(:house, user_id: test_user2.id) }
-	    let!(:test_room) { create(:room,  user_id: test_user2.id, house_id: test_house.id) }
+      let!(:test_house) {create(:house, user_id: user.id)}
+	    let(:test_house2) { create(:house, user_id: test_user2.id) }
+	    let!(:test_room2) { create(:room,  user_id: test_user2.id, house_id: test_house2.id) }
 
 	    before do
 	    	visit edit_room_path(room)
@@ -254,8 +255,8 @@ RSpec.describe 'Room', type: :system do
 
 	    context '他人の部屋の編集画面への遷移' do
         it '遷移できない' do
-          visit edit_room_path(test_room)
-          expect(current_path).not_to eq("/rooms/#{test_room.id}/edit")
+          visit edit_room_path(test_room2)
+          expect(current_path).not_to eq("/rooms/#{test_room2.id}/edit")
         end
       end
 
@@ -289,9 +290,29 @@ RSpec.describe 'Room', type: :system do
         end
       end
 
+      context 'フォームの確認' do
+        let (:test_room) {build(:room)}
+
+				it '更新に成功する' do
+        	select(test_house.name, from: 'room[house_id]')
+          click_on '更新'
+          expect(page).to have_content("部屋を改装しました")
+          expect(Room.find(room.id).house_id).to eq(test_house.id)
+
+		    	visit edit_room_path(room)
+          fill_in 'room[name]', with: test_room.name
+          click_on '更新'
+          expect(page).to have_content("部屋を改装しました")
+          expect(current_path).to eq("/rooms/#{room.id}")
+          expect(user.rooms.pluck(:name)).to include(test_room.name)
+        end
+        it '更新に失敗する' do
+          fill_in 'room[name]', with: " "
+          click_on '更新'
+          expect(page).to have_content("部屋を改装できませんでした")
+        end
+      end
     end
-
-
   end
 end
 
