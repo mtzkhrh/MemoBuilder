@@ -128,21 +128,24 @@ RSpec.describe 'Room', type: :system do
       let!(:memo3) { create(:memo, room_id: room.id, user_id: user.id) }
 	    let(:test_house) { create(:house, user_id: test_user2.id) }
 	    let(:test_room) { create(:room, user_id: test_user2.id, house_id: test_house.id) }
-      let!(:test_memo) { create(:memo, room_id: test_room.id, user_id: test_user2.id) }
+
+	    let(:test_house) { create(:house, user_id: test_user2.id) }
+	    let(:test_room) { create(:room, user_id: test_user2.id, house_id: test_house.id) }
+
       before do
       	visit room_path(room)
       end
 
       context '自分の部屋の詳細画面への遷移' do
         it '遷移できる' do
-          expect(current_path).to eq('/rooms/' + room.id.to_s )
+          expect(current_path).to eq("/rooms/#{room.id}")
         end
       end
 
       context '他人の部屋の詳細画面への遷移' do
         it '遷移できる' do
           visit room_path(test_room)
-          expect(current_path).to eq('/rooms/' + test_room.id.to_s )
+          expect(current_path).to eq("/rooms/#{test_room.id}")
         end
       end
 
@@ -228,8 +231,29 @@ RSpec.describe 'Room', type: :system do
           expect(current_path).to eq("/houses/#{house.id}")
         end
       end
+    end
 
+    describe '部屋の編集画面のテスト' do
+	    let!(:room) { create(:room, user_id: user.id, house_id: house.id) }
+	    let(:test_house) { create(:house, user_id: test_user2.id) }
+	    let!(:test_room) { create(:room,  user_id: test_user2.id, house_id: test_house.id) }
 
+	    before do
+	    	visit edit_room_path(room)
+	    end
+
+	    context '自分の部屋の編集画面への遷移' do
+        it '遷移できる' do
+        	expect(current_path).to eq("/rooms/#{room.id}/edit")
+        end
+	    end
+
+	    context '他人の部屋の編集画面への遷移' do
+        it '遷移できない' do
+          visit edit_room_path(test_room)
+          expect(current_path).not_to eq("/rooms/#{test_room.id}/edit")
+        end
+      end
 
     end
 
