@@ -11,5 +11,8 @@
 				= f.label :house_id, "部屋の場所（家）"
 				= f.collection_select :house_id, @user.houses.all.order(updated_at: :desc), :id, :name, {selected: @room.house_id},{class: "form-control", autofocus: true}
 			= f.submit "更新", class: "btn btn-primary btn-block"
-			.clearfix.mt-3
-				= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger float-right"
+
+		.d-flex.justify-content-around.align-items-end.mt-3
+			= link_to "<< 戻る", room_path(@room), class: "links"
+
+			= link_to "削除する", room_path(@room), method: :delete, data: {confirm: "部屋の中のデータが全て消えますが本当に削除しますか？"}, class: "btn btn-danger"
