@@ -190,8 +190,22 @@ RSpec.describe 'Room', type: :system do
         it '「部屋を出る」リンクが表示される' do
           expect(page).to have_link '<< 部屋を出る', href: house_path(room.house)
         end
-
       end
+
+      context '検索フォームの確認' do
+        it '検索に成功する' do
+          fill_in '検索...', with: memo1.title
+          click_on 'q[submit]'
+          expect(page).to have_content memo1.title
+          expect(page).not_to have_content memo2.title
+        end
+        it '該当なしの時「見つかりませんでした」を表示する' do
+          fill_in '検索...', with: Faker::Lorem.characters(number: 51)
+          click_on 'q[submit]'
+          expect(page).to have_content '見つかりませんでした'
+        end
+      end
+
 
     end
 
